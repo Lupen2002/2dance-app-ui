@@ -1,4 +1,5 @@
 // @flow
+import "@fortawesome/fontawesome-free/scss/fontawesome.scss"
 
 import React from "react";
 import ReactDOM from "react-dom";

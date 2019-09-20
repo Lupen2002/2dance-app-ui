@@ -8,6 +8,7 @@
     "prettier": "^1.18.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.1",
     "@vkontakte/icons": "^1.8.3",
     "@vkontakte/vk-connect": "^1.5.6",
     "@vkontakte/vkui": "^2.30.7",
