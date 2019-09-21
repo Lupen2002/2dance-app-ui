@@ -1,8 +1,11 @@
 // @flow
 
 import { combineReducers } from "redux";
+import { userReducer }     from "./user";
 
-const reducersSrc = {};
+const reducersSrc = {
+  user: userReducer
+};
 
 const reducers = combineReducers<typeof reducersSrc, AppAction>(reducersSrc);
 

@@ -1,3 +1,10 @@
 // @flow
 
-declare type AppState = {}
+declare type AppUserState = {
+  token?: string,
+  groupName?: string
+}
+
+declare type AppState = {
+  user: AppUserState
+}

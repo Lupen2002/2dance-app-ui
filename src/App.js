@@ -1,18 +1,14 @@
 // @flow
 
-import React                           from "react";
+import React from "react";
 import { HashRouter, Redirect, Route } from "react-router-dom";
-import { Epic }                        from "@vkontakte/vkui";
-import { MainView }                    from "./views/main/MainView";
-import { AppTabbar }                   from "./epic/tabbar";
+import { RootEpic } from "./epic";
 
 function App() {
   return (
     <HashRouter>
-      <Epic tabbar={<AppTabbar/>}>
-        <Route path="/main" component={MainView} />
-        <Redirect from="/" to="/main" />
-      </Epic>
+      <Route path="/:epicId" component={RootEpic} />
+      <Redirect from="/" to="/main" />
     </HashRouter>
   );
 }
