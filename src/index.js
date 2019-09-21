@@ -1,5 +1,9 @@
 // @flow
 import "@fortawesome/fontawesome-free/scss/fontawesome.scss"
+import "@vkontakte/vkui/dist/vkui.css";
+
+import "core-js/es6/map";
+import "core-js/es6/set";
 
 import React from "react";
 import ReactDOM from "react-dom";
