@@ -1,6 +1,6 @@
 FROM nginx:1.15.2-alpine
 
-COPY dockers/nginx/ssl /etc/ssl/maniacs
+COPY dockers/nginx/ssl /etc/ssl/2dance
 COPY build /usr/share/nginx/html
 COPY dockers/nginx/crix-ui.conf.tmpl /tmp/
 

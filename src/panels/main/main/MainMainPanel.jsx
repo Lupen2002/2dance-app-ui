@@ -111,19 +111,6 @@ export default function MainMainPanel(p: P) {
             >
               Парный пасс
             </Cell>
-            <Cell
-              before={<Avatar size={72} />}
-              size="l"
-              bottomContent={
-                <div style={{ display: "flex" }}>
-                  <Button size="m" onClick={payToGroup("group-pass")}>
-                    Купить
-                  </Button>
-                </div>
-              }
-            >
-              Групповой пасс
-            </Cell>
           </List>
         </Group>
       )}
