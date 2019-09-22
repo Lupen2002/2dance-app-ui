@@ -1,31 +1,49 @@
 // @flow
 
 import React from "react";
-import {Tabbar, TabbarItem} from '@vkontakte/vkui'
-import Icon28Newsfeed from '@vkontakte/icons/dist/28/newsfeed'
-import Icon28Search from '@vkontakte/icons/dist/28/search'
-import Icon28Messages from '@vkontakte/icons/dist/28/messages'
-import Icon28Notifications from '@vkontakte/icons/dist/28/notifications'
-import Icon28More from '@vkontakte/icons/dist/28/more'
+import { Tabbar, TabbarItem } from "@vkontakte/vkui";
+import Icon28Document from "@vkontakte/icons/dist/28/document";
+import Icon28Camera from "@vkontakte/icons/dist/28/camera";
+import useStartParams from "../../hooks/useStartParams";
+import { getQueryParams, navigate } from "hookrouter";
+import useQrCodeScanner from "./useQrCodeScanner";
 
-export const AppTabbar = () => {
-  return (
-    <Tabbar>
-      <TabbarItem onClick={() => {}} text="Новости">
-        <Icon28Newsfeed />
-      </TabbarItem>
-      <TabbarItem onClick={() => {}} text="Поиск">
-        <Icon28Search />
-      </TabbarItem>
-      <TabbarItem onClick={() => {}} label="12" text="Сообщения">
-        <Icon28Messages />
-      </TabbarItem>
-      <TabbarItem onClick={() => {}} text="Уведомлен.">
-        <Icon28Notifications />
-      </TabbarItem>
-      <TabbarItem onClick={() => {}} text="Ещё">
-        <Icon28More />
-      </TabbarItem>
-    </Tabbar>
-  );
+type P = {
+  selected: EpicViewId
+};
+
+export const AppTabbar = (p: P) => {
+  const params = useStartParams(),
+    query = getQueryParams(),
+    openQrScanner = useQrCodeScanner();
+
+  const isExistQrCodeScanner =
+    params.vk_platform &&
+    (params.vk_platform === "mobile_android" ||
+      params.vk_platform === "mobile_iphone");
+
+  if (params.vk_viewer_group_role && params.vk_viewer_group_role === "admin") {
+    return (
+      <Tabbar>
+        <TabbarItem
+          selected={p.selected === "main"}
+          onClick={() => navigate("/main", false, query)}
+          text="Билет"
+        >
+          <Icon28Document />
+        </TabbarItem>
+        {isExistQrCodeScanner && (
+          <TabbarItem
+            selected={p.selected === "scanner"}
+            onClick={() => openQrScanner()}
+            text="Сканер"
+          >
+            <Icon28Camera />
+          </TabbarItem>
+        )}
+      </Tabbar>
+    );
+  } else {
+    return <></>;
+  }
 };

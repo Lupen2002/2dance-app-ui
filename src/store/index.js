@@ -1,9 +1,26 @@
 // @flow
 
 import { createStore } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import reducers from "./reducers";
 
-export const store = createStore<AppState, AppAction, AppDispatch>(
-  reducers,
-  undefined
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["startParams"]
+};
+
+const persistedReducer: any = persistReducer<AppState, AppAction>(
+  persistConfig,
+  reducers
 );
+
+export default () => {
+  let store = createStore<AppState, AppAction, AppDispatch>(
+    persistedReducer,
+    undefined
+  );
+  let persistor = persistStore(store);
+  return { store, persistor };
+};

@@ -6,5 +6,7 @@ declare type AppUserState = {
 }
 
 declare type AppState = {
-  user: AppUserState
-}
+  user: AppUserState,
+  startParams: StartParams
+} | void
+

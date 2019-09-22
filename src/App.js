@@ -1,16 +1,17 @@
 // @flow
 
-import React from "react";
-import { HashRouter, Redirect, Route } from "react-router-dom";
-import { RootEpic } from "./epic";
+import React         from "react";
+import { useRoutes } from "hookrouter";
+import { RootEpic }  from "./epic";
+
+const routes = {
+  "/": () => <RootEpic epicId="main" />,
+  "/:epicId": ({ epicId }) => <RootEpic epicId={epicId} />,
+  "/:epicId/:panelId": ({ epicId, panelId }) => <RootEpic epicId={epicId} panelId={panelId} />,
+};
 
 function App() {
-  return (
-    <HashRouter>
-      <Route path="/:epicId" component={RootEpic} />
-      <Redirect from="/" to="/main" />
-    </HashRouter>
-  );
+  return useRoutes(routes);
 }
 
 export default App;

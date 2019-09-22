@@ -4,8 +4,12 @@ import axios from "axios";
 
 const baseUrl = "https://social-dance.site/api";
 
-export async function getTickets(): Promise<Ticket[]> {
-  return (await axios.get(baseUrl + "/tickets")).data;
+export async function getTickets(id?: string): Promise<Ticket[]> {
+  if (id) {
+    return (await axios.get(baseUrl + "/tickets/"+id)).data;
+  } else {
+    return (await axios.get(baseUrl + "/tickets")).data;
+  }
 }
 
 export async function postTickets(ticket: $Rest<Ticket, {_id:string}>) {

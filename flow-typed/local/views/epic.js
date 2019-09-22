@@ -1,5 +1,5 @@
 // @flow
 
-declare type EpicViewId = "main"
+declare type EpicViewId = "main" | "scanner";
 
-declare type EpicContextType = [EpicViewId, (EpicViewId) => void]
+declare type EpicContextType = [EpicViewId, (EpicViewId) => void];

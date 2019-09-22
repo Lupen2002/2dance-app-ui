@@ -1,5 +1,5 @@
 // @flow
-import "@fortawesome/fontawesome-free/scss/fontawesome.scss"
+import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
 import "@vkontakte/vkui/dist/vkui.css";
 
 import "core-js/es6/map";
@@ -11,16 +11,21 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import connect from "@vkontakte/vk-connect";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import createStore from "./store";
+import { PersistGate } from 'redux-persist/integration/react'
 
 connect.send("VKWebAppInit", {});
 
 const root = document.getElementById("root");
 
+const {store, persistor} = createStore();
+
 if (root) {
   ReactDOM.render(
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>,
     root
   );
