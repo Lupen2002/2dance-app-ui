@@ -11,3 +11,11 @@ declare type Ticket = {
   toDate: string,
   transactionId: string
 }
+
+declare type Configs = {
+  _id: string,
+  vkGroupId: number,
+  yMoneyReceiver: string,
+  singlePassPrice: number,
+  doublePassPrice: number
+}
