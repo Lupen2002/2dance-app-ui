@@ -1,5 +1,5 @@
 // @flow
-import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@vkontakte/vkui/dist/vkui.css";
 
 import "core-js/es6/map";
