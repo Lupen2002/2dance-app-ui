@@ -4,6 +4,7 @@ import React from "react";
 import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 import Icon28Document from "@vkontakte/icons/dist/28/document";
 import Icon28Camera from "@vkontakte/icons/dist/28/camera";
+import Icon28Menu from '@vkontakte/icons/dist/28/menu';
 import useStartParams from "../../hooks/useStartParams";
 import { getQueryParams, navigate } from "hookrouter";
 import useQrCodeScanner from "./useQrCodeScanner";
@@ -14,13 +15,7 @@ type P = {
 
 export const AppTabbar = (p: P) => {
   const params = useStartParams(),
-    query = getQueryParams(),
-    openQrScanner = useQrCodeScanner();
-
-  const isExistQrCodeScanner =
-    params.vk_platform &&
-    (params.vk_platform === "mobile_android" ||
-      params.vk_platform === "mobile_iphone");
+    query = getQueryParams();
 
   if (params.vk_viewer_group_role && params.vk_viewer_group_role === "admin") {
     return (
@@ -32,15 +27,13 @@ export const AppTabbar = (p: P) => {
         >
           <Icon28Document />
         </TabbarItem>
-        {isExistQrCodeScanner && (
-          <TabbarItem
-            selected={p.selected === "scanner"}
-            onClick={() => openQrScanner()}
-            text="Сканер"
-          >
-            <Icon28Camera />
-          </TabbarItem>
-        )}
+        <TabbarItem
+          selected={p.selected === "menu"}
+          onClick={() => navigate("/menu", false, query)}
+          text="Меню"
+        >
+          <Icon28Menu />
+        </TabbarItem>
       </Tabbar>
     );
   } else {
