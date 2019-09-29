@@ -5,13 +5,14 @@ import { Group, View } from "@vkontakte/vkui";
 import { Cell, List, Panel, PanelHeader } from "@vkontakte/vkui";
 import useQrCodeScanner from "../../epic/tabbar/useQrCodeScanner";
 import { getQueryParams, navigate } from "hookrouter";
-import { extractMenuViewId } from "./utils";
-import LeftPanelHeaderButtons from "../../components/controlls/LeftPanelHeaderButtons";
-import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
-import Input from "@vkontakte/vkui/dist/components/Input/Input";
-import Button from "@vkontakte/vkui/dist/components/Button/Button";
+import { extractMenuViewId }   from "./utils";
+import LeftPanelHeaderButtons  from "../../components/controlls/LeftPanelHeaderButtons";
+import FormLayout              from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import Input                   from "@vkontakte/vkui/dist/components/Input/Input";
+import Button                  from "@vkontakte/vkui/dist/components/Button/Button";
 import { YandexReceiverPanel } from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
-import { SettingsPanel } from "../../panels/menu/settings/SettingsPanel";
+import { SettingsPanel }       from "../../panels/menu/settings/SettingsPanel";
+import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
 
 type P = {
   id: EpicViewId,
@@ -46,11 +47,15 @@ export const MenuView = (p: P) => {
             >
               Настройки
             </Cell>
+            <Cell expandable onClick={() => navigate('/menu/add-event', false, params)}>
+              Добавить вечеринку
+            </Cell>
           </List>
         </Group>
       </Panel>
       <SettingsPanel id="settings" />
       <YandexReceiverPanel id="yandex-money-receiver" />
+      <AddEventPanel id='add-event' />
     </View>
   );
 };

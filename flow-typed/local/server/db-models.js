@@ -5,11 +5,12 @@ declare type TicketType = 'single-pass' | 'double-pass' | 'group-pass';
 declare type Ticket = {
   _id: string,
   vkUserId: number,
-  secondUserId?: number,
-  groupId: number,
+  vkGroupId: number,
+  eventId: string,
   ticketType: TicketType,
-  toDate: string,
-  transactionId: string
+  secondUserId?: number,
+  vkTransactionId?: string,
+  isClose: boolean
 }
 
 declare type Configs = {
@@ -18,4 +19,14 @@ declare type Configs = {
   yMoneyReceiver: string,
   singlePassPrice: number,
   doublePassPrice: number
+}
+
+declare type DanceEvent = {
+  _id: string,
+  vkGroupId: number,
+  timestamp: number,
+  label: string,
+  start: number,
+  singlePrice: number,
+  doublePrice: number,
 }
