@@ -5,14 +5,15 @@ import { Group, View } from "@vkontakte/vkui";
 import { Cell, List, Panel, PanelHeader } from "@vkontakte/vkui";
 import useQrCodeScanner from "../../epic/tabbar/useQrCodeScanner";
 import { getQueryParams, navigate } from "hookrouter";
-import { extractMenuViewId }   from "./utils";
-import LeftPanelHeaderButtons  from "../../components/controlls/LeftPanelHeaderButtons";
-import FormLayout              from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
-import Input                   from "@vkontakte/vkui/dist/components/Input/Input";
-import Button                  from "@vkontakte/vkui/dist/components/Button/Button";
+import { extractMenuViewId } from "./utils";
+import LeftPanelHeaderButtons from "../../components/controlls/LeftPanelHeaderButtons";
+import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import Input from "@vkontakte/vkui/dist/components/Input/Input";
+import Button from "@vkontakte/vkui/dist/components/Button/Button";
 import { YandexReceiverPanel } from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
-import { SettingsPanel }       from "../../panels/menu/settings/SettingsPanel";
-import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
+import { SettingsPanel } from "../../panels/menu/settings/SettingsPanel";
+import { AddEventPanel } from "../../panels/menu/add-event/AddEventPanel";
+import useStartParams from "../../hooks/useStartParams";
 
 type P = {
   id: EpicViewId,
@@ -21,7 +22,7 @@ type P = {
 
 export const MenuView = (p: P) => {
   const openQrScanner = useQrCodeScanner(),
-    params = getQueryParams();
+    params = useStartParams();
 
   const isExistQrCodeScanner =
     params.vk_platform &&
@@ -34,28 +35,33 @@ export const MenuView = (p: P) => {
     <View id={p.id} activePanel={panelId}>
       <Panel id="menu">
         <PanelHeader>Меню</PanelHeader>
-        <Group>
-          <List>
-            {isExistQrCodeScanner && (
-              <Cell expandable onClick={() => openQrScanner()}>
-                Сканировать
+        {params && params.vk_viewer_group_role === "admin" && (
+          <Group title="Administrator">
+            <List>
+              {isExistQrCodeScanner && (
+                <Cell expandable onClick={() => openQrScanner()}>
+                  Сканировать
+                </Cell>
+              )}
+              <Cell
+                expandable
+                onClick={() => navigate("/menu/settings", false, params)}
+              >
+                Настройки
               </Cell>
-            )}
-            <Cell
-              expandable
-              onClick={() => navigate("/menu/settings", false, params)}
-            >
-              Настройки
-            </Cell>
-            <Cell expandable onClick={() => navigate('/menu/add-event', false, params)}>
-              Добавить вечеринку
-            </Cell>
-          </List>
-        </Group>
+              <Cell
+                expandable
+                onClick={() => navigate("/menu/add-event", false, params)}
+              >
+                Добавить вечеринку
+              </Cell>
+            </List>
+          </Group>
+        )}
       </Panel>
       <SettingsPanel id="settings" />
       <YandexReceiverPanel id="yandex-money-receiver" />
-      <AddEventPanel id='add-event' />
+      <AddEventPanel id="add-event" />
     </View>
   );
 };

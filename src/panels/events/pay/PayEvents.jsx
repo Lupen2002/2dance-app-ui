@@ -80,7 +80,7 @@ export const PayEvents = (p: P) => {
     }
   };
 
-  const ymPay = (label: string) => {
+  const ymPay = (label: string) => () => {
     if (query && pass && query.vk_group_id && user && event) {
       postTickets({
         ticketType: pass,

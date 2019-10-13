@@ -1,31 +1,34 @@
 // @flow
 
-import React                                     from 'react'
+import React, { useMemo } from "react";
 import { Cell, Group, List, Panel, PanelHeader } from "@vkontakte/vkui";
-import { getQueryParams, navigate }              from "hookrouter";
+import { navigate } from "hookrouter";
+import useStartParams from "../../../hooks/useStartParams";
 
 type P = {
   id: MenuViewId
-}
+};
 
 export const SettingsPanel = (p: P) => {
-  const params = getQueryParams();
+  const params = useStartParams();
+
+  const ymSetting = useMemo(
+    () => () => navigate("/menu/yandex-money-receiver", false, params),
+    [params]
+  );
 
   return (
     <Panel id={p.id}>
       <PanelHeader>Настройки</PanelHeader>
-      <Group>
-        <List>
-          <Cell
-            expandable
-            onClick={() => navigate("/menu/yandex-money-receiver", params)}
-          >
-            Яндек Кошелек
-          </Cell>
-          <Cell expandable>Цена одиночного пасса</Cell>
-          <Cell expandable>Цена парного пасса</Cell>
-        </List>
-      </Group>
+      {params && params.vk_viewer_group_role === "admin" && (
+        <Group title="Администратор">
+          <List>
+            <Cell expandable onClick={ymSetting}>
+              Яндек Кошелек
+            </Cell>
+          </List>
+        </Group>
+      )}
     </Panel>
-  )
+  );
 };

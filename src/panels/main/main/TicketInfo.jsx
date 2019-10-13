@@ -1,9 +1,10 @@
 // @flow
 
-import React from "react";
+import React                          from "react";
 import { Cell, Group, InfoRow, List } from "@vkontakte/vkui";
-import QRCode from "qrcode.react";
-import { UserCell } from "./UserCell";
+import QRCode                         from "qrcode.react";
+import { UserCell }                   from "./UserCell";
+import { getLocalDate }               from "../../../utils/default/date";
 
 type P = {
   ticket: RichTicket
@@ -16,7 +17,7 @@ export default function TicketInfo(p: P) {
         <List>
           <Cell>
             <InfoRow title="Дата">
-              {new Date(p.ticket.event.timestamp).toLocaleString()}
+              {getLocalDate(p.ticket.event.timestamp).toLocaleString()}
             </InfoRow>
           </Cell>
           <Cell>
@@ -48,7 +49,7 @@ export default function TicketInfo(p: P) {
         <List>
           <Cell>
             <InfoRow title="Дата">
-              {new Date(p.ticket.event.timestamp).toLocaleString()}
+              {getLocalDate(p.ticket.event.timestamp).toLocaleString()}
             </InfoRow>
           </Cell>
           <Cell>

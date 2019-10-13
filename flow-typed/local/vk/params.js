@@ -9,7 +9,7 @@ declare type StartParams = {
   vk_ref: ?string,
   vk_access_token_settings: ?string,
   vk_group_id: ?string,
-  vk_viewer_group_role: ?string,
+  vk_viewer_group_role?: "none" | "member" | "moder" | "editor" | "admin",
   vk_platform: ?string,
-  sign: ?string,
-}
+  sign: ?string
+};

@@ -9,18 +9,15 @@ type P = {
   onSubmit: DanceEvent => void
 }
 
-const changeDateEvent = (event: DanceEvent, date: string) => {
-  const time = makeTimeString(event);
-  return (new Date(`${date}T${time}`)).getTime()
-};
-
-const changeTimeEvent = (event: DanceEvent, time: string) => {
-  const date = makeDateString(event);
-  return (new Date(`${date}T${time}`)).getTime()
+const changeDateEvent = (event: DanceEvent, date: string, time: string): DanceEvent => {
+  const timestamp = Date.parse(`${date}T${time}`);
+  return {...event, timestamp}
 };
 
 export default function EventForm(p: P) {
-  const [event, setEvent] = useState<DanceEvent>(p.event);
+  const [event, setEvent] = useState<DanceEvent>(p.event),
+        [d, setD] = useState(makeDateString(event)),
+        [t, setT] = useState(makeTimeString(event));
 
   return (
     <>
@@ -34,20 +31,16 @@ export default function EventForm(p: P) {
                                      })}
         />
         <Input
-          top="Дата"
+          top='Дата'
           type="date"
-          value={makeDateString(event)}
-          onChange={e => setEvent({...event,
-                                       timestamp: changeDateEvent(event, e.currentTarget.value)
-                                     })}
+          value={d}
+          onChange={e => setD( e.currentTarget.value)}
         />
         <Input
-          top="Время"
+          top='Время'
           type="time"
-          value={makeTimeString(event)}
-          onChange={e => setEvent({...event,
-                                    timestamp: changeTimeEvent(event, e.currentTarget.value)
-                                  })}
+          value={t}
+          onChange={e => setT( e.currentTarget.value)}
         />
         <Input
           top="Цена одиночного пасса"
@@ -65,7 +58,7 @@ export default function EventForm(p: P) {
                                      doublePrice: e.currentTarget.value
                                    })}
         />
-        <Button size="xl" onClick={() => p.onSubmit(event)}>
+        <Button size="xl" onClick={() => p.onSubmit(changeDateEvent(event, d, t))}>
           Сохранить
         </Button>
       </FormLayout>
