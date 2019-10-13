@@ -138,10 +138,9 @@ export const PayEvents = (p: P) => {
                   type="hidden"
                   name="sum"
                   value={
-                    10
-                    /*query.pass === "single-pass"
+                    query.pass === "single-pass"
                       ? event.singlePrice
-                      : event.doublePrice*/
+                      : event.doublePrice
                   }
                   data-type="number"
                 />

@@ -8,6 +8,7 @@ import { BayPassPanel }       from "../../panels/events/BayPassPanel";
 import { EventsSecondUser }   from "../../panels/events/second-user/EventsSecondUser";
 import { PayEvents }          from "../../panels/events/pay/PayEvents";
 import YMSuccess              from "../../panels/events/ym-success/YMSuccess";
+import EventEdit              from "../../panels/events/edit/EventEdit";
 
 type P = {
   id: EpicViewId,
@@ -24,6 +25,7 @@ export const EventsView = (p: P) => {
       <EventsSecondUser id='second-user' />
       <PayEvents id='pay'/>
       <YMSuccess id='ym-success'/>
+      <EventEdit id='edit' />
     </View>
   );
 };
