@@ -12,13 +12,14 @@ import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import { UserCell } from "../../main/main/UserCell";
 import vkConnect from "@vkontakte/vkui-connect-promise";
 import uuid from "uuid";
+import { back } from "../../../utils/default/url";
 
 type P = {
   id: EventsViewId
 };
 
 export const PayEvents = (p: P) => {
-  const {event_id, pass, sec, ...query} = useMemo(getQueryParams, []);
+  const { event_id, pass, sec, ...query } = useMemo(getQueryParams, []);
   const [event, setEvent] = useState<?DanceEvent>(),
     user = useVkUser(),
     token = useUserToken(true);
@@ -40,9 +41,7 @@ export const PayEvents = (p: P) => {
           action: "pay-to-group",
           params: {
             amount:
-              pass === "single-pass"
-                ? event.singlePrice
-                : event.doublePrice,
+              pass === "single-pass" ? event.singlePrice : event.doublePrice,
             group_id: parseInt(query.vk_group_id)
           }
         });
@@ -57,11 +56,23 @@ export const PayEvents = (p: P) => {
             extra: res.data.extra,
             isClose: false,
             secondUserId:
-              pass === "double-pass" && sec
-                ? parseInt(sec)
-                : undefined
+              pass === "double-pass" && sec ? parseInt(sec) : undefined
           };
           await postTickets(ticket);
+          if (pass === "double-pass") {
+            await postTickets({
+              ticketType: pass,
+              vkGroupId: parseInt(query.vk_group_id),
+              vkUserId: parseInt(sec),
+              secondUserId: user.id,
+              eventId: event._id,
+              transactionId: res.data.transaction_id,
+              amount: res.data.amount,
+              extra: res.data.extra,
+              isClose: false
+            });
+          }
+          navigate("/", false, query);
         }
       } catch (e) {
         console.error(e);
@@ -71,7 +82,7 @@ export const PayEvents = (p: P) => {
 
   const ymPay = (label: string) => {
     if (query && pass && query.vk_group_id && user && event) {
-      const ticket: $Rest<Ticket, { _id: string }> = {
+      postTickets({
         ticketType: pass,
         vkGroupId: parseInt(query.vk_group_id),
         vkUserId: user.id,
@@ -80,24 +91,26 @@ export const PayEvents = (p: P) => {
         isClose: false,
         ymAccepted: false,
         secondUserId:
-          query && pass === "double-pass" && sec
-            ? parseInt(sec)
-            : undefined
-      };
-      postTickets(ticket);
+          query && pass === "double-pass" && sec ? parseInt(sec) : undefined
+      });
+      if (pass === "double-pass") {
+        postTickets({
+          ticketType: pass,
+          vkGroupId: parseInt(query.vk_group_id),
+          vkUserId: parseInt(sec),
+          secondUserId: user.id,
+          eventId: event._id,
+          uuid: label,
+          isClose: false,
+          ymAccepted: false
+        });
+      }
     }
   };
 
   return (
     <Panel id={p.id}>
-      <PanelHeader
-        left={
-          <LeftPanelHeaderButtons
-            type="back"
-            back={() => window.history.go(-1)}
-          />
-        }
-      >
+      <PanelHeader left={<LeftPanelHeaderButtons type="back" back={back} />}>
         Оплата
       </PanelHeader>
       {event && user && (

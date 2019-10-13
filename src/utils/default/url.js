@@ -10,3 +10,5 @@ export const queryStringToObject = (inStr: string): UrlTypeParams => {
   }
   return result;
 };
+
+export const back = () => window.history.go(-1);
