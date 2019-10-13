@@ -21,7 +21,7 @@ export const AddEventPanel = (p: P) => {
   const post = async () => {
     if (query && query.vk_group_id) {
       const event: $Rest<DanceEvent, { _id: string }> = {
-        vkGroupId: query.vk_group_id,
+        vkGroupId: parseInt(query.vk_group_id),
         timestamp: (new Date(`${date}T${time}`)).getTime(),
         label,
         singlePrice,

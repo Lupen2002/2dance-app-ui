@@ -9,7 +9,7 @@ import { MenuView }          from "../views/menu/MenuView";
 import { EventsView }        from "../views/events/EventsView";
 
 type P = {
-  epicId: string,
+  epicId?: string,
   panelId?: string
 };
 

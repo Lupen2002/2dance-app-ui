@@ -12,7 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 import connect from "@vkontakte/vk-connect";
 import { Provider } from "react-redux";
 import createStore from "./store";
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from "redux-persist/integration/react";
 
 connect.send("VKWebAppInit", {});
 

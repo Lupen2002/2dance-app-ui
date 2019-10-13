@@ -1,25 +1,32 @@
 // @flow
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { getTickets } from "../api";
-import useStartParams from "./useStartParams";
+import { getQueryParams } from "hookrouter";
 
-export default function useMyTickets(transaction: ?string) {
-  const [ticket, setTicket] = useState<?Ticket>(null),
-    params = useStartParams();
+export default function useMyTickets(events: ?(DanceEvent[])): ?(RichTicket[]) {
+  const [tickets, setTickets] = useState<?(RichTicket[])>(null),
+    params = useMemo(getQueryParams, []);
 
   useEffect(() => {
-    getTickets().then((tickets: Ticket[]) => {
-      const t = tickets.find(row => {
-        return (
-          row.vkUserId === parseInt(params.vk_user_id) &&
-          row.groupId === parseInt(params.vk_group_id) &&
-          Date.parse(row.toDate) > Date.now()
-        );
+    if (events && !tickets) {
+      getTickets().then((tickets: Ticket[]) => {
+        const filtered = tickets.filter(row => {
+          return (
+            row.vkUserId === parseInt(params.vk_user_id) &&
+            row.vkGroupId === parseInt(params.vk_group_id) &&
+            (row.ymOperationId || row.transactionId) &&
+            !!events.find(e => e._id === row.eventId)
+          );
+        });
+        const enriched: RichTicket[] = filtered.map(t => ({
+          ...t,
+          event: events.find(e => e._id === t.eventId)
+        }));
+        setTickets(enriched);
       });
-      setTicket(t);
-    });
-  }, [transaction]);
+    }
+  }, [params, events, tickets]);
 
-  return ticket;
+  return tickets;
 }

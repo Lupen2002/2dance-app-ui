@@ -11,7 +11,7 @@ type P = {
 
 export const UserCell = (p: P) => {
   const [user, setUser] = useState(null),
-    token = useUserToken();
+    token = useUserToken(true);
 
   useEffect(() => {
     if (token) {
@@ -36,7 +36,7 @@ export const UserCell = (p: P) => {
       {user && (
         <>
           <Cell before={<Avatar size={40} src={user.photo_50} />}>
-            <InfoRow title='Мой +1'>{user.first_name} {user.last_name}</InfoRow>
+            <InfoRow title=''>{user.first_name} {user.last_name}</InfoRow>
           </Cell>
         </>
       )}

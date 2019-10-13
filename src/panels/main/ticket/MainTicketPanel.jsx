@@ -25,7 +25,7 @@ type P = {
 export default function MainTicketPanel(p: P) {
   const [ticket, setTicket] = useState<?Ticket>(null),
     [users, setUsers] = useState(null),
-    token = useUserToken(),
+    token = useUserToken(true),
     query = getQueryParams();
 
   useEffect(() => {

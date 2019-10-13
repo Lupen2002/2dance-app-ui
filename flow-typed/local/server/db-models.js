@@ -2,16 +2,21 @@
 
 declare type TicketType = 'single-pass' | 'double-pass' | 'group-pass';
 
-declare type Ticket = {
+declare type Ticket = {|
   _id: string,
   vkUserId: number,
   vkGroupId: number,
   eventId: string,
   ticketType: TicketType,
   secondUserId?: number,
-  vkTransactionId?: string,
-  isClose: boolean
-}
+  transactionId?: string,
+  isClose: boolean,
+  uuid?: string,
+  ymAccepted?: boolean,
+  ymOperationId?: string,
+  amount?: number | string,
+  extra?: any
+|}
 
 declare type Configs = {
   _id: string,
