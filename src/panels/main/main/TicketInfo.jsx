@@ -5,9 +5,11 @@ import { Cell, Group, InfoRow, List } from "@vkontakte/vkui";
 import QRCode                         from "qrcode.react";
 import { UserCell }                   from "./UserCell";
 import { getLocalDate }               from "../../../utils/default/date";
+import TicketQrCode                   from "./TicketQrCode";
 
 type P = {
-  ticket: RichTicket
+  ticket: RichTicket,
+  isQrCode?: boolean
 };
 
 export default function TicketInfo(p: P) {
@@ -24,20 +26,17 @@ export default function TicketInfo(p: P) {
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
           {p.ticket.transactionId || p.ticket.ymOperationId ? (
-            <Cell size="l">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  padding: "5vh"
-                }}
-              >
-                <QRCode value={p.ticket._id} />
-              </div>
-            </Cell>
+            <>
+              {p.isQrCode && (
+                <TicketQrCode ticket={p.ticket}/>
+              )}
+            </>
           ) : (
             <Cell>
-              <InfoRow title="Статус">Ожидаеться подтверждения оплаты {p.ticket.transactionId} - {p.ticket.ymOperationId}</InfoRow>
+              <InfoRow title="Статус">
+                Ожидаеться подтверждения оплаты {p.ticket.transactionId} -{" "}
+                {p.ticket.ymOperationId}
+              </InfoRow>
             </Cell>
           )}
         </List>
@@ -57,20 +56,17 @@ export default function TicketInfo(p: P) {
           </Cell>
           {p.ticket.secondUserId && <UserCell userId={p.ticket.secondUserId} />}
           {p.ticket.transactionId || p.ticket.ymOperationId ? (
-            <Cell size="l">
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  padding: "7vh"
-                }}
-              >
-                <QRCode value={p.ticket._id} />
-              </div>
-            </Cell>
+            <>
+              {p.isQrCode && (
+                <TicketQrCode ticket={p.ticket}/>
+              )}
+            </>
           ) : (
             <Cell>
-              <InfoRow title="Статус">Ожидаеться подтверждения оплаты {p.ticket.transactionId} - {p.ticket.ymOperationId}</InfoRow>
+              <InfoRow title="Статус">
+                Ожидаеться подтверждения оплаты {p.ticket.transactionId} -{" "}
+                {p.ticket.ymOperationId}
+              </InfoRow>
             </Cell>
           )}
         </List>

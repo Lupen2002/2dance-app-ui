@@ -5,6 +5,7 @@ declare type MenuViewId =
   | "menu"
   | "settings"
   | "yandex-money-receiver"
+  | "check-ticket"
   | "add-event";
 declare type EventsViewId =
   | "main"

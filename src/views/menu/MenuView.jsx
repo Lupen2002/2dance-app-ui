@@ -7,13 +7,14 @@ import useQrCodeScanner from "../../epic/tabbar/useQrCodeScanner";
 import { getQueryParams, navigate } from "hookrouter";
 import { extractMenuViewId } from "./utils";
 import LeftPanelHeaderButtons from "../../components/controlls/LeftPanelHeaderButtons";
-import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
-import Input from "@vkontakte/vkui/dist/components/Input/Input";
-import Button from "@vkontakte/vkui/dist/components/Button/Button";
+import FormLayout              from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import Input                   from "@vkontakte/vkui/dist/components/Input/Input";
+import Button                  from "@vkontakte/vkui/dist/components/Button/Button";
 import { YandexReceiverPanel } from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
-import { SettingsPanel } from "../../panels/menu/settings/SettingsPanel";
-import { AddEventPanel } from "../../panels/menu/add-event/AddEventPanel";
-import useStartParams from "../../hooks/useStartParams";
+import { SettingsPanel }       from "../../panels/menu/settings/SettingsPanel";
+import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
+import useStartParams          from "../../hooks/useStartParams";
+import CheckTicketPanel        from "../../panels/menu/check-ticket/CheckTicketPanel";
 
 type P = {
   id: EpicViewId,
@@ -62,6 +63,7 @@ export const MenuView = (p: P) => {
       <SettingsPanel id="settings" />
       <YandexReceiverPanel id="yandex-money-receiver" />
       <AddEventPanel id="add-event" />
+      <CheckTicketPanel id='check-ticket'/>
     </View>
   );
 };

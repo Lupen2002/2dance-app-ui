@@ -3,14 +3,16 @@
 import { useState, useEffect } from "react";
 import { getEvents } from "../api";
 
-export function useEventById(id: string): ?DanceEvent {
+export function useEventById(id: ?string): ?DanceEvent {
   const [event, setEvent] = useState<?DanceEvent>(null);
 
   useEffect(() => {
-    getEvents(id).then((res: DanceEvent[]) => {
-      const find = res.find(e => e._id === id);
-      find && setEvent(find);
-    });
+    if (id) {
+      getEvents(id).then((res: DanceEvent[]) => {
+        const find = res.find(e => e._id === id);
+        find && setEvent(find);
+      });
+    }
   }, [id]);
 
   return event;
