@@ -30,7 +30,7 @@ export default function EventEdit(p: P) {
     putEvents(newEvent).then(() => {
       navigate("/events", false, params);
     });
-  }, []);
+  }, [params]);
 
   return (
     <Panel id={p.id}>
