@@ -1,12 +1,7 @@
 // @flow
 
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import {
-  Button,
-  Cell,
-  FormLayout,
-  Group,
-  Input,
   Panel,
   PanelHeader,
   PanelSpinner
@@ -14,7 +9,6 @@ import {
 import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
 import { useEventById } from "../../../hooks/useEventById";
-import { makeDateString, makeTimeString } from "./utils";
 import EventForm from "./EventForm";
 import { putEvents } from "../../../api";
 
