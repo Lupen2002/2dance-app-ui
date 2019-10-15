@@ -1,11 +1,11 @@
 //@ flow
 
-import { useState, useEffect } from "react";
-import { getConfigs, postConfigs, putConfigs } from "../../../api";
-import { getQueryParams } from "hookrouter";
+import { useState, useEffect }                 from "react";
+import { getConfigs, postConfigs, putConfigs } from "../api";
+import { getQueryParams }                      from "hookrouter";
 
 export default function useYMoneyReceiver() {
-  const [config, setConfig] = useState(null),
+  const [config, setConfig] = useState<Configs|null>(null),
     params = getQueryParams();
 
   const get = async () => {

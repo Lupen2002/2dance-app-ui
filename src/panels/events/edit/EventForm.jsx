@@ -19,6 +19,8 @@ export default function EventForm(p: P) {
         [d, setD] = useState(makeDateString(event)),
         [t, setT] = useState(makeTimeString(event));
 
+  console.log('!!! EventForm', d);
+
   return (
     <>
       <FormLayout>

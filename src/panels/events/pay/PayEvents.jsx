@@ -3,16 +3,17 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Cell, CellButton, Group, List, Panel } from "@vkontakte/vkui";
 import { PanelHeader } from "@vkontakte/vkui";
-import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
+import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
-import { getEvents, postTickets } from "../../../api";
-import useVkUser from "../../../hooks/useVkUser";
-import useUserToken from "../../../hooks/useUserToken";
-import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { UserCell } from "../../main/main/UserCell";
-import vkConnect from "@vkontakte/vkui-connect-promise";
-import uuid from "uuid";
-import { back } from "../../../utils/default/url";
+import { getEvents, postTickets }   from "../../../api";
+import useVkUser                    from "../../../hooks/useVkUser";
+import useUserToken                 from "../../../hooks/useUserToken";
+import Avatar                       from "@vkontakte/vkui/dist/components/Avatar/Avatar";
+import { UserCell }                 from "../../main/main/UserCell";
+import vkConnect                    from "@vkontakte/vkui-connect-promise";
+import uuid                         from "uuid";
+import { back }                     from "../../../utils/default/url";
+import useYMoneyReceiver            from "../../../hooks/useYMoneyReceiver";
 
 type P = {
   id: EventsViewId
@@ -22,6 +23,7 @@ export const PayEvents = (p: P) => {
   const { event_id, pass, sec, ...query } = useMemo(getQueryParams, []);
   const [event, setEvent] = useState<?DanceEvent>(),
     user = useVkUser(),
+        {config} = useYMoneyReceiver(),
     token = useUserToken(true);
   const id = useMemo(uuid, []);
   const hash = useMemo(
@@ -132,11 +134,11 @@ export const PayEvents = (p: P) => {
           <Group>
             <List>
               <CellButton onClick={vkPay}>Оплата VkPay</CellButton>
-              <form
+              {config && <form
                 method="POST"
                 action="https://money.yandex.ru/quickpay/confirm.xml"
               >
-                <input type="hidden" name="receiver" value="410011450712861" />
+                <input type="hidden" name="receiver" value={config.yMoneyReceiver} />
                 <input type="hidden" name="formcomment" value="Corazon" />
                 <input type="hidden" name="short-dest" value="Corazon" />
                 <input type="hidden" name="label" value={id} />
@@ -162,7 +164,7 @@ export const PayEvents = (p: P) => {
                 <CellButton onClick={ymPay(id)} type="submit">
                   Оплата Картой
                 </CellButton>
-              </form>
+              </form> }
             </List>
           </Group>
         </>

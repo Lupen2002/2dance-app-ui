@@ -1,13 +1,13 @@
 // @flow
 
-import React, { useState } from "react";
+import React, { useState }    from "react";
 import { Panel, PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
-import { navigate } from "hookrouter";
-import FormLayout from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
-import Input from "@vkontakte/vkui/dist/components/Input/Input";
-import Button from "@vkontakte/vkui/dist/components/Button/Button";
-import useYMoneyReceiver from "./useYMoneyReceiver";
+import { navigate }           from "hookrouter";
+import FormLayout             from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import Input                  from "@vkontakte/vkui/dist/components/Input/Input";
+import Button                 from "@vkontakte/vkui/dist/components/Button/Button";
+import useYMoneyReceiver      from "../../../hooks/useYMoneyReceiver";
 
 type P = {
   id: MenuViewId
