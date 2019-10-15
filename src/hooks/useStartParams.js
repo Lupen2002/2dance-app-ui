@@ -1,7 +1,8 @@
 // @flow
 
-import { useSelector } from "react-redux";
+import { useMemo }        from "react";
+import { getQueryParams } from "hookrouter";
 
 export default function useStartParams(): StartParams {
-  return useSelector<AppState, StartParams>(state => state.startParams)
+  return useMemo(getQueryParams, []);
 }

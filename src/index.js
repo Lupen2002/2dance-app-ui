@@ -1,5 +1,5 @@
 // @flow
-import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@vkontakte/vkui/dist/vkui.css";
 
 import "core-js/es6/map";
@@ -12,7 +12,7 @@ import * as serviceWorker from "./serviceWorker";
 import connect from "@vkontakte/vk-connect";
 import { Provider } from "react-redux";
 import createStore from "./store";
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from "redux-persist/integration/react";
 
 connect.send("VKWebAppInit", {});
 

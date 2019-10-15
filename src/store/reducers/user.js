@@ -12,6 +12,8 @@ export const userReducer = (
         return { ...state, token: action.payload };
       case "USER_SET_GROUP_NAME":
         return { ...state, groupName: action.payload };
+      case "USER_SET_CURRENT":
+        return { ...state, current: action.payload };
       default:
         return state;
     }
