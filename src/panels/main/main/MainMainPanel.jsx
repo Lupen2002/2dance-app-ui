@@ -1,9 +1,7 @@
 // @flow
 
 import React from "react";
-import QRCode from "qrcode.react";
-import { Cell, Group, InfoRow } from "@vkontakte/vkui";
-import { List, Panel, PanelHeader } from "@vkontakte/vkui";
+import { Panel, PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
 import useCurrentGroup from "../../../hooks/useCurrentGroup";
 import { useEvents } from "../../../hooks/useEvents";

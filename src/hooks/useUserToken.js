@@ -1,15 +1,15 @@
 // @flow
 
-import { useEffect }                from "react";
-import vkConnect                    from "@vkontakte/vkui-connect-promise";
+import { useEffect } from "react";
+import vkConnect from "@vkontakte/vkui-connect-promise";
 import { useDispatch, useSelector } from "react-redux";
-import { appActions }               from "../store/actions";
+import { appActions } from "../store/actions";
 import { getQueryParams, navigate } from "hookrouter";
 
 export default function useUserToken(isRedirect?: boolean) {
   const token = useSelector<AppState, ?string>(state => state.user.token),
     dispatch: AppDispatch = useDispatch(),
-        params = getQueryParams();
+    params = getQueryParams();
 
   useEffect(() => {
     if (!isRedirect && !token) {
@@ -26,7 +26,7 @@ export default function useUserToken(isRedirect?: boolean) {
 
   useEffect(() => {
     if (isRedirect && !token) {
-      navigate('/', false, params)
+      navigate("/", false, params);
     }
   }, [token, isRedirect, params]);
 

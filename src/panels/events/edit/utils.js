@@ -5,11 +5,11 @@ import { getLocalDate } from "../../../utils/default/date";
 export function makeDateString(event: DanceEvent) {
   const eventDate = getLocalDate(event.timestamp);
 
-  const yyyy = eventDate.getFullYear(),
-    mm = eventDate.getMonth() + 1,
-    dd = eventDate.getDate();
+  const iso = eventDate.toISOString().split('T');
 
-  return yyyy + "-" + mm + "-" + dd;
+  console.log('!!! makeDateString', iso);
+
+  return iso[0];
 }
 
 export function makeTimeString(event: DanceEvent) {
