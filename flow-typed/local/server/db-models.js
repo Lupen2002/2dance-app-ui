@@ -18,7 +18,7 @@ declare type Ticket = {|
   extra?: any
 |}
 
-declare type Configs = {
+declare type TwoDanceConfigs = {
   _id: string,
   vkGroupId: number,
   yMoneyReceiver: string,
