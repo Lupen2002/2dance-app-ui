@@ -21,7 +21,7 @@ export const AddEventPanel = (p: P) => {
   const query = getQueryParams();
   const [label, setLabel] = useState(""),
     [date, setDate] = useState(current()),
-    [time, setTime] = useState('21:00'),
+    [time, setTime] = useState('20:00'),
     [singlePrice, setPriceSingle] = useState(),
     [doublePrice, setPriceDouble] = useState();
 
