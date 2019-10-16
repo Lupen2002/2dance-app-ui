@@ -17,14 +17,14 @@ type P = {
 };
 
 export default function EventEdit(p: P) {
-  const { event_id, ...params } = useMemo(getQueryParams, []);
+  const { event_id } = getQueryParams();
   const event = useEventById(event_id);
 
   const onSubmit = useMemo(() => (newEvent: DanceEvent) => {
     putEvents(newEvent).then(() => {
-      navigate("/events", false, params);
+      navigate("/events", false, getQueryParams());
     });
-  }, [params]);
+  }, []);
 
   return (
     <Panel id={p.id}>
@@ -32,7 +32,7 @@ export default function EventEdit(p: P) {
         left={
           <LeftPanelHeaderButtons
             type="back"
-            back={() => navigate("/events", false, params)}
+            back={() => navigate("/events", false, getQueryParams())}
           />
         }
       >
