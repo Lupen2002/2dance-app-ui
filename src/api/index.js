@@ -25,7 +25,7 @@ export async function delTickets(ticket: Ticket) {
   return (await axios.delete(baseUrl + "/tickets/" + ticket._id)).data;
 }
 
-export async function getConfigs(id?: string): Promise<Configs[]> {
+export async function getConfigs(id?: string): Promise<TwoDanceConfigs[]> {
   if (id) {
     return (await axios.get(baseUrl + "/configs/" + id)).data;
   } else {
@@ -33,16 +33,16 @@ export async function getConfigs(id?: string): Promise<Configs[]> {
   }
 }
 
-export async function postConfigs(config: $Rest<Configs, { _id: string }>) {
+export async function postConfigs(config: $Rest<TwoDanceConfigs, { _id: string }>) {
   return (await axios.post(baseUrl + "/configs", config)).data;
 }
 
-export async function putConfigs(config: Configs) {
+export async function putConfigs(config: TwoDanceConfigs) {
   await axios.put(baseUrl + "/configs/" + config._id, config);
   return (await axios.get(baseUrl + "/configs/" + config._id)).data;
 }
 
-export async function delConfigs(config: Configs) {
+export async function delConfigs(config: TwoDanceConfigs) {
   return (await axios.delete(baseUrl + "/configs/" + config._id)).data;
 }
 
