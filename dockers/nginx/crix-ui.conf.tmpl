@@ -25,11 +25,19 @@ server {
 
     client_max_body_size 4m;
 
-    location / {
+    location ~(\.(\w+))$ {
         root   /usr/share/nginx/html;
         index  index.html index.htm;
         expires off;
     }
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+        try_files  /index.html =404;
+        expires off;
+    }
+
 
     location /api/ {
         proxy_pass http://45.86.180.13:3000/;
