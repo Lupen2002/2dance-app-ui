@@ -54,7 +54,7 @@ export const BayPassPanel = (p: P) => {
           </Group>
           <Group>
             <List>
-              <Cell
+              {event.singlePrice > 0 && (<Cell
                 before={<Avatar size={72} />}
                 size="l"
                 description={`Цена: ${event.singlePrice}`}
@@ -67,8 +67,8 @@ export const BayPassPanel = (p: P) => {
                 }
               >
                 Одиночный пасс
-              </Cell>
-              <Cell
+              </Cell>)}
+              {event.doublePrice > 0 && (<Cell
                 before={<Avatar size={72} />}
                 size="l"
                 description={`Цена: ${event.doublePrice}`}
@@ -81,7 +81,7 @@ export const BayPassPanel = (p: P) => {
                 }
               >
                 Парный пасс
-              </Cell>
+              </Cell>)}
             </List>
           </Group>
         </>

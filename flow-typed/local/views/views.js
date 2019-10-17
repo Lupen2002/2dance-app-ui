@@ -13,4 +13,5 @@ declare type EventsViewId =
   | "second-user"
   | "pay"
   | "ym-success"
+  | "list-guests"
   | "edit";

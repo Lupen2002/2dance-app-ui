@@ -7,8 +7,6 @@ export function makeDateString(event: DanceEvent) {
 
   const iso = eventDate.toISOString().split('T');
 
-  console.log('!!! makeDateString', iso);
-
   return iso[0];
 }
 

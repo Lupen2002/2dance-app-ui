@@ -13,7 +13,8 @@ import useUserToken from "../../../hooks/useUserToken";
 import EventCell from "./EventCell";
 
 type P = {
-  id: EventsViewId
+  id: EventsViewId,
+  setPopout: ?React$Node => void
 };
 
 export const MainEventsPanel = (p: P) => {
@@ -29,7 +30,7 @@ export const MainEventsPanel = (p: P) => {
         <Group>
           <List>
             {events.map((e: DanceEvent) => (
-              <EventCell key={`event-cell-${e._id}`} event={e} />
+              <EventCell key={`event-cell-${e._id}`} event={e} setPopout={p.setPopout} />
             ))}
           </List>
         </Group>

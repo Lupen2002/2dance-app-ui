@@ -22,11 +22,11 @@ export default function EventCellBottomContent(p: P) {
       <Button size="m" onClick={go('bay-pass', p.event._id)}>
         Купить пасс
       </Button>
-      {query && query.vk_viewer_group_role === 'admin' && (
+      {/*{query && query.vk_viewer_group_role === 'admin' && (
         <Button size="m" level='secondary' onClick={go('edit', p.event._id)}>
           <i className='fas fa-pen'/> Редактировать
         </Button>
-      )}
+      )}*/}
     </div>
   );
 }

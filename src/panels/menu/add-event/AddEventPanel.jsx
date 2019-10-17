@@ -1,20 +1,27 @@
 // @flow
 
-import React, { useState } from "react";
+import React, { useState }                               from "react";
 import { Button, FormLayout, Input, Panel, PanelHeader } from "@vkontakte/vkui";
-import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
-import { getQueryParams, navigate } from "hookrouter";
-import { postEvents } from "../../../api";
+import LeftPanelHeaderButtons                            from "../../../components/controlls/LeftPanelHeaderButtons";
+import { getQueryParams, navigate }                      from "hookrouter";
+import { postEvents }                                    from "../../../api";
+import { makeDateString }                                from "../../events/edit/utils";
 
 type P = {
   id: MenuViewId
 };
 
+const current = () => {
+  const date = new Date();
+  const iso = date.toISOString().split('T');
+  return iso[0]
+};
+
 export const AddEventPanel = (p: P) => {
   const query = getQueryParams();
   const [label, setLabel] = useState(""),
-    [date, setDate] = useState('2000-01-01'),
-    [time, setTime] = useState('21:00'),
+    [date, setDate] = useState(current()),
+    [time, setTime] = useState('20:00'),
     [singlePrice, setPriceSingle] = useState(),
     [doublePrice, setPriceDouble] = useState();
 
