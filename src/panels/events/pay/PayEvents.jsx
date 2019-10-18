@@ -138,6 +138,12 @@ export const PayEvents = (p: P) => {
                 <form
                   method="POST"
                   action="https://money.yandex.ru/quickpay/confirm.xml"
+                  target={
+                    getQueryParams().vk_platform === "desktop_web" ||
+                    getQueryParams().vk_platform === "mobile_web"
+                      ? "_blank"
+                      : "_top"
+                  }
                 >
                   <input
                     type="hidden"
