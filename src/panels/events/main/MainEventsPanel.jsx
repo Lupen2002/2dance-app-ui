@@ -1,23 +1,26 @@
 // @flow
 
-import React from "react";
-import {
-  Group,
-  List,
-  Panel,
-  PanelHeader,
-  PanelSpinner
-} from "@vkontakte/vkui";
+import React, {useEffect} from "react";
+import { Group, List, Panel, PanelHeader, PanelSpinner } from "@vkontakte/vkui";
 import { useEvents } from "../../../hooks/useEvents";
 import useUserToken from "../../../hooks/useUserToken";
 import EventCell from "./EventCell";
+import { getQueryParams, setQueryParams } from "hookrouter";
 
 type P = {
   id: EventsViewId,
-  setPopout: ?React$Node => void
+  setPopout: (?React$Node) => void
 };
 
 export const MainEventsPanel = (p: P) => {
+  useEffect(() => {
+    setQueryParams({
+      ...getQueryParams(),
+      event_id: undefined,
+      pass: undefined,
+      sec: undefined
+    });
+  }, []);
   useUserToken();
 
   const events = useEvents();
@@ -30,7 +33,11 @@ export const MainEventsPanel = (p: P) => {
         <Group>
           <List>
             {events.map((e: DanceEvent) => (
-              <EventCell key={`event-cell-${e._id}`} event={e} setPopout={p.setPopout} />
+              <EventCell
+                key={`event-cell-${e._id}`}
+                event={e}
+                setPopout={p.setPopout}
+              />
             ))}
           </List>
         </Group>

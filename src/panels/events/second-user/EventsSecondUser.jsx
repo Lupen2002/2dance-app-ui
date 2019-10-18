@@ -57,6 +57,7 @@ export const EventsSecondUser = (p: P) => {
           <List>
             {friends.map(f => (
               <Cell
+                key={`friends-${f.id}`}
                 expandable
                 onClick={go(f.id)}
                 before={<Avatar size={40} src={f.photo_50} />}
