@@ -9,6 +9,8 @@ import Icon24MoreHorizontal from "@vkontakte/icons/dist/24/more_horizontal";
 import AdminPopoutEvent from "./AdminPopoutEvent";
 import useStartParams from "../../../hooks/useStartParams";
 
+import Corazon150 from '../../../assets/imgs/Corazon150.png'
+
 type P = {
   event: DanceEvent,
   setPopout: (?React$Node) => void
@@ -28,7 +30,7 @@ export default function EventCell(p: P) {
 
   return (
     <Cell
-      before={<Avatar size={72} />}
+      before={<Avatar size={72} src={Corazon150} />}
       description={<EventCellDescription event={p.event} />}
       bottomContent={<EventCellBottomContent event={p.event} />}
       size="l"

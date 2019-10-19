@@ -49,7 +49,7 @@ export const AddEventPanel = (p: P) => {
           />
         }
       >
-        Новая вечеринка
+        Новое событие
       </PanelHeader>
       <FormLayout>
         <Input top="Название" type="text" value={label} onChange={(e) => setLabel(e.currentTarget.value)}/>
