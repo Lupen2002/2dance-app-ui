@@ -47,7 +47,7 @@ export const BayPassPanel = (p: P) => {
           />
         }
       >
-        Купить пассы
+        Оплата
       </PanelHeader>
       {event && (
         <>
@@ -67,15 +67,16 @@ export const BayPassPanel = (p: P) => {
                   before={<Avatar size={72} />}
                   size="l"
                   description={`Цена: ${event.singlePrice}`}
+                  onClick={payToGroup("single-pass")}
                   bottomContent={
                     <div style={{ display: "flex" }}>
-                      <Button size="m" onClick={payToGroup("single-pass")}>
-                        Купить
+                      <Button size="m" >
+                        Оплатить
                       </Button>
                     </div>
                   }
                 >
-                  Одиночный пасс
+                  Оплатить за одного
                 </Cell>
               )}
               {event.doublePrice > 0 && (
@@ -86,12 +87,12 @@ export const BayPassPanel = (p: P) => {
                   bottomContent={
                     <div style={{ display: "flex" }}>
                       <Button size="m" onClick={payToGroup("double-pass")}>
-                        Купить
+                        Оплатить
                       </Button>
                     </div>
                   }
                 >
-                  Парный пасс
+                  Оплатить за пару
                 </Cell>
               )}
             </List>

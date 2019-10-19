@@ -1,27 +1,23 @@
 // @flow
 
-import { useMemo }                                  from "react";
-import vkConnect                                    from "@vkontakte/vkui-connect-promise";
+import vkConnect from "@vkontakte/vkui-connect-promise";
 import { getQueryParams, navigate, setQueryParams } from "hookrouter";
-import useStartParams                               from "../../hooks/useStartParams";
 
 export default function useQrCodeScanner() {
-  const query = useStartParams();
+  return () => {
+    const query = getQueryParams();
 
-  return useMemo(
-    () => () => {
+    query &&
+      query.vk_viewer_group_role === "admin" &&
       vkConnect.send("VKWebAppOpenQR").then(res => {
         setQueryParams({
-                         ...query,
-                         ticket_id: res.data.qr_data
-                       });
+          ...query,
+          ticket_id: res.data.qr_data
+        });
         setTimeout(
-          () =>
-            navigate("/menu/check-ticket", false, getQueryParams()),
+          () => navigate("/menu/check-ticket", false, getQueryParams()),
           100
         );
       });
-    },
-    [query]
-  );
+  };
 }

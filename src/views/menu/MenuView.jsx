@@ -54,7 +54,7 @@ export const MenuView = (p: P) => {
                 expandable
                 onClick={() => navigate("/menu/add-event", false, params)}
               >
-                Добавить вечеринку
+                Добавить событие
               </Cell>
             </List>
           </Group>
