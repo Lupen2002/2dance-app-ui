@@ -5,9 +5,9 @@ import { getLocalDate } from "../../../utils/default/date";
 export function makeDateString(event: DanceEvent) {
   const eventDate = getLocalDate(event.timestamp);
 
-  const iso = eventDate.toISOString().split('T');
+  const iso = eventDate.toLocaleDateString().split('.');
 
-  return iso[0];
+  return iso.reverse().join('-');
 }
 
 export function makeTimeString(event: DanceEvent) {

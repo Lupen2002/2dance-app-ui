@@ -1,6 +1,10 @@
 // @flow
+import Sugar from 'sugar'
 
-export function getLocalDate(timestamp: number) {
-  const now = new Date();
-  return new Date(timestamp + now.getTimezoneOffset() * 60 * 1000)
+export function getLocalDate(timestamp: number|string) {
+  const date = new Sugar.Date(timestamp);
+
+  date.setUTC(false);
+
+  return date.raw;
 }
