@@ -8,6 +8,7 @@ import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
 import vkConnect from "@vkontakte/vkui-connect-promise";
 import { getEvents, postTickets } from "../../api";
+import { back } from "../../utils/default/url";
 
 type P = {
   id: EventsViewId
@@ -43,7 +44,7 @@ export const BayPassPanel = (p: P) => {
         left={
           <LeftPanelHeaderButtons
             type="back"
-            back={() => navigate("/events/main", false, getQueryParams())}
+            back={back}
           />
         }
       >
@@ -70,9 +71,7 @@ export const BayPassPanel = (p: P) => {
                   onClick={payToGroup("single-pass")}
                   bottomContent={
                     <div style={{ display: "flex" }}>
-                      <Button size="m" >
-                        Оплатить
-                      </Button>
+                      <Button size="m">Оплатить</Button>
                     </div>
                   }
                 >
