@@ -1,5 +1,5 @@
 // @flow
-
+import {sortBy} from 'lodash'
 import { useState, useEffect, useMemo } from "react";
 import { getEvents } from "../api";
 import { getQueryParams } from "hookrouter";
@@ -16,7 +16,7 @@ export function useEvents(all?: boolean) {
         const filtered = res.filter(
           e => all || (e.vkGroupId === id && e.timestamp > current)
         );
-        setEvents(filtered);
+        setEvents(sortBy(filtered, 'timestamp'));
       });
     }
   }, [params, all]);
