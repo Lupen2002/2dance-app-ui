@@ -10,6 +10,8 @@ import vkConnect from "@vkontakte/vkui-connect-promise";
 import { getEvents, postTickets } from "../../api";
 import { back } from "../../utils/default/url";
 
+import Corazon150 from "../../assets/imgs/Corazon150.png";
+
 type P = {
   id: EventsViewId
 };
@@ -40,21 +42,14 @@ export const BayPassPanel = (p: P) => {
 
   return (
     <Panel id={p.id}>
-      <PanelHeader
-        left={
-          <LeftPanelHeaderButtons
-            type="back"
-            back={back}
-          />
-        }
-      >
+      <PanelHeader left={<LeftPanelHeaderButtons type="back" back={back} />}>
         Оплата
       </PanelHeader>
       {event && (
         <>
           <Group>
             <Cell
-              before={<Avatar size={72} />}
+              before={<Avatar size={72} src={Corazon150} />}
               description={new Date(event.timestamp).toLocaleString()}
               size="l"
             >
@@ -65,7 +60,11 @@ export const BayPassPanel = (p: P) => {
             <List>
               {event.singlePrice > 0 && (
                 <Cell
-                  before={<Avatar size={72} />}
+                  before={
+                    <div style={{padding: '12px 12px 12px 0', color: '#5181B8'}}>
+                      <i className="fas fa-user fa-2x" />
+                    </div>
+                  }
                   size="l"
                   description={`Цена: ${event.singlePrice}`}
                   onClick={payToGroup("single-pass")}
@@ -80,7 +79,7 @@ export const BayPassPanel = (p: P) => {
               )}
               {event.doublePrice > 0 && (
                 <Cell
-                  before={<Avatar size={72} />}
+                  before={<div style={{padding: '12px 12px 12px 0', color: '#5181B8'}}><i className="fas fa-user-friends fa-2x" /></div>}
                   size="l"
                   description={`Цена: ${event.doublePrice}`}
                   bottomContent={
