@@ -1,66 +1,52 @@
 // @flow
 
-import React, { useState }                               from "react";
-import { Button, FormLayout, Input, Panel, PanelHeader } from "@vkontakte/vkui";
-import LeftPanelHeaderButtons                            from "../../../components/controlls/LeftPanelHeaderButtons";
-import { getQueryParams, navigate }                      from "hookrouter";
-import { postEvents }                                    from "../../../api";
-import { makeDateString }                                from "../../events/edit/utils";
+import React, { useMemo } from "react";
+import { Panel, PanelHeader } from "@vkontakte/vkui";
+import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
+import { getQueryParams } from "hookrouter";
+import { postEvents } from "../../../api";
+import { dateLocal2ISO } from "../../events/edit/utils";
+import EventForm from "../../events/edit/EventForm";
+import { getLocalDate } from "../../../utils/default/date";
+import { back, go } from "../../../utils/default/url";
+
+type ExcludeDanceEvent = {| _id: string |};
+type NDanceEvent = $Rest<DanceEvent, ExcludeDanceEvent>;
 
 type P = {
   id: MenuViewId
 };
 
-const current = () => {
-  const date = new Date();
-  const iso = date.toISOString().split('T');
-  return iso[0]
-};
+const defaultEvent = (id: number): NDanceEvent => ({
+  timestamp: getLocalDate(
+    dateLocal2ISO(new Date().toLocaleDateString()) + "T20:00:00"
+  ),
+  vkGroupId: id,
+  label: "",
+  singlePrice: 0,
+  doublePrice: 0,
+  rePostControl: false,
+  postUrl: ""
+});
 
 export const AddEventPanel = (p: P) => {
-  const query = getQueryParams();
-  const [label, setLabel] = useState(""),
-    [date, setDate] = useState(current()),
-    [time, setTime] = useState('20:00'),
-    [singlePrice, setPriceSingle] = useState(),
-    [doublePrice, setPriceDouble] = useState();
+  const { vk_group_id } = getQueryParams();
+  const event = useMemo(() => defaultEvent(parseInt(vk_group_id)), [
+    vk_group_id
+  ]);
 
-  const post = async () => {
-    if (query && query.vk_group_id) {
-      const event: $Rest<DanceEvent, { _id: string }> = {
-        vkGroupId: parseInt(query.vk_group_id),
-        timestamp: (new Date(`${date}T${time}`)).getTime(),
-        label,
-        singlePrice,
-        doublePrice
-      };
-      await postEvents(event);
-      navigate("/events", false, query);
+  const post = (event: DanceEvent) => {
+    if (vk_group_id) {
+      postEvents(event).then(() => go("/events"));
     }
   };
 
   return (
     <Panel id={p.id}>
-      <PanelHeader
-        left={
-          <LeftPanelHeaderButtons
-            type="cancel"
-            back={() => navigate("/events", false, query)}
-          />
-        }
-      >
+      <PanelHeader left={<LeftPanelHeaderButtons type="cancel" back={back} />}>
         Новое событие
       </PanelHeader>
-      <FormLayout>
-        <Input top="Название" type="text" value={label} onChange={(e) => setLabel(e.currentTarget.value)}/>
-        <Input top="Дата" type="date" value={date} onChange={(e) => setDate(e.currentTarget.value)} />
-        <Input top="Время" type="time" value={time} onChange={(e) => setTime(e.currentTarget.value)} />
-        <Input top="Цена за одиночного" type="number" value={singlePrice} onChange={(e) => setPriceSingle(e.currentTarget.value)} />
-        <Input top="Цена за двоих" type="number" value={doublePrice} onChange={(e) => setPriceDouble(e.currentTarget.value)} />
-        <Button size="xl" onClick={post}>
-          Создать
-        </Button>
-      </FormLayout>
+      <EventForm event={event} onSubmit={post} />
     </Panel>
   );
 };

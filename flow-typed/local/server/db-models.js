@@ -26,12 +26,13 @@ declare type TwoDanceConfigs = {
   doublePassPrice: number
 }
 
-declare type DanceEvent = {
+declare type DanceEvent = {|
   _id: string,
   vkGroupId: number,
   timestamp: number,
   label: string,
-  start: number,
   singlePrice: number,
   doublePrice: number,
-}
+  rePostControl?: boolean,
+  postUrl?: string
+|}

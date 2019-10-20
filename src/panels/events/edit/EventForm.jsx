@@ -5,8 +5,11 @@ import { Button, Cell, FormLayout, Group, Input } from "@vkontakte/vkui";
 import { makeDateString, makeTimeString } from "./utils";
 import { getLocalDate } from "../../../utils/default/date";
 
+type ExcludeDanceEvent = {|_id: string|}
+type NDanceEvent =$Rest<DanceEvent, ExcludeDanceEvent>
+
 type P = {
-  event: DanceEvent,
+  event: DanceEvent | NDanceEvent,
   onSubmit: DanceEvent => void
 };
 
