@@ -55,8 +55,8 @@ export const AddEventPanel = (p: P) => {
         <Input top="Название" type="text" value={label} onChange={(e) => setLabel(e.currentTarget.value)}/>
         <Input top="Дата" type="date" value={date} onChange={(e) => setDate(e.currentTarget.value)} />
         <Input top="Время" type="time" value={time} onChange={(e) => setTime(e.currentTarget.value)} />
-        <Input top="Цена одиночного пасса" type="number" value={singlePrice} onChange={(e) => setPriceSingle(e.currentTarget.value)} />
-        <Input top="Цена парного пасса" type="number" value={doublePrice} onChange={(e) => setPriceDouble(e.currentTarget.value)} />
+        <Input top="Цена за одиночного" type="number" value={singlePrice} onChange={(e) => setPriceSingle(e.currentTarget.value)} />
+        <Input top="Цена за двоих" type="number" value={doublePrice} onChange={(e) => setPriceDouble(e.currentTarget.value)} />
         <Button size="xl" onClick={post}>
           Создать
         </Button>

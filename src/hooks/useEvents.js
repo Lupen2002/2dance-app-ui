@@ -5,10 +5,10 @@ import { getEvents } from "../api";
 import { getQueryParams } from "hookrouter";
 
 export function useEvents(all?: boolean) {
-  const [events, setEvents] = useState<?(DanceEvent[])>(null),
-    params = getQueryParams();
+  const [events, setEvents] = useState<?(DanceEvent[])>(null);
 
   useEffect(() => {
+    const params = getQueryParams();
     if (params && params.vk_group_id) {
       const id = parseInt(params.vk_group_id);
       const current = Date.now() - 10 * 60 * 60 * 1000;
@@ -19,7 +19,7 @@ export function useEvents(all?: boolean) {
         setEvents(sortBy(filtered, 'timestamp'));
       });
     }
-  }, [params, all]);
+  }, [all]);
 
   return events;
 }
