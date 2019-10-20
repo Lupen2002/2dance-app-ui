@@ -25,6 +25,7 @@ export const BayPassPanel = (p: P) => {
       sec: undefined
     });
   }, []);
+
   const [event, setEvent] = useState();
 
   useEffect(() => {
@@ -32,11 +33,10 @@ export const BayPassPanel = (p: P) => {
   }, [eventId]);
 
   const payToGroup = (ticketType: TicketType) => () => {
-    const query = getQueryParams();
     if (ticketType === "double-pass") {
-      navigate("/events/second-user", false, { ...query, pass: ticketType });
+      navigate("/events/second-user", false, {pass: ticketType }, false);
     } else {
-      navigate("/events/pay", false, { ...query, pass: ticketType });
+      navigate("/events/pay", false, { pass: ticketType }, false);
     }
   };
 

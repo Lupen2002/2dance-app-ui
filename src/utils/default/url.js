@@ -1,5 +1,7 @@
 // @flow
 
+import { navigate } from "hookrouter";
+
 type UrlTypeParams = {[string]: string}
 
 export const queryStringToObject = (inStr: string): UrlTypeParams => {
@@ -12,3 +14,5 @@ export const queryStringToObject = (inStr: string): UrlTypeParams => {
 };
 
 export const back = () => window.history.go(-1);
+
+export const go = (uri: string, params: any = {}, replace: boolean = false) => navigate(uri, false, params, replace);

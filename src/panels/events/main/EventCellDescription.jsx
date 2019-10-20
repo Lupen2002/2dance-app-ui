@@ -18,7 +18,7 @@ export default function EventCellDescription(p: P) {
     <>
       {strDate}
       <br />
-      <CountTickets event={p.event} />
+      {/*<CountTickets event={p.event} />*/}
     </>
   );
 }

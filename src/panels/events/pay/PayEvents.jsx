@@ -14,13 +14,14 @@ import vkConnect from "@vkontakte/vkui-connect-promise";
 import uuid from "uuid";
 import { back } from "../../../utils/default/url";
 import useYMoneyReceiver from "../../../hooks/useYMoneyReceiver";
+import Corazon150 from "../../../assets/imgs/Corazon150.png";
 
 type P = {
   id: EventsViewId
 };
 
 export const PayEvents = (p: P) => {
-  const { event_id, pass, sec, ...query } = useMemo(getQueryParams, []);
+  const { event_id, pass, sec, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
     user = useVkUser(),
     { config } = useYMoneyReceiver(),
@@ -119,8 +120,18 @@ export const PayEvents = (p: P) => {
         <>
           <Group>
             <Cell
-              before={<Avatar size={72} />}
-              description={new Date(event.timestamp).toLocaleString()}
+              before={<Avatar size={72} src={Corazon150} />}
+              description={
+                <>
+                  <div>{new Date(event.timestamp).toLocaleString()}</div>
+                  <div>
+                    {pass === "single-pass"
+                      ? event.singlePrice
+                      : event.doublePrice}
+                    ₽
+                  </div>
+                </>
+              }
               size="l"
             >
               {event.label}
@@ -133,7 +144,7 @@ export const PayEvents = (p: P) => {
           )}
           <Group>
             <List>
-              <CellButton onClick={vkPay}>Оплата VkPay</CellButton>
+              <CellButton onClick={vkPay}>VkPay</CellButton>
               {config && (
                 <form
                   method="POST"
@@ -173,7 +184,7 @@ export const PayEvents = (p: P) => {
                   <input type="hidden" name="comment" value="" />
                   <input type="hidden" name="paymentType" value="AC" />
                   <CellButton onClick={ymPay(id)} type="submit">
-                    Оплата Картой
+                    Картой
                   </CellButton>
                 </form>
               )}

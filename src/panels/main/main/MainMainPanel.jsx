@@ -19,7 +19,7 @@ export default function MainMainPanel(p: P) {
 
   return (
     <Panel id={p.id}>
-      <PanelHeader left={<LeftPanelHeaderButtons />}>{name || "!"}</PanelHeader>
+      <PanelHeader left={<LeftPanelHeaderButtons />}>Мои билеты</PanelHeader>
       {tickets &&
         tickets.map(t => (
           <TicketInfo key={`ticket-info-${t._id}`} ticket={t} isQrCode />

@@ -10,5 +10,5 @@ type P = {
 export default function CountTickets(p: P) {
   const tickets = useMyTickets([p.event]);
 
-  return tickets ? <>Куплено пассов: {tickets.length}</> : <></>;
+  return tickets ? <>Записалось: {tickets.length}</> : <></>;
 }

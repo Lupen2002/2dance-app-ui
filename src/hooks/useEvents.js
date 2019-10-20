@@ -6,7 +6,7 @@ import { getQueryParams } from "hookrouter";
 
 export function useEvents(all?: boolean) {
   const [events, setEvents] = useState<?(DanceEvent[])>(null),
-    params = useMemo(getQueryParams, []);
+    params = getQueryParams();
 
   useEffect(() => {
     if (params && params.vk_group_id) {
