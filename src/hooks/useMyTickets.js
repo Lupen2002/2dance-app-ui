@@ -6,7 +6,7 @@ import { getQueryParams } from "hookrouter";
 
 export default function useMyTickets(events: ?(DanceEvent[])): ?(RichTicket[]) {
   const [tickets, setTickets] = useState<?(RichTicket[])>(null),
-    params = useMemo(getQueryParams, []);
+    params = getQueryParams();
 
   useEffect(() => {
     if (events && !tickets) {

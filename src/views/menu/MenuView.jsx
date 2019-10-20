@@ -39,22 +39,11 @@ export const MenuView = (p: P) => {
         {params && params.vk_viewer_group_role === "admin" && (
           <Group title="Administrator">
             <List>
-              {isExistQrCodeScanner && (
-                <Cell expandable onClick={() => openQrScanner()}>
-                  Сканировать
-                </Cell>
-              )}
               <Cell
                 expandable
                 onClick={() => navigate("/menu/settings", false, params)}
               >
                 Настройки
-              </Cell>
-              <Cell
-                expandable
-                onClick={() => navigate("/menu/add-event", false, params)}
-              >
-                Добавить событие
               </Cell>
             </List>
           </Group>

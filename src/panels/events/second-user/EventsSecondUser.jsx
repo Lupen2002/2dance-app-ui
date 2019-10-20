@@ -1,30 +1,32 @@
 // @flow
 
-import React, { useState, useEffect } from "react";
-import { Group, Cell, Avatar }      from "@vkontakte/vkui";
-import { List, Panel, PanelHeader } from "@vkontakte/vkui";
-import vkConnect                    from "@vkontakte/vkui-connect-promise";
-import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
-import { getQueryParams, navigate } from "hookrouter";
-import useUserToken                 from "../../../hooks/useUserToken";
-import PanelSpinner                 from "@vkontakte/vkui/dist/components/PanelSpinner/PanelSpinner";
-import { postTickets }              from "../../../api";
-import useVkUser                    from "../../../hooks/useVkUser";
-import { useSelector }              from "react-redux";
+import React, { useState, useEffect }               from "react";
+import { Group, Cell, Avatar }                      from "@vkontakte/vkui";
+import { List, Panel, PanelHeader }                 from "@vkontakte/vkui";
+import vkConnect                                    from "@vkontakte/vkui-connect-promise";
+import LeftPanelHeaderButtons                       from "../../../components/controlls/LeftPanelHeaderButtons";
+import { getQueryParams, navigate, setQueryParams } from "hookrouter";
+import useUserToken                                 from "../../../hooks/useUserToken";
+import PanelSpinner                                 from "@vkontakte/vkui/dist/components/PanelSpinner/PanelSpinner";
+import useVkUser                                    from "../../../hooks/useVkUser";
 
 type P = {
   id: EventsViewId
 };
 
 export const EventsSecondUser = (p: P) => {
-  const query = getQueryParams(),
-    user = useVkUser(),
+  const user = useVkUser(),
     token = useUserToken(true);
   const [friends, setFriends] = useState(null);
 
   const go = (sec: number) => () => {
-    navigate("/events/pay", false, { ...query, sec });
+    navigate("/events/pay", false, { sec }, false);
   };
+
+  useEffect(() => {
+    const {sec, ...query} = getQueryParams();
+    setQueryParams(query)
+  }, []);
 
   useEffect(() => {
     if (user && token) {
