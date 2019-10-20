@@ -1,11 +1,19 @@
 // @flow
 
-import React, {useEffect} from "react";
-import { Group, List, Panel, PanelHeader, PanelSpinner } from "@vkontakte/vkui";
+import React, { useEffect } from "react";
+import {
+  CellButton,
+  Group,
+  List,
+  Panel,
+  PanelHeader,
+  PanelSpinner
+} from "@vkontakte/vkui";
 import { useEvents } from "../../../hooks/useEvents";
 import useUserToken from "../../../hooks/useUserToken";
 import EventCell from "./EventCell";
-import { getQueryParams, setQueryParams } from "hookrouter";
+import { getQueryParams, navigate, setQueryParams } from "hookrouter";
+import { go } from "../../../utils/default/url";
 
 type P = {
   id: EventsViewId,
@@ -13,6 +21,8 @@ type P = {
 };
 
 export const MainEventsPanel = (p: P) => {
+  const { vk_viewer_group_role, ...params } = getQueryParams();
+
   useEffect(() => {
     setQueryParams({
       ...getQueryParams(),
@@ -30,17 +40,30 @@ export const MainEventsPanel = (p: P) => {
       <PanelHeader>Вечеринки</PanelHeader>
       {!events && <PanelSpinner />}
       {events && (
-        <Group>
-          <List>
-            {events.map((e: DanceEvent) => (
-              <EventCell
-                key={`event-cell-${e._id}`}
-                event={e}
-                setPopout={p.setPopout}
-              />
-            ))}
-          </List>
-        </Group>
+        <>
+          {vk_viewer_group_role === "admin" && (
+            <Group>
+              <CellButton
+                align="center"
+                onClick={() => go("/menu/add-event")}
+                before={<i className="fas fa-plus" />}
+              >
+                Добавить
+              </CellButton>
+            </Group>
+          )}
+          <Group>
+            <List>
+              {events.map((e: DanceEvent) => (
+                <EventCell
+                  key={`event-cell-${e._id}`}
+                  event={e}
+                  setPopout={p.setPopout}
+                />
+              ))}
+            </List>
+          </Group>
+        </>
       )}
     </Panel>
   );

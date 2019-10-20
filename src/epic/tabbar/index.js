@@ -1,9 +1,7 @@
 // @flow
 
 import React from "react";
-import { Cell, Tabbar, TabbarItem } from "@vkontakte/vkui";
-import Icon28Document from "@vkontakte/icons/dist/28/document";
-import Icon28Menu from "@vkontakte/icons/dist/28/menu";
+import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
 import useQrCodeScanner from "./useQrCodeScanner";
 
@@ -54,6 +52,25 @@ export const AppTabbar = (p: P) => {
       </Tabbar>
     );
   } else {
-    return <></>;
+    return (
+      <>
+        <Tabbar>
+          <TabbarItem
+            selected={p.selected === "events"}
+            onClick={() => navigate("/events", false, getQueryParams())}
+            text="События"
+          >
+            <i className="fab fa-itunes-note fa-2x" />
+          </TabbarItem>
+          <TabbarItem
+            selected={p.selected === "main"}
+            onClick={() => navigate("/main", false, getQueryParams())}
+            text="Билет"
+          >
+            <i className="fas fa-ticket-alt fa-2x" />
+          </TabbarItem>
+        </Tabbar>
+      </>
+    );
   }
 };

@@ -9,28 +9,26 @@ type P = {
 };
 
 export default function EventCellBottomContent(p: P) {
-  const query = useMemo(getQueryParams, []);
-
   const go = useMemo(
     () => (panelId: EventsViewId, event: DanceEvent) => () => {
       if (event.doublePrice > 0) {
-        navigate("/events/"+panelId, false, { ...query, event_id: event._id });
+        navigate("/events/" + panelId, false, { event_id: event._id }, false);
       } else {
-        navigate("/events/pay", false, { ...query, event_id: event._id, pass: 'single-pass' });
+        navigate(
+          "/events/pay",
+          false,
+          { event_id: event._id, pass: "single-pass" },
+          false
+        );
       }
     },
-    [query]
+    []
   );
   return (
     <div>
-      <Button size="m" onClick={go('bay-pass', p.event)}>
+      <Button size="m" onClick={go("bay-pass", p.event)}>
         Записаться
       </Button>
-      {/*{query && query.vk_viewer_group_role === 'admin' && (
-        <Button size="m" level='secondary' onClick={go('edit', p.event._id)}>
-          <i className='fas fa-pen'/> Редактировать
-        </Button>
-      )}*/}
     </div>
   );
 }
