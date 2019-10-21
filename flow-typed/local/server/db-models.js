@@ -26,11 +26,18 @@ declare type TwoDanceConfigs = {
   doublePassPrice: number
 }
 
+declare type EventPrice = {|
+  date: string,
+  singlePrice: number,
+  doublePrice: number,
+|}
+
 declare type DanceEvent = {|
   _id: string,
   vkGroupId: number,
   timestamp: number,
   label: string,
+  prices?: EventPrice[],
   singlePrice: number,
   doublePrice: number,
   rePostControl?: boolean,
