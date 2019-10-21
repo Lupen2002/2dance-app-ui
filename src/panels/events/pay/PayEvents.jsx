@@ -3,19 +3,19 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Cell, CellButton, Group, List, Panel } from "@vkontakte/vkui";
 import { PanelHeader } from "@vkontakte/vkui";
-import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
+import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
-import { getEvents, postTickets } from "../../../api";
-import useVkUser from "../../../hooks/useVkUser";
-import useUserToken from "../../../hooks/useUserToken";
-import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { UserCell } from "../../main/main/UserCell";
-import vkConnect from "@vkontakte/vkui-connect-promise";
-import uuid from "uuid";
-import { back } from "../../../utils/default/url";
-import useYMoneyReceiver from "../../../hooks/useYMoneyReceiver";
-import Corazon150 from "../../../assets/imgs/Corazon150.png";
-import usePrice from "../../../hooks/usePrice";
+import { getEvents, postTickets }   from "../../../api";
+import useVkUser                    from "../../../hooks/useVkUser";
+import useUserToken                 from "../../../hooks/useUserToken";
+import Avatar                       from "@vkontakte/vkui/dist/components/Avatar/Avatar";
+import { UserCell }                 from "../../main/main/UserCell";
+import vkConnect                    from "@vkontakte/vkui-connect-promise";
+import uuid                         from "uuid";
+import { appURL, back }             from "../../../utils/default/url";
+import useYMoneyReceiver            from "../../../hooks/useYMoneyReceiver";
+import Corazon150                   from "../../../assets/imgs/Corazon150.png";
+import usePrice                     from "../../../hooks/usePrice";
 
 type P = {
   id: EventsViewId
@@ -161,11 +161,7 @@ export const PayEvents = (p: P) => {
                   <input type="hidden" name="short-dest" value="Corazon" />
                   <input type="hidden" name="label" value={id} />
                   <input type="hidden" name="quickpay-form" value="shop" />
-                  <input
-                    type="hidden"
-                    name="successURL"
-                    value={"https://vk.com/app7062331_-179764761#" + hash}
-                  />
+                  <input type="hidden" name="successURL" value={appURL(hash)} />
                   <input type="hidden" name="targets" value="Оплата пасса" />
                   <input
                     type="hidden"
