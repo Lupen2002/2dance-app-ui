@@ -15,6 +15,7 @@ import uuid from "uuid";
 import { back } from "../../../utils/default/url";
 import useYMoneyReceiver from "../../../hooks/useYMoneyReceiver";
 import Corazon150 from "../../../assets/imgs/Corazon150.png";
+import usePrice from "../../../hooks/usePrice";
 
 type P = {
   id: EventsViewId
@@ -28,9 +29,10 @@ export const PayEvents = (p: P) => {
     token = useUserToken(true);
   const id = useMemo(uuid, []);
   const hash = useMemo(
-    () => window.location.search.substr(1) + "&r=ym-success&uuid=" + id,
-    [id]
-  );
+      () => window.location.search.substr(1) + "&r=ym-success&uuid=" + id,
+      [id]
+    ),
+    price = usePrice(event, pass);
 
   useEffect(() => {
     getEvents(event_id).then(res => setEvent(res[0]));
@@ -43,8 +45,7 @@ export const PayEvents = (p: P) => {
           app_id: 7062331,
           action: "pay-to-group",
           params: {
-            amount:
-              pass === "single-pass" ? event.singlePrice : event.doublePrice,
+            amount: price,
             group_id: parseInt(query.vk_group_id)
           }
         });
@@ -124,12 +125,7 @@ export const PayEvents = (p: P) => {
               description={
                 <>
                   <div>{new Date(event.timestamp).toLocaleString()}</div>
-                  <div>
-                    {pass === "single-pass"
-                      ? event.singlePrice
-                      : event.doublePrice}
-                    ₽
-                  </div>
+                  <div>{price} ₽</div>
                 </>
               }
               size="l"
@@ -174,11 +170,7 @@ export const PayEvents = (p: P) => {
                   <input
                     type="hidden"
                     name="sum"
-                    value={
-                      query.pass === "single-pass"
-                        ? event.singlePrice
-                        : event.doublePrice
-                    }
+                    value={price}
                     data-type="number"
                   />
                   <input type="hidden" name="comment" value="" />

@@ -1,9 +1,10 @@
 // @flow
 
-import React from "react";
-import { Tabbar, TabbarItem } from "@vkontakte/vkui";
+import React                        from "react";
+import { Tabbar, TabbarItem }       from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
-import useQrCodeScanner from "./useQrCodeScanner";
+import useQrCodeScanner             from "./useQrCodeScanner";
+import { go }                       from "../../utils/default/url";
 
 type P = {
   selected: EpicViewId
@@ -25,14 +26,14 @@ export const AppTabbar = (p: P) => {
       <Tabbar>
         <TabbarItem
           selected={p.selected === "events"}
-          onClick={() => navigate("/events", false, getQueryParams())}
+          onClick={() => go("/events")}
           text="События"
         >
           <i className="fab fa-itunes-note fa-2x" />
         </TabbarItem>
         <TabbarItem
           selected={p.selected === "main"}
-          onClick={() => navigate("/main", false, getQueryParams())}
+          onClick={() => go("/main")}
           text="Билет"
         >
           <i className="fas fa-ticket-alt fa-2x" />
@@ -44,8 +45,8 @@ export const AppTabbar = (p: P) => {
         )}
         <TabbarItem
           selected={p.selected === "menu"}
-          onClick={() => navigate("/menu", false, getQueryParams())}
-          text="Меню"
+          onClick={() => go('/menu/settings')}
+          text="Настройки"
         >
           <i className="fas fa-bars fa-2x" />
         </TabbarItem>

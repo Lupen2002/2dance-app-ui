@@ -24,7 +24,7 @@ export const SettingsPanel = (p: P) => {
         <Group title="Администратор">
           <List>
             <Cell expandable onClick={ymSetting}>
-              Яндек Кошелек
+              Яндекс.Кошелёк
             </Cell>
           </List>
         </Group>

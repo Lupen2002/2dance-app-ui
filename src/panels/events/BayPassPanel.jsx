@@ -11,6 +11,7 @@ import { getEvents, postTickets } from "../../api";
 import { back } from "../../utils/default/url";
 
 import Corazon150 from "../../assets/imgs/Corazon150.png";
+import EventPrice from "../../components/events/price/EventPrice";
 
 type P = {
   id: EventsViewId
@@ -66,7 +67,7 @@ export const BayPassPanel = (p: P) => {
                     </div>
                   }
                   size="l"
-                  description={`Цена: ${event.singlePrice}`}
+                  description={<EventPrice event={event} type='single-pass'/>}
                   onClick={payToGroup("single-pass")}
                   bottomContent={
                     <div style={{ display: "flex" }}>
@@ -81,7 +82,7 @@ export const BayPassPanel = (p: P) => {
                 <Cell
                   before={<div style={{padding: '12px 12px 12px 0', color: '#5181B8'}}><i className="fas fa-user-friends fa-2x" /></div>}
                   size="l"
-                  description={`Цена: ${event.doublePrice}`}
+                  description={<EventPrice event={event} type='double-pass'/>}
                   bottomContent={
                     <div style={{ display: "flex" }}>
                       <Button size="m" onClick={payToGroup("double-pass")}>
