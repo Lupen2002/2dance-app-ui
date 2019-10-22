@@ -1,6 +1,6 @@
 {
   "name": "2dance-app-ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "/",
   "devDependencies": {
     "cross-env": "^6.0.3",
