@@ -41,7 +41,8 @@ export const MainEventsPanel = (p: P) => {
       {!events && <PanelSpinner />}
       {events && (
         <>
-          {vk_viewer_group_role === "admin" && (
+          {(vk_viewer_group_role === "admin" ||
+            vk_viewer_group_role === "editor") && (
             <Group>
               <CellButton
                 align="center"

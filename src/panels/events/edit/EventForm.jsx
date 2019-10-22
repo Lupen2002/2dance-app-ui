@@ -8,7 +8,7 @@ import {
   Input,
   FormLayoutGroup,
   CellButton,
-  Separator
+  Separator, Header
 } from "@vkontakte/vkui";
 import { dateLocal2ISO, makeDateString, makeTimeString } from "./utils";
 import { getLocalDate } from "../../../utils/default/date";
@@ -95,10 +95,8 @@ export default function EventForm(p: P) {
         {event.prices ? (
           <>
             {event.prices.map((p, i) => (
-              <FormLayoutGroup
-                key={"price-" + i}
-                top={`Изменение цены №${i + 1}`}
-              >
+              <FormLayout key={"price-" + i}>
+                <Header level='secondary'>{`Изменение цены №${i + 1}`}</Header>
                 <Input
                   top="День новой цены"
                   type="date"
@@ -134,7 +132,7 @@ export default function EventForm(p: P) {
                   level='danger'
                   before={<i className="fas fa-minus" />}
                   onClick={() => {
-                    const prices = [...event.prices];
+                    const prices = [...(event.prices || [])];
                     prices.splice(i, 1);
                     setEvent({ ...event, prices });
                   }}
@@ -142,7 +140,7 @@ export default function EventForm(p: P) {
                   Удалить изменение цены
                 </CellButton>
                 <Separator />
-              </FormLayoutGroup>
+              </FormLayout>
             ))}
             <CellButton
               align="center"
@@ -150,7 +148,7 @@ export default function EventForm(p: P) {
               onClick={() =>
                 setEvent({
                   ...event,
-                  prices: [...event.prices, defaultPrice()]
+                  prices: [...(event.prices || []), defaultPrice()]
                 })
               }
             >
