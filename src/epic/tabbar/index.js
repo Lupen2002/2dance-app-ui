@@ -1,10 +1,10 @@
 // @flow
 
-import React                        from "react";
-import { Tabbar, TabbarItem }       from "@vkontakte/vkui";
+import React from "react";
+import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
-import useQrCodeScanner             from "./useQrCodeScanner";
-import { go }                       from "../../utils/default/url";
+import useQrCodeScanner from "./useQrCodeScanner";
+import { go } from "../../utils/default/url";
 
 type P = {
   selected: EpicViewId
@@ -21,7 +21,11 @@ export const AppTabbar = (p: P) => {
     (params.vk_platform === "mobile_android" ||
       params.vk_platform === "mobile_iphone");
 
-  if (params.vk_viewer_group_role && params.vk_viewer_group_role === "admin") {
+  if (
+    params.vk_viewer_group_role &&
+    (params.vk_viewer_group_role === "admin" ||
+      params.vk_viewer_group_role === "editor")
+  ) {
     return (
       <Tabbar>
         <TabbarItem
@@ -43,13 +47,15 @@ export const AppTabbar = (p: P) => {
             <i className="fas fa-camera fa-2x" />
           </TabbarItem>
         )}
-        <TabbarItem
-          selected={p.selected === "menu"}
-          onClick={() => go('/menu/settings')}
-          text="Настройки"
-        >
-          <i className="fas fa-bars fa-2x" />
-        </TabbarItem>
+        {params.vk_viewer_group_role === "admin" && (
+          <TabbarItem
+            selected={p.selected === "menu"}
+            onClick={() => go("/menu/settings")}
+            text="Настройки"
+          >
+            <i className="fas fa-bars fa-2x" />
+          </TabbarItem>
+        )}
       </Tabbar>
     );
   } else {

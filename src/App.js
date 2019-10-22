@@ -1,9 +1,9 @@
 // @flow
 
-import React, { useMemo } from "react";
-import { navigate, useRoutes } from "hookrouter";
-import { RootEpic } from "./epic";
-import { queryStringToObject } from "./utils/default/url";
+import React, { useMemo }          from "react";
+import { navigate, useRoutes }     from "hookrouter";
+import { RootEpic }                from "./epic";
+import { go, queryStringToObject } from "./utils/default/url";
 
 type Params = { [string]: string };
 
@@ -22,6 +22,10 @@ function App() {
   if (params && params.r) {
     const { r, ...query } = params;
     switch (r) {
+      case 'check-params': {
+        go('/check-params');
+        break;
+      }
       case "root": {
         navigate("/", false, query);
         break;
