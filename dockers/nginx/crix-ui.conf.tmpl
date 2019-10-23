@@ -6,14 +6,8 @@ upstream backend {
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-
-    # redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
-    return 301 https://$hostname$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
+    listen 443 ssl;
+    listen [::]:443 ssl;
 
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /etc/ssl/2dance/bundle.social-dance.crt;
