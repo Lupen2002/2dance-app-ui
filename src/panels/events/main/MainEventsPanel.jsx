@@ -42,6 +42,7 @@ export const MainEventsPanel = (p: P) => {
       {events && (
         <>
           {(vk_viewer_group_role === "admin" ||
+            vk_viewer_group_role === "moder"||
             vk_viewer_group_role === "editor") && (
             <Group>
               <CellButton

@@ -8,7 +8,9 @@ export default function useQrCodeScanner() {
     const query = getQueryParams();
 
     query &&
-      query.vk_viewer_group_role === "admin" &&
+      (query.vk_viewer_group_role === "admin" ||
+        query.vk_viewer_group_role === "moder" ||
+        query.vk_viewer_group_role === "editor") &&
       vkConnect.send("VKWebAppOpenQR").then(res => {
         setQueryParams({
           ...query,
