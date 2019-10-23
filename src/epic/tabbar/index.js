@@ -24,6 +24,7 @@ export const AppTabbar = (p: P) => {
   if (
     params.vk_viewer_group_role &&
     (params.vk_viewer_group_role === "admin" ||
+      params.vk_viewer_group_role === "moder" ||
       params.vk_viewer_group_role === "editor")
   ) {
     return (
