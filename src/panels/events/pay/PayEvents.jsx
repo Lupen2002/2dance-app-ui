@@ -24,7 +24,7 @@ type P = {
 export const PayEvents = (p: P) => {
   const { event_id, pass, sec, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
-    user = useVkUser(),
+    user: ?VKUser = useVkUser(),
     { config } = useYMoneyReceiver(),
     token = useUserToken(true);
   const id = useMemo(uuid, []);
@@ -36,6 +36,9 @@ export const PayEvents = (p: P) => {
 
   useEffect(() => {
     getEvents(event_id).then(res => setEvent(res[0]));
+    if (window.ym) {
+      window.ym(55883914, 'reachGoal', 'open-event-pay')
+    }
   }, [event_id]);
 
   const vkPay = async () => {
@@ -62,6 +65,9 @@ export const PayEvents = (p: P) => {
             secondUserId:
               pass === "double-pass" && sec ? parseInt(sec) : undefined
           };
+          if (window.ym) {
+            window.ym(55883914, 'reachGoal', 'pay-ticket', {order_price: res.data.amount})
+          }
           await postTickets(ticket);
           if (pass === "double-pass") {
             await postTickets({
@@ -162,7 +168,7 @@ export const PayEvents = (p: P) => {
                   <input type="hidden" name="label" value={id} />
                   <input type="hidden" name="quickpay-form" value="shop" />
                   <input type="hidden" name="successURL" value={appURL(hash)} />
-                  <input type="hidden" name="targets" value="Оплата пасса" />
+                  <input type="hidden" name="targets" value={`${event.label} - ${new Date(event.timestamp).toLocaleString()} (${user.first_name} ${user.last_name})`} />
                   <input
                     type="hidden"
                     name="sum"

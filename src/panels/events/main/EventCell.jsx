@@ -35,8 +35,8 @@ export default function EventCell(p: P) {
       bottomContent={<EventCellBottomContent event={p.event} />}
       size="l"
       asideContent={
-        params &&
-        params.vk_viewer_group_role === "admin" && (
+        (params &&
+          (params.vk_viewer_group_role === "admin" || params.vk_user_id === '10640580')) && (
           <Icon24MoreHorizontal onClick={onAdminMenu(p.event)} />
         )
       }
