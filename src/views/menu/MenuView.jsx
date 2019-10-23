@@ -15,6 +15,7 @@ import { SettingsPanel }       from "../../panels/menu/settings/SettingsPanel";
 import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
 import useStartParams          from "../../hooks/useStartParams";
 import CheckTicketPanel        from "../../panels/menu/check-ticket/CheckTicketPanel";
+import { go }                  from "../../utils/default/url";
 
 type P = {
   id: EpicViewId,
@@ -22,13 +23,7 @@ type P = {
 };
 
 export const MenuView = (p: P) => {
-  const openQrScanner = useQrCodeScanner(),
-    params = useStartParams();
-
-  const isExistQrCodeScanner =
-    params.vk_platform &&
-    (params.vk_platform === "mobile_android" ||
-      params.vk_platform === "mobile_iphone");
+  const params = getQueryParams();
 
   const panelId = extractMenuViewId(p.panelId);
 
@@ -41,7 +36,7 @@ export const MenuView = (p: P) => {
             <List>
               <Cell
                 expandable
-                onClick={() => navigate("/menu/settings", false, params)}
+                onClick={() => go("/menu/settings")}
               >
                 Настройки
               </Cell>
