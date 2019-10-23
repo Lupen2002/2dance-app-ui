@@ -1,6 +1,7 @@
 // 2flow
 
-import axios from "axios";
+import axios            from "axios";
+import { ticketCreate } from "../utils/yandex/metrics";
 
 const baseUrl = "https://social-dance.site/api";
 
@@ -13,6 +14,7 @@ export async function getTickets(id?: string): Promise<Ticket[]> {
 }
 
 export async function postTickets(ticket: $Rest<Ticket, { _id: string }>) {
+  ticketCreate();
   return (await axios.post(baseUrl + "/tickets", ticket)).data;
 }
 
