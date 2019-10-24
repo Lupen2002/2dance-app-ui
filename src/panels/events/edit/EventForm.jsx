@@ -8,7 +8,8 @@ import {
   Input,
   FormLayoutGroup,
   CellButton,
-  Separator, Header
+  Separator,
+  Header
 } from "@vkontakte/vkui";
 import { dateLocal2ISO, makeDateString, makeTimeString } from "./utils";
 import { getLocalDate } from "../../../utils/default/date";
@@ -24,6 +25,7 @@ type P = {
 
 const defaultPrice = (): EventPrice => ({
   date: dateLocal2ISO(new Date().toLocaleDateString()),
+  timestamp: Date.now(),
   singlePrice: 0,
   doublePrice: 0
 });
@@ -44,6 +46,18 @@ export default function EventForm(p: P) {
       prices[i] = price;
       setEvent({ ...event, prices });
     }
+  };
+
+  const onChangeDate = (i: number, price: EventPrice, date: string) => {
+    const datetime = `${date}T${makeTimeString(price)}`;
+    const timestamp = getLocalDate(datetime).getTime();
+    onChangePrice(i, { ...price, timestamp });
+  };
+
+  const onChangeTime = (i: number, price: EventPrice, time: string) => {
+    const datetime = `${makeDateString(price)}T${time}`;
+    const timestamp = getLocalDate(datetime).getTime();
+    onChangePrice(i, { ...price, timestamp });
   };
 
   return (
@@ -85,7 +99,8 @@ export default function EventForm(p: P) {
         />
         <Separator />
         <Checkbox
-          checked={event.prices}
+          checked={!!event.prices}
+          value="prices"
           onChange={e =>
             setEvent({ ...event, prices: e.target.checked ? [] : undefined })
           }
@@ -95,15 +110,19 @@ export default function EventForm(p: P) {
         {event.prices ? (
           <>
             {event.prices.map((p, i) => (
-              <FormLayout key={"price-" + i}>
-                <Header level='secondary'>{`Изменение цены №${i + 1}`}</Header>
+              <FormLayout TagName="div" key={"price-" + i}>
+                <Header level="secondary">{`Изменение цены №${i + 1}`}</Header>
                 <Input
                   top="День новой цены"
                   type="date"
-                  value={p.date}
-                  onChange={e =>
-                    onChangePrice(i, { ...p, date: e.currentTarget.value })
-                  }
+                  value={makeDateString(p)}
+                  onChange={e => onChangeDate(i, p, e.currentTarget.value)}
+                />
+                <Input
+                  top="Время новой цены"
+                  type="time"
+                  value={makeTimeString(p)}
+                  onChange={e => onChangeTime(i, p, e.currentTarget.value)}
                 />
                 <Input
                   top="Цена за одного"
@@ -129,7 +148,7 @@ export default function EventForm(p: P) {
                 />
                 <CellButton
                   align="center"
-                  level='danger'
+                  level="danger"
                   before={<i className="fas fa-minus" />}
                   onClick={() => {
                     const prices = [...(event.prices || [])];
