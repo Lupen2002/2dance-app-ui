@@ -28,6 +28,8 @@ declare type TwoDanceConfigs = {
 
 declare type EventPrice = {|
   date: string,
+  timestamp: number,
+  time: string,
   singlePrice: number,
   doublePrice: number,
 |}

@@ -2,15 +2,14 @@
 
 import { useMemo }      from "react";
 import _                from "lodash";
-import { getLocalDate } from "../utils/default/date";
 
 const getPrice = (event: DanceEvent, type: TicketType) => {
   const now = Date.now();
   let price = { ...event };
   if (event.prices) {
     const p = _.chain(event.prices)
-      .filter(p => getLocalDate(p.date).getTime() < now)
-      .sortBy(p => getLocalDate(p.date).getTime())
+      .filter(p => p.timestamp < now)
+      .sortBy(p => p.timestamp)
       .reverse()
       .head()
       .value();
