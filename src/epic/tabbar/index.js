@@ -16,7 +16,6 @@ export const AppTabbar = (p: P) => {
 
   const isExistQrCodeScanner =
     params &&
-    params.vk_viewer_group_role === "admin" &&
     params.vk_platform &&
     (params.vk_platform === "mobile_android" ||
       params.vk_platform === "mobile_iphone");
