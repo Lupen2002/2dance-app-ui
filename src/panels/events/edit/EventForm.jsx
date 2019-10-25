@@ -6,12 +6,11 @@ import {
   Button,
   FormLayout,
   Input,
-  FormLayoutGroup,
   CellButton,
   Separator,
   Header
 } from "@vkontakte/vkui";
-import { dateLocal2ISO, makeDateString, makeTimeString } from "./utils";
+import { makeDateString, makeTimeString } from "./utils";
 import { getLocalDate } from "../../../utils/default/date";
 
 type ExcludeDanceEvent = {| _id: string |};
@@ -24,7 +23,8 @@ type P = {
 };
 
 const defaultPrice = (): EventPrice => ({
-  date: dateLocal2ISO(new Date().toLocaleDateString()),
+  date: makeDateString({timestamp: Date.now()}),
+  time: makeTimeString({timestamp: Date.now()}),
   timestamp: Date.now(),
   singlePrice: 0,
   doublePrice: 0
