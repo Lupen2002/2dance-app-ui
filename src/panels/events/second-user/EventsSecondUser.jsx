@@ -33,7 +33,7 @@ export const EventsSecondUser = (p: P) => {
       vkConnect
         .send("VKWebAppCallAPIMethod", {
           method: "friends.get",
-          params: { fields: "sex,photo_50", v: "5.101", access_token: token }
+          params: { fields: "sex,photo_100", v: "5.101", access_token: token }
         })
         .then(({ data }) => {
           setFriends(data.response.items.filter(u => u.sex !== user.sex));
@@ -62,7 +62,7 @@ export const EventsSecondUser = (p: P) => {
                 key={`friends-${f.id}`}
                 expandable
                 onClick={go(f.id)}
-                before={<Avatar size={40} src={f.photo_50} />}
+                before={<Avatar size={40} src={f.photo_100} />}
               >
                 {f.first_name} {f.last_name}
               </Cell>

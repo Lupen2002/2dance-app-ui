@@ -6,12 +6,11 @@ import {
   Button,
   FormLayout,
   Input,
-  FormLayoutGroup,
   CellButton,
   Separator,
   Header
 } from "@vkontakte/vkui";
-import { dateLocal2ISO, makeDateString, makeTimeString } from "./utils";
+import { makeDateString, makeTimeString } from "./utils";
 import { getLocalDate } from "../../../utils/default/date";
 
 type ExcludeDanceEvent = {| _id: string |};
@@ -24,7 +23,8 @@ type P = {
 };
 
 const defaultPrice = (): EventPrice => ({
-  date: dateLocal2ISO(new Date().toLocaleDateString()),
+  date: makeDateString({ timestamp: Date.now() }),
+  time: makeTimeString({ timestamp: Date.now() }),
   timestamp: Date.now(),
   singlePrice: 0,
   doublePrice: 0
@@ -98,6 +98,36 @@ export default function EventForm(p: P) {
           }
         />
         <Separator />
+        <Checkbox
+          checked={event.rePostControl}
+          value="prices"
+          onChange={e =>
+            setEvent({ ...event, rePostControl: e.target.checked })
+          }
+        >
+          Скидка за репост
+        </Checkbox>
+        {event.rePostControl && (
+          <FormLayout TagName="div">
+            <Input
+              top="Скидка за репост (руб.)"
+              type="number"
+              value={event.rePostDiscount}
+              onChange={e =>
+                setEvent({ ...event, rePostDiscount: e.currentTarget.value })
+              }
+            />
+            <Input
+              top="URL на пост"
+              bottom="вида: https://vk.com/wall-XXXXXXXXX_YYY"
+              type="string"
+              value={event.postUrl}
+              onChange={e =>
+                setEvent({ ...event, postUrl: e.currentTarget.value })
+              }
+            />
+          </FormLayout>
+        )}
         <Checkbox
           checked={!!event.prices}
           value="prices"
@@ -177,14 +207,6 @@ export default function EventForm(p: P) {
         ) : (
           <></>
         )}
-        {/*<Checkbox
-          checked={event.rePostControl}
-          onChange={e =>
-            setEvent({ ...event, rePostControl: e.target.checked })
-          }
-        >
-          Скидка c репостом
-        </Checkbox>*/}
         <Button
           size="xl"
           onClick={() => p.onSubmit(changeDateEvent(event, d, t))}

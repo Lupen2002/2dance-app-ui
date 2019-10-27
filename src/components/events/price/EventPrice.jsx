@@ -1,6 +1,6 @@
 // @flow
-import React            from "react";
-import usePrice         from "../../../hooks/usePrice";
+import React       from "react";
+import usePrice    from "../../../hooks/usePrice";
 
 type P = {
   event: DanceEvent,

@@ -13,7 +13,6 @@ import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeade
 import { back }               from "../../../utils/default/url";
 import TicketInfo             from "../../main/main/TicketInfo";
 import useTicketById          from "../../../hooks/useTicketById";
-import useStartParams         from "../../../hooks/useStartParams";
 import { putTickets }         from "../../../api";
 import { getQueryParams }     from "hookrouter";
 

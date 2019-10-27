@@ -32,7 +32,7 @@ export default function ListGuests(p: P) {
               <Cell
                 key={`guest-${g.user.id}`}
                 asideContent={g.isVisit ? <i className="fas fa-check" /> : ""}
-                before={<Avatar size={40} src={g.user.photo_50} />}
+                before={<Avatar size={40} src={g.user.photo_100} />}
               >
                 {g.user.first_name} {g.user.last_name}
               </Cell>

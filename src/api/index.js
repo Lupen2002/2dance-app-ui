@@ -68,3 +68,28 @@ export async function putEvents(obj: DanceEvent) {
 export async function delEvents(obj: DanceEvent) {
   return (await axios.delete(baseUrl + "/events/" + obj._id)).data;
 }
+
+export async function getUsers(id?: string): Promise<User[]> {
+  if (id) {
+    return (await axios.get(baseUrl + "/events/" + id)).data;
+  } else {
+    return (await axios.get(baseUrl + "/events")).data;
+  }
+}
+
+export async function getUsersByParams(params: any): Promise<User[]> {
+  return (await axios.get(baseUrl + "/events", {params})).data;
+}
+
+export async function postUsers(obj: $Rest<User, { _id: string }>): Promise<User[]> {
+  return (await axios.post(baseUrl + "/events", obj)).data;
+}
+
+export async function putUsers(obj: User): Promise<User[]> {
+  await axios.put(baseUrl + "/events/" + obj._id, obj);
+  return (await axios.get(baseUrl + "/events/" + obj._id)).data;
+}
+
+export async function delUsers(obj: User): Promise<User[]> {
+  return (await axios.delete(baseUrl + "/events/" + obj._id)).data;
+}

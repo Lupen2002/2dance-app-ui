@@ -24,7 +24,7 @@ declare type AppDispatch = Dispatch<AppAction>
 declare type UserActions = {
   setToken: (token?: string) => SetTokenUserAction,
   setGroupName: (name?: string) => SetGroupNameUserAction,
-  setCurrent: (user?: VkUser) => SetCurrentUserAction
+  setCurrent: (user?: VKUser) => SetCurrentUserAction
 }
 
 declare type AppActions = {
