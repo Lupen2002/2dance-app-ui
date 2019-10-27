@@ -1,9 +1,11 @@
 // @flow
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {appActions} from '../store/actions'
-import connect from "@vkontakte/vkui-connect-promise";
+import React                           from "react";
+import { useDispatch, useSelector }    from "react-redux";
+import {appActions}                    from '../store/actions'
+import connect                         from "@vkontakte/vkui-connect-promise";
+import { getQueryParams }              from "hookrouter";
+import { getUsersByParams, postUsers } from "../api";
 
 
 export default function useVkUser(): ?VKUser {
@@ -12,11 +14,19 @@ export default function useVkUser(): ?VKUser {
 
   const updateUser = async () => {
     if (!user) {
-      const userRes = await connect.send(
-        "VKWebAppGetUserInfo",
-        {}
-      );
-      dispatch(appActions.user.setCurrent(userRes.data));
+      const vkId = parseInt(getQueryParams().vk_user_id);
+      const cacheUsers: User[] = await getUsersByParams({vkId});
+      if (cacheUsers.length > 0) {
+        dispatch(appActions.user.setCurrent(cacheUsers[0].vkUser));
+      } else {
+        const vkUser: VKUser = await connect.send(
+          "VKWebAppGetUserInfo",
+          {}
+        );
+        await postUsers({vkId, vkUser, role: 'user'});
+        dispatch(appActions.user.setCurrent(vkUser));
+      }
+
     }
   };
 

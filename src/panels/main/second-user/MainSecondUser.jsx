@@ -24,7 +24,7 @@ export const MainSecondUser = (p: P) => {
     vkConnect
       .send("VKWebAppCallAPIMethod", {
         method: "friends.get",
-        params: { fields: "sex,photo_50", v: "5.101", access_token: token }
+        params: { fields: "sex,photo_100", v: "5.101", access_token: token }
       })
       .then(({ data }) => {
         setFriends(data.response);
@@ -44,10 +44,9 @@ export const MainSecondUser = (p: P) => {
       if (res.type === "VKWebAppOpenPayFormResult" && res.data.status) {
         const ticket: $Rest<Ticket, { _id: string }> = {
           ticketType: 'double-pass',
-          groupId: parseInt(query.vk_group_id),
+          vkGroupId: parseInt(query.vk_group_id),
           vkUserId: parseInt(query.vk_user_id),
           secondUserId,
-          toDate: process.env.REACT_APP_TO_DATE || "01.01.2000",
           transactionId: res.data.transaction_id,
           amount: res.data.amount,
           extra: res.data.extra
@@ -77,7 +76,7 @@ export const MainSecondUser = (p: P) => {
         <Group>
           <List>
             {friends.items.map( f => (
-              <Cell expandable onClick={payToGroup(f.id)} before={<Avatar size={40} src={f.photo_50}/>}>{f.first_name} {f.last_name}</Cell>
+              <Cell expandable onClick={payToGroup(f.id)} before={<Avatar size={40} src={f.photo_100}/>}>{f.first_name} {f.last_name}</Cell>
             ))}
           </List>
         </Group>

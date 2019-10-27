@@ -43,5 +43,21 @@ declare type DanceEvent = {|
   singlePrice: number,
   doublePrice: number,
   rePostControl?: boolean,
+  rePostDiscount?: number,
   postUrl?: string
+|}
+
+declare type VKUser = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  sex: number,
+  photo_100: string,
+}
+
+declare type User = {|
+  _id: string,
+  vkId: number,
+  vkUser: VKUser,
+  role: 'root' | 'admin' | 'user'
 |}

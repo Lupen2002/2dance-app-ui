@@ -44,7 +44,7 @@ export default function MainTicketPanel(p: P) {
             user_ids:
               ticket.vkUserId +
               (ticket.secondUserId ? `,${ticket.secondUserId}` : ""),
-            fields: "photo_50",
+            fields: "sex,photo_100",
             v: "5.101",
             access_token: token
           }
@@ -82,7 +82,7 @@ export default function MainTicketPanel(p: P) {
           <Group title="Гости">
             <List>
               {users && users.map(u => (
-                <Cell before={<Avatar size={40} src={u.photo_50}/>}>
+                <Cell before={<Avatar size={40} src={u.photo_100}/>}>
                   {u.first_name} {u.last_name}
                 </Cell>
               ))}
