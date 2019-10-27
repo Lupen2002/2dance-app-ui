@@ -1,7 +1,8 @@
 // @flow
 
-import { useMemo }      from "react";
-import _                from "lodash";
+import { useMemo } from "react";
+import _           from "lodash";
+import useDiscount from "./useDiscount";
 
 const getPrice = (event: DanceEvent, type: TicketType) => {
   const now = Date.now();
@@ -24,5 +25,10 @@ const getPrice = (event: DanceEvent, type: TicketType) => {
 };
 
 export default function usePrice(event: ?DanceEvent, type: TicketType) {
-  return useMemo(() => event ? getPrice(event, type) : 0, [event, type]);
+  const price = useMemo(() => event ? getPrice(event, type) : 0, [event, type]),
+        discount = useDiscount(event);
+
+  const rePostDiscount = event ? event.rePostDiscount||0 : 0;
+
+  return (discount && price) ? price - rePostDiscount : price
 }
