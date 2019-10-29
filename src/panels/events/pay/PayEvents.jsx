@@ -5,17 +5,17 @@ import { Cell, CellButton, Group, List, Panel } from "@vkontakte/vkui";
 import { PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
-import { getEvents, postTickets }   from "../../../api";
-import useVkUser                    from "../../../hooks/useVkUser";
-import useUserToken                 from "../../../hooks/useUserToken";
-import Avatar                       from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { UserCell }                 from "../../main/main/UserCell";
-import vkConnect                    from "@vkontakte/vkui-connect-promise";
-import uuid                         from "uuid";
-import { appURL, back }             from "../../../utils/default/url";
-import useYMoneyReceiver            from "../../../hooks/useYMoneyReceiver";
-import Corazon150                   from "../../../assets/imgs/Corazon150.png";
-import usePrice                     from "../../../hooks/usePrice";
+import { getEvents, postTickets } from "../../../api";
+import useVkUser                  from "../../../hooks/useVkUser";
+import useUserToken               from "../../../hooks/useUserToken";
+import Avatar                     from "@vkontakte/vkui/dist/components/Avatar/Avatar";
+import { UserCell }               from "../../main/main/UserCell";
+import vkConnect                  from "@vkontakte/vkui-connect-promise";
+import uuid                       from "uuid";
+import { appURL, back, go }       from "../../../utils/default/url";
+import useYMoneyReceiver          from "../../../hooks/useYMoneyReceiver";
+import Corazon150                 from "../../../assets/imgs/Corazon150.png";
+import usePrice                   from "../../../hooks/usePrice";
 
 type P = {
   id: EventsViewId
@@ -168,7 +168,7 @@ export const PayEvents = (p: P) => {
                   <input type="hidden" name="label" value={id} />
                   <input type="hidden" name="quickpay-form" value="shop" />
                   <input type="hidden" name="successURL" value={appURL(hash)} />
-                  <input type="hidden" name="targets" value={`${event.label} - ${new Date(event.timestamp).toLocaleString()} (${user.first_name} ${user.last_name})`} />
+                  <input type="hidden" name="targets" value={`${event.label}, ${new Date(event.timestamp).toLocaleString()}, ${user.last_name} ${user.first_name}`} />
                   <input
                     type="hidden"
                     name="sum"
@@ -182,6 +182,7 @@ export const PayEvents = (p: P) => {
                   </CellButton>
                 </form>
               )}
+              <CellButton onClick={() => go('/events/alt-pay')}>offline оплата</CellButton>
             </List>
           </Group>
         </>

@@ -5,6 +5,7 @@ const validMainViewId: MenuViewId[] = [
   "settings",
   "yandex-money-receiver",
   "add-event",
+  "check-alt-pay",
   "check-ticket"
 ];
 

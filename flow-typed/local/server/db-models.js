@@ -1,6 +1,6 @@
 // @flow
 
-declare type TicketType = 'single-pass' | 'double-pass' | 'group-pass';
+declare type TicketType = "single-pass" | "double-pass" | "group-pass";
 
 declare type Ticket = {|
   _id: string,
@@ -15,8 +15,13 @@ declare type Ticket = {|
   ymAccepted?: boolean,
   ymOperationId?: string,
   amount?: number | string,
-  extra?: any
-|}
+  extra?: any,
+  altPay?: {
+    createdAt: number,
+    comment: string,
+    approve: boolean
+  }
+|};
 
 declare type TwoDanceConfigs = {
   _id: string,
@@ -24,15 +29,15 @@ declare type TwoDanceConfigs = {
   yMoneyReceiver: string,
   singlePassPrice: number,
   doublePassPrice: number
-}
+};
 
 declare type EventPrice = {|
   date: string,
   timestamp: number,
   time: string,
   singlePrice: number,
-  doublePrice: number,
-|}
+  doublePrice: number
+|};
 
 declare type DanceEvent = {|
   _id: string,
@@ -45,19 +50,19 @@ declare type DanceEvent = {|
   rePostControl?: boolean,
   rePostDiscount?: number,
   postUrl?: string
-|}
+|};
 
 declare type VKUser = {
   id: number,
   first_name: string,
   last_name: string,
   sex: number,
-  photo_100: string,
-}
+  photo_100: string
+};
 
 declare type User = {|
   _id: string,
   vkId: number,
   vkUser: VKUser,
-  role: 'root' | 'admin' | 'user'
-|}
+  role: "root" | "admin" | "user"
+|};

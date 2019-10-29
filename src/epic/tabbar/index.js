@@ -1,10 +1,12 @@
 // @flow
 
-import React from "react";
+import React, {useEffect} from "react";
 import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
 import useQrCodeScanner from "./useQrCodeScanner";
 import { go } from "../../utils/default/url";
+import useTicketsToApprovePay from "../../hooks/useTicketsToApprovePay";
+import useUserToken from "../../hooks/useUserToken";
 
 type P = {
   selected: EpicViewId
@@ -12,7 +14,14 @@ type P = {
 
 export const AppTabbar = (p: P) => {
   const openQrScanner = useQrCodeScanner(),
-    params = getQueryParams();
+    params = getQueryParams(),
+    token = useUserToken(false);
+  const [altPayTickets, refresh] = useTicketsToApprovePay(token);
+
+  useEffect(() => {
+    const timer = setInterval(refresh, 5000);
+    return () => clearInterval(timer)
+  }, []);
 
   const isExistQrCodeScanner =
     params &&
@@ -24,6 +33,11 @@ export const AppTabbar = (p: P) => {
     params.vk_viewer_group_role &&
     (params.vk_viewer_group_role === "admin" ||
       params.vk_viewer_group_role === "moder" ||
+      params.vk_user_id === "136641446" ||
+      params.vk_user_id === "38848073" ||
+      params.vk_user_id === "4185637" ||
+      params.vk_user_id === "147444557" ||
+      params.vk_user_id === "10640580" ||
       params.vk_viewer_group_role === "editor")
   ) {
     return (
@@ -51,6 +65,7 @@ export const AppTabbar = (p: P) => {
           <TabbarItem
             selected={p.selected === "menu"}
             onClick={() => go("/menu/settings")}
+            label={altPayTickets && altPayTickets.length > 0 ? altPayTickets.length+"" : undefined}
             text="Настройки"
           >
             <i className="fas fa-bars fa-2x" />

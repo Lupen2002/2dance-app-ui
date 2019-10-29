@@ -41,7 +41,7 @@ const getUsersByTickets = async (tickets: RichTicket[], token: string) => {
     for (let u of users) {
       const existUser = existUsers.find(eu => eu === u.id);
       if (!existUser) {
-        await postUsers({ vkUser: u, vkId: u.id, role: "user" });
+        const res = await postUsers({ vkUser: u, vkId: u.id, role: "user" });
       }
     }
   }

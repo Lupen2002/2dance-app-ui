@@ -11,8 +11,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@vkontakte/icons": "^1.10.2",
-    "@vkontakte/vk-connect": "^1.6.5",
-    "@vkontakte/vkui": "^2.31.0",
+    "@vkontakte/vk-connect": "^1.6.8",
+    "@vkontakte/vkui": "^2.32.4",
     "@vkontakte/vkui-connect-promise": "^0.2.1",
     "axios": "^0.19.0",
     "hookrouter": "^1.2.3",

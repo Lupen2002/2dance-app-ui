@@ -68,9 +68,11 @@ const isLocalhost = Boolean(window.location.hostname === 'localhost' ||
                               // 127.0.0.1/8 is considered localhost for IPv4.
                               window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/));
 
-export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+export function register() {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
+
+    registerValidSW('/sw.js');
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
@@ -84,7 +86,7 @@ export default function register() {
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl);
+        //checkValidServiceWorker(swUrl);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
@@ -96,7 +98,7 @@ export default function register() {
         });
       } else {
         // Is not local host. Just register service worker
-        registerValidSW(swUrl);
+        //registerValidSW(swUrl);
       }
     });
   }

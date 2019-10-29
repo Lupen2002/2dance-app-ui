@@ -12,6 +12,8 @@ import { back } from "../../utils/default/url";
 
 import Corazon150 from "../../assets/imgs/Corazon150.png";
 import EventPrice from "../../components/events/price/EventPrice";
+import shineparty from "../../assets/imgs/shineparty.png";
+import CorazonK from "../../assets/imgs/CorazonK.png";
 
 type P = {
   id: EventsViewId
@@ -35,11 +37,19 @@ export const BayPassPanel = (p: P) => {
 
   const payToGroup = (ticketType: TicketType) => () => {
     if (ticketType === "double-pass") {
-      navigate("/events/second-user", false, {pass: ticketType }, false);
+      navigate("/events/second-user", false, { pass: ticketType }, false);
     } else {
       navigate("/events/pay", false, { pass: ticketType }, false);
     }
   };
+
+  const src =
+    event &&
+    (event._id === "B80J9EPc6tJMHhV4" || event._id === "LvlQwAQH2pOoYsSq")
+      ? shineparty
+      : event && event._id === "p8sVQy46ARYbyeje"
+      ? CorazonK
+      : Corazon150;
 
   return (
     <Panel id={p.id}>
@@ -50,7 +60,7 @@ export const BayPassPanel = (p: P) => {
         <>
           <Group>
             <Cell
-              before={<Avatar size={72} src={Corazon150} />}
+              before={<Avatar size={72} src={src} />}
               description={new Date(event.timestamp).toLocaleString()}
               size="l"
             >
@@ -62,12 +72,14 @@ export const BayPassPanel = (p: P) => {
               {event.singlePrice > 0 && (
                 <Cell
                   before={
-                    <div style={{padding: '12px 12px 12px 0', color: '#5181B8'}}>
+                    <div
+                      style={{ padding: "12px 12px 12px 0", color: "#5181B8" }}
+                    >
                       <i className="fas fa-user fa-2x" />
                     </div>
                   }
                   size="l"
-                  description={<EventPrice event={event} type='single-pass'/>}
+                  description={<EventPrice event={event} type="single-pass" />}
                   onClick={payToGroup("single-pass")}
                   bottomContent={
                     <div style={{ display: "flex" }}>
@@ -80,9 +92,15 @@ export const BayPassPanel = (p: P) => {
               )}
               {event.doublePrice > 0 && (
                 <Cell
-                  before={<div style={{padding: '12px 12px 12px 0', color: '#5181B8'}}><i className="fas fa-user-friends fa-2x" /></div>}
+                  before={
+                    <div
+                      style={{ padding: "12px 12px 12px 0", color: "#5181B8" }}
+                    >
+                      <i className="fas fa-user-friends fa-2x" />
+                    </div>
+                  }
                   size="l"
-                  description={<EventPrice event={event} type='double-pass'/>}
+                  description={<EventPrice event={event} type="double-pass" />}
                   bottomContent={
                     <div style={{ display: "flex" }}>
                       <Button size="m" onClick={payToGroup("double-pass")}>

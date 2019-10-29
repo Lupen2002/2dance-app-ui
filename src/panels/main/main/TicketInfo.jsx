@@ -25,7 +25,7 @@ export default function TicketInfo(p: P) {
           <Cell>
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
-          {p.ticket.transactionId || p.ticket.ymOperationId ? (
+          {p.ticket.transactionId || p.ticket.ymOperationId || (p.ticket.altPay && p.ticket.altPay.approve) ? (
             <>
               {p.isQrCode && (
                 <TicketQrCode ticket={p.ticket}/>
@@ -34,7 +34,7 @@ export default function TicketInfo(p: P) {
           ) : (
             <Cell>
               <InfoRow title="Статус">
-                Ожидаеться подтверждения оплаты {p.ticket.transactionId} -{" "}
+                Ожидаеться подтверждения оплаты {p.ticket.transactionId}
                 {p.ticket.ymOperationId}
               </InfoRow>
             </Cell>
@@ -55,7 +55,7 @@ export default function TicketInfo(p: P) {
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
           {p.ticket.secondUserId && <UserCell userId={p.ticket.secondUserId} />}
-          {p.ticket.transactionId || p.ticket.ymOperationId ? (
+          {p.ticket.transactionId || p.ticket.ymOperationId || (p.ticket.altPay && p.ticket.altPay.approve) ? (
             <>
               {p.isQrCode && (
                 <TicketQrCode ticket={p.ticket}/>
@@ -64,7 +64,7 @@ export default function TicketInfo(p: P) {
           ) : (
             <Cell>
               <InfoRow title="Статус">
-                Ожидаеться подтверждения оплаты {p.ticket.transactionId} -{" "}
+                Ожидаеться подтверждения оплаты {p.ticket.transactionId}
                 {p.ticket.ymOperationId}
               </InfoRow>
             </Cell>
