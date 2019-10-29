@@ -15,7 +15,7 @@ export default function useAllTickets(events: ?(DanceEvent[])): ?(RichTicket[]) 
         const filtered = tickets.filter(row => {
           return (
             row.vkGroupId === parseInt(vkGroupId) &&
-            (row.ymOperationId || row.transactionId) &&
+            (row.ymOperationId || row.transactionId || (row.altPay && row.altPay.approve) ) &&
             !!events.find(e => e._id === row.eventId)
           );
         });

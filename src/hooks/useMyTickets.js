@@ -15,7 +15,7 @@ export default function useMyTickets(events: ?(DanceEvent[])): ?(RichTicket[]) {
           return (
             row.vkUserId === parseInt(params.vk_user_id) &&
             row.vkGroupId === parseInt(params.vk_group_id) &&
-            (row.ymOperationId || row.transactionId) &&
+            (row.ymOperationId || row.transactionId || row.altPay) &&
             !!events.find(e => e._id === row.eventId)
           );
         });

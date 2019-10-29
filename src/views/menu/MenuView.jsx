@@ -16,6 +16,7 @@ import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
 import useStartParams          from "../../hooks/useStartParams";
 import CheckTicketPanel        from "../../panels/menu/check-ticket/CheckTicketPanel";
 import { go }                  from "../../utils/default/url";
+import CheckAltPayPanel        from "../../panels/menu/check-alt-pay/CheckAltPayPanel";
 
 type P = {
   id: EpicViewId,
@@ -48,6 +49,7 @@ export const MenuView = (p: P) => {
       <YandexReceiverPanel id="yandex-money-receiver" />
       <AddEventPanel id="add-event" />
       <CheckTicketPanel id='check-ticket'/>
+      <CheckAltPayPanel id='check-alt-pay' />
     </View>
   );
 };

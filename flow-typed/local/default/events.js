@@ -1,6 +1,5 @@
 // @flow
 
-declare type RichTicket = {|
-  ...Ticket,
-  event: DanceEvent
+declare type RichTicket = Ticket & {|
+    event: DanceEvent
 |}

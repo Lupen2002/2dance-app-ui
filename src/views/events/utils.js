@@ -7,6 +7,7 @@ const validId: EventsViewId[] = [
   "pay",
   "ym-success",
   "edit",
+  "alt-pay",
   'list-guests'
 ];
 

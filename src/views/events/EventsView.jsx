@@ -10,6 +10,7 @@ import { PayEvents }          from "../../panels/events/pay/PayEvents";
 import YMSuccess              from "../../panels/events/ym-success/YMSuccess";
 import EventEdit              from "../../panels/events/edit/EventEdit";
 import ListGuestPanel         from "../../panels/events/list-guests/ListGuestsPanel";
+import AltPayPanel            from "../../panels/events/alt-pay/AltPayPanel";
 
 type P = {
   id: EpicViewId,
@@ -29,6 +30,7 @@ export const EventsView = (p: P) => {
       <YMSuccess id="ym-success" />
       <EventEdit id="edit" />
       <ListGuestPanel id="list-guests" />
+      <AltPayPanel id="alt-pay" />
     </View>
   );
 };
