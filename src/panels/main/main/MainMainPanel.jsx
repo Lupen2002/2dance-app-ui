@@ -32,7 +32,7 @@ export default function MainMainPanel(p: P) {
               action={<Button size="l" level="tertiary" onClick={() => go('/events')}>Все события</Button>}
               stretched
             >
-              У вас пока нету<br />билетов
+              У вас пока нет<br />билетов
             </Placeholder>
           )
         }
