@@ -20,7 +20,7 @@ type P = {
 }
 
 export default function AltPayInfo(p: P) {
-  const event = useEventById(p.ticket.eventId),
+  const [event] = useEventById(p.ticket.eventId),
         user = useUserById(p.ticket.vkUserId, p.token);
 
   const onApprove = async () => {

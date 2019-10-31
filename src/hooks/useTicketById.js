@@ -9,7 +9,7 @@ import { useEventById } from "./useEventById";
 export default function useTicketById(id?: string): ?RichTicket {
   const [ticket, setTicket] = useState<?Ticket>(null),
     [rich, setRich] = useState<?RichTicket>(null),
-    event = useEventById(ticket && ticket.eventId);
+        [event] = useEventById(ticket && ticket.eventId);
 
   useEffect(() => {
     if (id) {

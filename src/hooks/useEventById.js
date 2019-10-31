@@ -1,12 +1,12 @@
 // @flow
 
-import { useState, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { getEvents } from "../api";
 
-export function useEventById(id: ?string): ?DanceEvent {
+export function useEventById(id: ?string): [?DanceEvent, ()=>Promise<void>] {
   const [event, setEvent] = useState<?DanceEvent>(null);
 
-  useEffect(() => {
+  const refresh = useMemo(() => async () => {
     if (id) {
       getEvents(id).then((res: DanceEvent[]) => {
         const find = res.find(e => e._id === id);
@@ -15,5 +15,9 @@ export function useEventById(id: ?string): ?DanceEvent {
     }
   }, [id]);
 
-  return event;
+  useEffect(() => {
+    refresh()
+  }, [refresh]);
+
+  return [event, refresh];
 }

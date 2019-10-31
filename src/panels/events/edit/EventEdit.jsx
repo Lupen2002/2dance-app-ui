@@ -18,7 +18,7 @@ type P = {
 
 export default function EventEdit(p: P) {
   const { event_id } = getQueryParams();
-  const event = useEventById(event_id);
+  const [event] = useEventById(event_id);
 
   const onSubmit = useMemo(() => (newEvent: DanceEvent) => {
     putEvents(newEvent).then(() => {
