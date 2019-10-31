@@ -1,11 +1,11 @@
 // @flow
 
-import React                          from "react";
+import React from "react";
 import { Cell, Group, InfoRow, List } from "@vkontakte/vkui";
-import QRCode                         from "qrcode.react";
-import { UserCell }                   from "./UserCell";
-import { getLocalDate }               from "../../../utils/default/date";
-import TicketQrCode                   from "./TicketQrCode";
+import QRCode from "qrcode.react";
+import { UserCell } from "./UserCell";
+import { getLocalDate } from "../../../utils/default/date";
+import TicketQrCode from "./TicketQrCode";
 
 type P = {
   ticket: RichTicket,
@@ -25,10 +25,14 @@ export default function TicketInfo(p: P) {
           <Cell>
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
-          {p.ticket.transactionId || p.ticket.ymOperationId || (p.ticket.altPay && p.ticket.altPay.approve) ? (
+          {p.ticket.transactionId ||
+          p.ticket.ymOperationId ||
+          (p.ticket.altPay && p.ticket.altPay.approve) ? (
             <>
-              {p.isQrCode && (
-                <TicketQrCode ticket={p.ticket}/>
+              {p.isQrCode ? (
+                <TicketQrCode ticket={p.ticket} />
+              ) : (
+                <UserCell userId={p.ticket.vkUserId} />
               )}
             </>
           ) : (
@@ -55,10 +59,14 @@ export default function TicketInfo(p: P) {
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
           {p.ticket.secondUserId && <UserCell userId={p.ticket.secondUserId} />}
-          {p.ticket.transactionId || p.ticket.ymOperationId || (p.ticket.altPay && p.ticket.altPay.approve) ? (
+          {p.ticket.transactionId ||
+          p.ticket.ymOperationId ||
+          (p.ticket.altPay && p.ticket.altPay.approve) ? (
             <>
-              {p.isQrCode && (
-                <TicketQrCode ticket={p.ticket}/>
+              {p.isQrCode ? (
+                <TicketQrCode ticket={p.ticket} />
+              ) : (
+                <UserCell userId={p.ticket.vkUserId} />
               )}
             </>
           ) : (
