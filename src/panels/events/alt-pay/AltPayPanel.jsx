@@ -21,7 +21,7 @@ type P = {
 
 export default function AltPayPanel(p: P) {
   const [comment, setComment] = useState(""),
-    event = useEventById(getQueryParams().event_id),
+        [event] = useEventById(getQueryParams().event_id),
     price = usePrice(event, getQueryParams().pass);
 
   const onSubmit = async () => {

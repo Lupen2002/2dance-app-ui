@@ -5,9 +5,11 @@ import { getEvents } from "../api";
 import { getQueryParams } from "hookrouter";
 
 export function useEvents(all?: boolean) {
-  const [events, setEvents] = useState<?(DanceEvent[])>(null);
+  const [events, setEvents] = useState<?(DanceEvent[])>(null),
+        [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
+  const refresh = useMemo(() => async () => {
+    setFetching(true);
     const params = getQueryParams();
     if (params && params.vk_group_id) {
       const id = parseInt(params.vk_group_id);
@@ -19,7 +21,12 @@ export function useEvents(all?: boolean) {
         setEvents(sortBy(filtered, 'timestamp'));
       });
     }
-  }, [all]);
+    setFetching(false);
+  }, [all, setFetching]);
 
-  return events;
+  useEffect(() => {
+    refresh()
+  }, [refresh]);
+
+  return [events, refresh, fetching];
 }

@@ -4,8 +4,11 @@ import React, { useState }    from "react";
 import {
   Panel,
   PanelHeader,
-  PullToRefresh
+  Placeholder,
+  PullToRefresh,
+  Button
 }                             from "@vkontakte/vkui";
+import Icon56MessageReadOutline from '@vkontakte/icons/dist/56/message_read_outline'
 import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
 import { back }               from "../../../utils/default/url";
 import { useSelector }        from "react-redux";
@@ -38,6 +41,15 @@ export default function CheckAltPayPanel(p: P) {
           altPay.map(ap => (
             <AltPayInfo key={`alt-pay-` + ap._id} ticket={ap} token={token} onRefresh={refresh} />
           ))}
+        {token && (!altPay || altPay.length === 0) && (
+          <Placeholder
+            icon={<Icon56MessageReadOutline />}
+            action={<Button size="l" level="tertiary" onClick={onRefresh}>Обновить</Button>}
+            stretched
+          >
+            Новые уведомления<br />отсутствуют
+          </Placeholder>
+        )}
       </PullToRefresh>
     </Panel>
   );

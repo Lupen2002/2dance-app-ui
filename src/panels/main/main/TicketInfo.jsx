@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Cell, Group, InfoRow, List } from "@vkontakte/vkui";
-import QRCode from "qrcode.react";
 import { UserCell } from "./UserCell";
 import { getLocalDate } from "../../../utils/default/date";
 import TicketQrCode from "./TicketQrCode";
