@@ -15,7 +15,7 @@ type P = {
 
 export default function YMSuccess(p: P) {
   const { uuid, ...params } = useMemo(getQueryParams, []);
-  const events = useEvents(true),
+  const [events] = useEvents(true),
     tickets = useMyTickets(events);
 
   const current: ?RichTicket = useMemo(() => {

@@ -7,7 +7,8 @@ import {
   List,
   Panel,
   PanelHeader,
-  PanelSpinner
+  PanelSpinner,
+  PullToRefresh
 } from "@vkontakte/vkui";
 import { useEvents } from "../../../hooks/useEvents";
 import useUserToken from "../../../hooks/useUserToken";
@@ -33,40 +34,42 @@ export const MainEventsPanel = (p: P) => {
   }, []);
   useUserToken();
 
-  const events = useEvents();
+  const [events, refresh, fetching] = useEvents();
 
   return (
     <Panel id={p.id}>
       <PanelHeader>Вечеринки</PanelHeader>
       {!events && <PanelSpinner />}
-      {events && (
-        <>
-          {(vk_viewer_group_role === "admin" ||
-            vk_viewer_group_role === "moder"||
-            vk_viewer_group_role === "editor") && (
+      <PullToRefresh onRefresh={refresh} isFetching={fetching}>
+        {events && (
+          <>
+            {(vk_viewer_group_role === "admin" ||
+              vk_viewer_group_role === "moder" ||
+              vk_viewer_group_role === "editor") && (
+              <Group>
+                <CellButton
+                  align="center"
+                  onClick={() => go("/menu/add-event")}
+                  before={<i className="fas fa-plus" />}
+                >
+                  Добавить
+                </CellButton>
+              </Group>
+            )}
             <Group>
-              <CellButton
-                align="center"
-                onClick={() => go("/menu/add-event")}
-                before={<i className="fas fa-plus" />}
-              >
-                Добавить
-              </CellButton>
+              <List>
+                {events.map((e: DanceEvent) => (
+                  <EventCell
+                    key={`event-cell-${e._id}`}
+                    event={e}
+                    setPopout={p.setPopout}
+                  />
+                ))}
+              </List>
             </Group>
-          )}
-          <Group>
-            <List>
-              {events.map((e: DanceEvent) => (
-                <EventCell
-                  key={`event-cell-${e._id}`}
-                  event={e}
-                  setPopout={p.setPopout}
-                />
-              ))}
-            </List>
-          </Group>
-        </>
-      )}
+          </>
+        )}
+      </PullToRefresh>
     </Panel>
   );
 };
