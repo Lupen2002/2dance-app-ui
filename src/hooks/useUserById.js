@@ -36,5 +36,5 @@ export default function useUserById(id: number, token: ?string) {
     refresh();
   }, [refresh]);
 
-  return user;
+  return [user, refresh];
 }

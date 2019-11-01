@@ -5,6 +5,7 @@ import {
   FormLayout,
   Textarea,
   Panel,
+  Div,
   PanelHeader,
   Button
 }                             from "@vkontakte/vkui";
@@ -49,11 +50,12 @@ export default function AltPayPanel(p: P) {
   return (
     <Panel id={p.id}>
       <PanelHeader left={<LeftPanelHeaderButtons back={back} type="back" />}>
-        Offline Оплата
+        Оплата наличными
       </PanelHeader>
       {event && price && (
         <>
           <FormLayout>
+            <Div>Напишите, кому и как оплатили, прикрепите скрин или чек.</Div>
             <Textarea
               top="Комментаий"
               value={comment}

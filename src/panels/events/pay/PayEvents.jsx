@@ -178,11 +178,11 @@ export const PayEvents = (p: P) => {
                   <input type="hidden" name="comment" value="" />
                   <input type="hidden" name="paymentType" value="AC" />
                   <CellButton onClick={ymPay(id)} type="submit">
-                    Картой
+                    Картой или Яндекс.Деньги
                   </CellButton>
                 </form>
               )}
-              <CellButton onClick={() => go('/events/alt-pay')}>offline оплата</CellButton>
+              <CellButton onClick={() => go('/events/alt-pay')}>Наличными</CellButton>
             </List>
           </Group>
         </>

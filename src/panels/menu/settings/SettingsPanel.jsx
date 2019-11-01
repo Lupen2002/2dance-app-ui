@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useMemo }           from "react";
+import React, { useMemo } from "react";
 import {
   Counter,
   Cell,
@@ -8,25 +8,35 @@ import {
   List,
   Panel,
   PanelHeader
-}                                   from "@vkontakte/vkui";
+} from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
-import useTicketsToApprovePay       from "../../../hooks/useTicketsToApprovePay";
-import { go }                       from "../../../utils/default/url";
-import { useSelector }              from "react-redux";
+import useTicketsToApprovePay from "../../../hooks/useTicketsToApprovePay";
+import { go } from "../../../utils/default/url";
+import { useSelector } from "react-redux";
+import useUserToken from "../../../hooks/useUserToken";
+import useAllowSendMessages from "../../../hooks/useAllowSendMessages";
+import useUserById from "../../../hooks/useUserById";
 
 type P = {
   id: MenuViewId
 };
 
 export const SettingsPanel = (p: P) => {
-  const token = useSelector(({ user }: AppState) => user.token);
   const params = getQueryParams();
+  const token = useUserToken(true),
+    [user, refresh] = useUserById(parseInt(params.vk_user_id), token),
+    [requestAllow] = useAllowSendMessages(token);
   const [altPayTickets] = useTicketsToApprovePay(token);
 
   const ymSetting = useMemo(
     () => () => navigate("/menu/yandex-money-receiver", false, params),
     [params]
   );
+
+  const onRequestAllow = async () => {
+    await requestAllow();
+    await refresh()
+  };
 
   return (
     <Panel id={p.id}>
@@ -45,6 +55,14 @@ export const SettingsPanel = (p: P) => {
               }
             >
               Подтверждение оплаты
+            </Cell>
+            <Cell
+              onClick={onRequestAllow}
+              indicator={
+                user && user.allowMessages && <i className="fas fa-check" />
+              }
+            >
+              Включить уведомления
             </Cell>
           </List>
         </Group>
