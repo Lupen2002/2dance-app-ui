@@ -93,3 +93,7 @@ export async function putUsers(obj: User): Promise<User[]> {
 export async function delUsers(obj: User): Promise<User[]> {
   return (await axios.delete(baseUrl + "/users/" + obj._id)).data;
 }
+
+export async function postNotify(req: NotifyRequest) {
+  return (await axios.post(baseUrl + "/notifies", req)).data;
+}

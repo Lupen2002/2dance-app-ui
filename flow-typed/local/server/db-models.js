@@ -23,13 +23,17 @@ declare type Ticket = {|
   }
 |};
 
-declare type TwoDanceConfigs = {
+declare type UserRoleGroup = {
+  vkUserId: number,
+  role: 'admin' | 'reception'
+}
+
+declare type TwoDanceConfigs = {|
   _id: string,
   vkGroupId: number,
   yMoneyReceiver: string,
-  singlePassPrice: number,
-  doublePassPrice: number
-};
+  roles?: UserRoleGroup[]
+|};
 
 declare type EventPrice = {|
   date: string,
@@ -64,5 +68,11 @@ declare type User = {|
   _id: string,
   vkId: number,
   vkUser: VKUser,
+  allowMessages?: boolean,
+  client_info?: {
+    button_actions: ("text" | "vkpay" | "open_app" | "location")[],
+    keyboard: boolean,
+    lang_id: number
+  },
   role: "root" | "admin" | "user"
 |};

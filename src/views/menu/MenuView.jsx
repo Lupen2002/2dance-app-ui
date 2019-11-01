@@ -11,12 +11,14 @@ import FormLayout              from "@vkontakte/vkui/dist/components/FormLayout/
 import Input                   from "@vkontakte/vkui/dist/components/Input/Input";
 import Button                  from "@vkontakte/vkui/dist/components/Button/Button";
 import { YandexReceiverPanel } from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
-import { SettingsPanel }       from "../../panels/menu/settings/SettingsPanel";
-import { AddEventPanel }       from "../../panels/menu/add-event/AddEventPanel";
-import useStartParams          from "../../hooks/useStartParams";
-import CheckTicketPanel        from "../../panels/menu/check-ticket/CheckTicketPanel";
-import { go }                  from "../../utils/default/url";
-import CheckAltPayPanel        from "../../panels/menu/check-alt-pay/CheckAltPayPanel";
+import { SettingsPanel }    from "../../panels/menu/settings/SettingsPanel";
+import { AddEventPanel }    from "../../panels/menu/add-event/AddEventPanel";
+import useStartParams       from "../../hooks/useStartParams";
+import CheckTicketPanel     from "../../panels/menu/check-ticket/CheckTicketPanel";
+import { go }               from "../../utils/default/url";
+import CheckAltPayPanel     from "../../panels/menu/check-alt-pay/CheckAltPayPanel";
+import useUserToken         from "../../hooks/useUserToken";
+import useAllowSendMessages from "../../hooks/useAllowSendMessages";
 
 type P = {
   id: EpicViewId,
