@@ -25,7 +25,6 @@ export const PayEvents = (p: P) => {
   const { event_id, pass, sec, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
     user: ?VKUser = useVkUser(),
-    { config } = useYMoneyReceiver(),
     token = useUserToken(true);
   const price = usePrice(event, pass);
 
@@ -116,7 +115,7 @@ export const PayEvents = (p: P) => {
           <Group>
             <List>
               <CellButton onClick={vkPay}>VkPay</CellButton>
-              {config && <YandexMoneyButton user={user} event={event} />}
+              <YandexMoneyButton user={user} event={event} />
               <CellButton onClick={() => go("/events/alt-pay")}>
                 Наличными
               </CellButton>
