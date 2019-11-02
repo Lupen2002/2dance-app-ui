@@ -37,4 +37,8 @@ server {
         proxy_pass http://45.86.180.13:3000/;
     }
 
+    location /images/ {
+        proxy_pass http://45.86.180.13:3010/;
+    }
+
 }

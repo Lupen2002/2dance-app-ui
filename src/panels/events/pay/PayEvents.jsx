@@ -1,21 +1,21 @@
 // @flow
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Cell, CellButton, Group, List, Panel } from "@vkontakte/vkui";
 import { PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
-import { getEvents, postTickets } from "../../../api";
-import useVkUser                  from "../../../hooks/useVkUser";
-import useUserToken               from "../../../hooks/useUserToken";
-import Avatar                     from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { UserCell }               from "../../main/main/UserCell";
-import vkConnect                  from "@vkontakte/vkui-connect-promise";
-import uuid                       from "uuid";
-import { appURL, back, go }       from "../../../utils/default/url";
-import useYMoneyReceiver          from "../../../hooks/useYMoneyReceiver";
-import Corazon150                 from "../../../assets/imgs/Corazon150.png";
-import usePrice                   from "../../../hooks/usePrice";
+import { getEvents, postTickets }   from "../../../api";
+import useVkUser                    from "../../../hooks/useVkUser";
+import useUserToken                 from "../../../hooks/useUserToken";
+import Avatar                       from "@vkontakte/vkui/dist/components/Avatar/Avatar";
+import { UserCell }                 from "../../main/main/UserCell";
+import vkConnect                    from "@vkontakte/vkui-connect-promise";
+import { back, go }                 from "../../../utils/default/url";
+import useConfigs                   from "../../../hooks/useConfigs";
+import Corazon150                   from "../../../assets/imgs/Corazon150.png";
+import usePrice                     from "../../../hooks/usePrice";
+import YandexMoneyButton            from "./YandeMoneyButton";
 
 type P = {
   id: EventsViewId
@@ -25,19 +25,14 @@ export const PayEvents = (p: P) => {
   const { event_id, pass, sec, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
     user: ?VKUser = useVkUser(),
-    { config } = useYMoneyReceiver(),
     token = useUserToken(true);
-  const id = useMemo(uuid, []);
-  const hash = useMemo(
-      () => window.location.search.substr(1) + "&r=ym-success&uuid=" + id,
-      [id]
-    ),
-    price = usePrice(event, pass);
+  const price = usePrice(event, pass),
+        [configs] = useConfigs();
 
   useEffect(() => {
     getEvents(event_id).then(res => setEvent(res[0]));
     if (window.ym) {
-      window.ym(55883914, 'reachGoal', 'open-event-pay')
+      window.ym(55883914, "reachGoal", "open-event-pay");
     }
   }, [event_id]);
 
@@ -66,7 +61,9 @@ export const PayEvents = (p: P) => {
               pass === "double-pass" && sec ? parseInt(sec) : undefined
           };
           if (window.ym) {
-            window.ym(55883914, 'reachGoal', 'pay-ticket', {order_price: res.data.amount})
+            window.ym(55883914, "reachGoal", "pay-ticket", {
+              order_price: res.data.amount
+            });
           }
           await postTickets(ticket);
           if (pass === "double-pass") {
@@ -90,33 +87,9 @@ export const PayEvents = (p: P) => {
     }
   };
 
-  const ymPay = (label: string) => () => {
-    if (query && pass && query.vk_group_id && user && event) {
-      postTickets({
-        ticketType: pass,
-        vkGroupId: parseInt(query.vk_group_id),
-        vkUserId: user.id,
-        eventId: event._id,
-        uuid: label,
-        isClose: false,
-        ymAccepted: false,
-        secondUserId:
-          query && pass === "double-pass" && sec ? parseInt(sec) : undefined
-      });
-      if (pass === "double-pass") {
-        postTickets({
-          ticketType: pass,
-          vkGroupId: parseInt(query.vk_group_id),
-          vkUserId: parseInt(sec),
-          secondUserId: user.id,
-          eventId: event._id,
-          uuid: label,
-          isClose: false,
-          ymAccepted: false
-        });
-      }
-    }
-  };
+  const isVkPay = configs && configs.payKinds && configs.payKinds.find(p => p.name === 'vk-pay') && configs.payKinds.find(p => p.name === 'vk-pay').on;
+  const isYMoney = configs && configs.payKinds && configs.payKinds.find(p => p.name === 'yandex-money') && configs.payKinds.find(p => p.name === 'yandex-money').on;
+  const isAltPay = configs && configs.payKinds && configs.payKinds.find(p => p.name === 'alt-pay') && configs.payKinds.find(p => p.name === 'alt-pay').on;
 
   return (
     <Panel id={p.id}>
@@ -146,43 +119,11 @@ export const PayEvents = (p: P) => {
           )}
           <Group>
             <List>
-              <CellButton onClick={vkPay}>VkPay</CellButton>
-              {config && (
-                <form
-                  method="POST"
-                  action="https://money.yandex.ru/quickpay/confirm.xml"
-                  target={
-                    getQueryParams().vk_platform === "desktop_web" ||
-                    getQueryParams().vk_platform === "mobile_web"
-                      ? "_blank"
-                      : "_top"
-                  }
-                >
-                  <input
-                    type="hidden"
-                    name="receiver"
-                    value={config.yMoneyReceiver}
-                  />
-                  <input type="hidden" name="formcomment" value="Corazon" />
-                  <input type="hidden" name="short-dest" value="Corazon" />
-                  <input type="hidden" name="label" value={id} />
-                  <input type="hidden" name="quickpay-form" value="shop" />
-                  <input type="hidden" name="successURL" value={appURL(hash)} />
-                  <input type="hidden" name="targets" value={`${event.label}, ${new Date(event.timestamp).toLocaleString()}, ${user.last_name} ${user.first_name}`} />
-                  <input
-                    type="hidden"
-                    name="sum"
-                    value={price}
-                    data-type="number"
-                  />
-                  <input type="hidden" name="comment" value="" />
-                  <input type="hidden" name="paymentType" value="AC" />
-                  <CellButton onClick={ymPay(id)} type="submit">
-                    Картой или Яндекс.Деньги
-                  </CellButton>
-                </form>
-              )}
-              <CellButton onClick={() => go('/events/alt-pay')}>Наличными</CellButton>
+              {isVkPay && <CellButton onClick={vkPay}>VkPay</CellButton>}
+              {isYMoney && <YandexMoneyButton user={user} event={event} />}
+              {isAltPay && <CellButton onClick={() => go("/events/alt-pay")}>
+                Оплачено вне приложения
+              </CellButton>}
             </List>
           </Group>
         </>

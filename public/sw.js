@@ -24,7 +24,6 @@ self.addEventListener("fetch", function(event) {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache =>
         cache.match(req).then(matching => {
-          console.log("!!! fetch - 1", req.method, req.url, !!matching);
           if (matching) {
             return matching;
           } else {
@@ -44,7 +43,6 @@ self.addEventListener("fetch", function(event) {
 function update(request) {
   return caches.open(CACHE_NAME).then(cache =>
     cache.delete(request).then(isDel => {
-      console.log("!!! update - 1", isDel);
       return fetch(request).then(response =>
         cache.put(request, response).then(() => response)
       );
