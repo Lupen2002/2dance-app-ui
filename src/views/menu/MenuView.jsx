@@ -19,6 +19,7 @@ import { go }               from "../../utils/default/url";
 import CheckAltPayPanel     from "../../panels/menu/check-alt-pay/CheckAltPayPanel";
 import useUserToken         from "../../hooks/useUserToken";
 import useAllowSendMessages from "../../hooks/useAllowSendMessages";
+import PayKindsPanel        from "../../panels/menu/pay-kinds/PayKindsPanel";
 
 type P = {
   id: EpicViewId,
@@ -52,6 +53,7 @@ export const MenuView = (p: P) => {
       <AddEventPanel id="add-event" />
       <CheckTicketPanel id='check-ticket'/>
       <CheckAltPayPanel id='check-alt-pay' />
+      <PayKindsPanel id='pay-kinds' />
     </View>
   );
 };

@@ -7,7 +7,7 @@ import { navigate }           from "hookrouter";
 import FormLayout             from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
 import Input                  from "@vkontakte/vkui/dist/components/Input/Input";
 import Button                 from "@vkontakte/vkui/dist/components/Button/Button";
-import useYMoneyReceiver      from "../../../hooks/useYMoneyReceiver";
+import useConfigs             from "../../../hooks/useConfigs";
 
 type P = {
   id: MenuViewId
@@ -17,7 +17,7 @@ const pattern = /^\d{15}$/;
 
 export const YandexReceiverPanel = (p: P) => {
   const [yMoneyReceiver, setYmReceiver] = useState(null);
-  const [ config, update ] = useYMoneyReceiver();
+  const [ config, update ] = useConfigs();
 
   return (
     <Panel id={p.id}>

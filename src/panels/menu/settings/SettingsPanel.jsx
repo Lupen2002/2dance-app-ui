@@ -64,6 +64,9 @@ export const SettingsPanel = (p: P) => {
             >
               Включить уведомления
             </Cell>
+            <Cell expandable onClick={() => go('/menu/pay-kinds')}>
+              Виды оплаты
+            </Cell>
           </List>
         </Group>
       )}

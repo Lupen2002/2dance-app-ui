@@ -20,7 +20,7 @@ export const AppTabbar = (p: P) => {
 
   useEffect(() => {
     if (getQueryParams().vk_viewer_group_role === 'admin') {
-      const timer = setInterval(refresh, 5000);
+      const timer = setInterval(refresh, 10000);
       return () => clearInterval(timer)
     }
   }, []);

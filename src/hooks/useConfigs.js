@@ -5,21 +5,23 @@ import { getConfigs, postConfigs, putConfigs } from "../api";
 import { getQueryParams } from "hookrouter";
 
 type Result = [
-  TwoDanceConfigs,
+  ?TwoDanceConfigs,
   (TwoDanceConfigs) => Promise<void>,
   () => Promise<void>
 ];
 
-export default function useYMoneyReceiver(): Result {
-  const [config, setConfig] = useState(null);
+export default function useConfigs(): Result {
+  const [config, setConfig] = useState(null),
+        [fetching, setFetching] = useState(false);
 
   const refresh = useMemo(
     () => async () => {
+      setFetching(true);
+
       const params = getQueryParams(),
         vk_group_id = parseInt(params.vk_group_id);
       const configs: TwoDanceConfigs[] = await getConfigs();
       const found = configs.find(c => c.vkGroupId === vk_group_id);
-
       if (found) {
         setConfig(found);
       } else if (params && params.vk_group_id) {
@@ -28,13 +30,10 @@ export default function useYMoneyReceiver(): Result {
         }).find(c => c.vkGroupId === vk_group_id);
         setConfig(found);
       }
+      setFetching(false)
     },
-    [setConfig]
+    [setConfig, setFetching]
   );
-
-  useEffect(() => {
-    refresh().catch(console.error);
-  }, [refresh]);
 
   const update = useMemo(
     () => async (newConfig: TwoDanceConfigs) => {
@@ -44,5 +43,20 @@ export default function useYMoneyReceiver(): Result {
     [refresh]
   );
 
-  return [config, update, refresh];
+  useEffect(() => {
+    if (config && !config.payKinds) {
+      const payKinds: PayKind[] = [
+        {name: 'vk-pay'},
+        {name: 'yandex-money'},
+        {name: 'alt-pay'},
+      ];
+      update({...config, payKinds})
+    }
+  }, [config, update]);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return [config, update, refresh, fetching];
 }

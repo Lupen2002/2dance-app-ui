@@ -23,6 +23,11 @@ declare type Ticket = {|
   }
 |};
 
+declare type PayKind = {
+  name: string,
+  on?: boolean
+}
+
 declare type UserRoleGroup = {
   vkUserId: number,
   role: 'admin' | 'reception'
@@ -32,6 +37,7 @@ declare type TwoDanceConfigs = {|
   _id: string,
   vkGroupId: number,
   yMoneyReceiver: string,
+  payKinds?: PayKind[],
   roles?: UserRoleGroup[]
 |};
 

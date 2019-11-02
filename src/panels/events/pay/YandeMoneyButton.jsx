@@ -1,13 +1,13 @@
 // @flow
 
-import React, { useMemo } from "react";
-import { getQueryParams } from "hookrouter";
-import { appURL } from "../../../utils/default/url";
-import { CellButton } from "@vkontakte/vkui";
-import useYMoneyReceiver from "../../../hooks/useYMoneyReceiver";
-import uuid from "uuid";
-import usePrice from "../../../hooks/usePrice";
-import { postTickets } from "../../../api";
+import React, { useMemo }     from "react";
+import { getQueryParams }     from "hookrouter";
+import { appURL }             from "../../../utils/default/url";
+import { CellButton }         from "@vkontakte/vkui";
+import useConfigs             from "../../../hooks/useConfigs";
+import uuid                   from "uuid";
+import usePrice               from "../../../hooks/usePrice";
+import { postTickets }        from "../../../api";
 import YandexMoneyTargetInput from "./YandexMoneyTargetInput";
 
 type P = {
@@ -17,7 +17,7 @@ type P = {
 
 export default function YandexMoneyButton(p: P) {
   const { vk_platform, pass } = getQueryParams(),
-    [config] = useYMoneyReceiver();
+    [config] = useConfigs();
   const id = useMemo(uuid, []),
     hash = useMemo(() => "r=ym-success&uuid=" + id, [id]),
     price = usePrice(p.event, pass);

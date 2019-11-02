@@ -3,6 +3,7 @@
 const validMainViewId: MenuViewId[] = [
   "menu",
   "settings",
+  "pay-kinds",
   "yandex-money-receiver",
   "add-event",
   "check-alt-pay",
