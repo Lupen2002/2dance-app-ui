@@ -19,8 +19,10 @@ export const AppTabbar = (p: P) => {
   const [altPayTickets, refresh] = useTicketsToApprovePay(token);
 
   useEffect(() => {
-    const timer = setInterval(refresh, 5000);
-    return () => clearInterval(timer)
+    if (getQueryParams().vk_viewer_group_role === 'admin') {
+      const timer = setInterval(refresh, 5000);
+      return () => clearInterval(timer)
+    }
   }, []);
 
   const isExistQrCodeScanner =

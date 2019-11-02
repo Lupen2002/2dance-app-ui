@@ -17,7 +17,7 @@ const pattern = /^\d{15}$/;
 
 export const YandexReceiverPanel = (p: P) => {
   const [yMoneyReceiver, setYmReceiver] = useState(null);
-  const { config, update } = useYMoneyReceiver();
+  const [ config, update ] = useYMoneyReceiver();
 
   return (
     <Panel id={p.id}>
