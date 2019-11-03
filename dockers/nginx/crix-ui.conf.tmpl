@@ -35,10 +35,12 @@ server {
 
     location /api/ {
         proxy_pass http://45.86.180.13:3000/;
+        expires off;
     }
 
     location /images/ {
         proxy_pass http://45.86.180.13:3010/;
+        expires off;
     }
 
 }

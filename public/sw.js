@@ -18,7 +18,7 @@ self.addEventListener("activate", () => {
   });
 });
 
-self.addEventListener("fetch", function(event) {
+/*self.addEventListener("fetch", function(event) {
   const req = event.request;
   if (req.method === "GET" && req.url.indexOf(self.location.origin) > -1) {
     event.respondWith(
@@ -38,7 +38,7 @@ self.addEventListener("fetch", function(event) {
   } else {
     event.respondWith(fetch(req));
   }
-});
+});*/
 
 function update(request) {
   return caches.open(CACHE_NAME).then(cache =>

@@ -60,7 +60,7 @@ export default function YandexMoneyButton(p: P) {
 
   return (
     <>
-      {config && (
+      {config && p.user && !!p.user.first_name && !!p.user.last_name && (
         <form
           method="POST"
           action="https://money.yandex.ru/quickpay/confirm.xml"

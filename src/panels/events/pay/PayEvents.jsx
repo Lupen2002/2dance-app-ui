@@ -6,16 +6,15 @@ import { PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
 import { getEvents, postTickets }   from "../../../api";
-import useVkUser                    from "../../../hooks/useVkUser";
 import useUserToken                 from "../../../hooks/useUserToken";
-import Avatar                       from "@vkontakte/vkui/dist/components/Avatar/Avatar";
-import { UserCell }                 from "../../main/main/UserCell";
-import vkConnect                    from "@vkontakte/vkui-connect-promise";
-import { back, go }                 from "../../../utils/default/url";
-import useConfigs                   from "../../../hooks/useConfigs";
-import Corazon150                   from "../../../assets/imgs/Corazon150.png";
-import usePrice                     from "../../../hooks/usePrice";
-import YandexMoneyButton            from "./YandeMoneyButton";
+import Avatar            from "@vkontakte/vkui/dist/components/Avatar/Avatar";
+import { UserCell }      from "../../main/main/UserCell";
+import vkConnect         from "@vkontakte/vkui-connect-promise";
+import { back, go }      from "../../../utils/default/url";
+import useConfigs        from "../../../hooks/useConfigs";
+import usePrice          from "../../../hooks/usePrice";
+import YandexMoneyButton from "./YandeMoneyButton";
+import useUserById       from "../../../hooks/useUserById";
 
 type P = {
   id: EventsViewId
@@ -24,8 +23,9 @@ type P = {
 export const PayEvents = (p: P) => {
   const { event_id, pass, sec, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
-    user: ?VKUser = useVkUser(),
-    token = useUserToken(true);
+        {vk_user_id} = getQueryParams(),
+        token = useUserToken(true),
+        [user:?User] = useUserById(parseInt(vk_user_id), token);
   const price = usePrice(event, pass),
         [configs] = useConfigs();
 
@@ -51,7 +51,7 @@ export const PayEvents = (p: P) => {
           const ticket: $Rest<Ticket, {| _id: string |}> = {
             ticketType: pass,
             vkGroupId: parseInt(query.vk_group_id),
-            vkUserId: user.id,
+            vkUserId: user.vkUser.id,
             eventId: event._id,
             transactionId: res.data.transaction_id,
             amount: res.data.amount,
@@ -71,7 +71,7 @@ export const PayEvents = (p: P) => {
               ticketType: pass,
               vkGroupId: parseInt(query.vk_group_id),
               vkUserId: parseInt(sec),
-              secondUserId: user.id,
+              secondUserId: user.vkUser.id,
               eventId: event._id,
               transactionId: res.data.transaction_id,
               amount: res.data.amount,
@@ -100,7 +100,7 @@ export const PayEvents = (p: P) => {
         <>
           <Group>
             <Cell
-              before={<Avatar size={72} src={Corazon150} />}
+              before={<Avatar size={72} src={event.avatar} />}
               description={
                 <>
                   <div>{new Date(event.timestamp).toLocaleString()}</div>
@@ -120,7 +120,7 @@ export const PayEvents = (p: P) => {
           <Group>
             <List>
               {isVkPay && <CellButton onClick={vkPay}>VkPay</CellButton>}
-              {isYMoney && <YandexMoneyButton user={user} event={event} />}
+              {isYMoney && <YandexMoneyButton user={user.vkUser} event={event} />}
               {isAltPay && <CellButton onClick={() => go("/events/alt-pay")}>
                 Оплачено вне приложения
               </CellButton>}

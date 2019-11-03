@@ -1,17 +1,13 @@
 // @flow
 
-import React, { useState } from "react";
-import {
-  Checkbox,
-  Button,
-  FormLayout,
-  Input,
-  CellButton,
-  Separator,
-  Header
-} from "@vkontakte/vkui";
-import { makeDateString, makeTimeString } from "./utils";
-import { getLocalDate } from "../../../utils/default/date";
+import React, { useState }                      from "react";
+import { Checkbox, Button, FormLayout, Avatar } from "@vkontakte/vkui";
+import { Input, CellButton, FormLayoutGroup }   from "@vkontakte/vkui";
+import { Separator, Header, File as FileBtn }   from "@vkontakte/vkui";
+import Icon24Camera                             from "@vkontakte/icons/dist/24/camera";
+import { makeDateString, makeTimeString }       from "./utils";
+import { getISODate, getLocalDate }             from "../../../utils/default/date";
+import { uploadImage }                          from "../../../api/image-hosting";
 
 type ExcludeDanceEvent = {| _id: string |};
 type NDanceEvent = $Rest<DanceEvent, ExcludeDanceEvent>;
@@ -22,6 +18,8 @@ type P = {
   onSubmit: DE => void
 };
 
+const extReg = /(?:\.([^.]+))?$/;
+
 const defaultPrice = (): EventPrice => ({
   date: makeDateString({ timestamp: Date.now() }),
   time: makeTimeString({ timestamp: Date.now() }),
@@ -30,15 +28,10 @@ const defaultPrice = (): EventPrice => ({
   doublePrice: 0
 });
 
-const changeDateEvent = (event: DE, date: string, time: string): DE => {
-  const timestamp = getLocalDate(`${date}T${time}`).getTime();
-  return { ...event, timestamp };
-};
-
 export default function EventForm(p: P) {
   const [event, setEvent] = useState<DE>(p.event),
-    [d, setD] = useState(makeDateString(event)),
-    [t, setT] = useState(makeTimeString(event));
+    [avaSrc, setAvaSrc] = useState<?string>(p.event.avatar),
+    [avatarFile, setAvatarFile] = useState<?File>(null);
 
   const onChangePrice = (i: number, price: EventPrice) => {
     if (event.prices) {
@@ -60,9 +53,46 @@ export default function EventForm(p: P) {
     onChangePrice(i, { ...price, timestamp });
   };
 
+  const onOpenAvatar = (e: SyntheticEvent<HTMLInputElement>) => {
+    if (e.target && e.target.files && e.target.files.length > 0) {
+      setAvatarFile(e.target.files[0]);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvaSrc(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const uploadAvatarAndSubmit = async () => {
+    if (avatarFile) {
+      const urls = await uploadImage(avatarFile);
+      const avatar = 'https://social-dance.site/images/'+urls[0];
+      p.onSubmit({...event, avatar})
+    } else if(event.avatar) {
+      p.onSubmit(event)
+    }
+  };
+
   return (
     <>
       <FormLayout>
+        <FormLayoutGroup top="Загрузите ваше фото">
+          <div
+            style={{ display: "flex", alignItems: "center", margin: "0 12px" }}
+          >
+            <Avatar size={72} src={avaSrc} />
+            <FileBtn
+              onChange={onOpenAvatar}
+              before={<Icon24Camera />}
+              size="l"
+              accept="image/jpeg,image/png,image/gif"
+            >
+              Открыть галерею
+            </FileBtn>
+          </div>
+        </FormLayoutGroup>
+
         <Input
           top="Название"
           type="text"
@@ -70,16 +100,15 @@ export default function EventForm(p: P) {
           onChange={e => setEvent({ ...event, label: e.currentTarget.value })}
         />
         <Input
-          top="Дата"
-          type="date"
-          value={d}
-          onChange={e => setD(e.currentTarget.value)}
-        />
-        <Input
-          top="Время"
-          type="time"
-          value={t}
-          onChange={e => setT(e.currentTarget.value)}
+          top="Начало вечеринки"
+          type="datetime-local"
+          value={getISODate(event.timestamp)}
+          onChange={e =>
+            setEvent({
+              ...event,
+              timestamp: getLocalDate(e.currentTarget.value).getTime()
+            })
+          }
         />
         <Input
           top="Цена одиночного пасса"
@@ -207,10 +236,7 @@ export default function EventForm(p: P) {
         ) : (
           <></>
         )}
-        <Button
-          size="xl"
-          onClick={() => p.onSubmit(changeDateEvent(event, d, t))}
-        >
+        <Button size="xl" onClick={uploadAvatarAndSubmit}>
           Сохранить
         </Button>
       </FormLayout>
