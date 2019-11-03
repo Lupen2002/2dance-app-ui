@@ -20,7 +20,7 @@ type P = {
 const defaultEvent = (id: number): NDanceEvent => ({
   timestamp: getLocalDate(
     dateLocal2ISO(new Date().toLocaleDateString()) + "T20:00:00"
-  ),
+  ).getTime(),
   vkGroupId: id,
   label: "",
   singlePrice: 0,

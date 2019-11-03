@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from "react";
+import React, { useState }                               from "react";
 import {
   Checkbox,
   Button,
@@ -9,9 +9,9 @@ import {
   CellButton,
   Separator,
   Header
-} from "@vkontakte/vkui";
+}                                                        from "@vkontakte/vkui";
 import { makeDateString, makeTimeString } from "./utils";
-import { getLocalDate } from "../../../utils/default/date";
+import { getISODate, getLocalDate }                      from "../../../utils/default/date";
 
 type ExcludeDanceEvent = {| _id: string |};
 type NDanceEvent = $Rest<DanceEvent, ExcludeDanceEvent>;
@@ -30,15 +30,8 @@ const defaultPrice = (): EventPrice => ({
   doublePrice: 0
 });
 
-const changeDateEvent = (event: DE, date: string, time: string): DE => {
-  const timestamp = getLocalDate(`${date}T${time}`).getTime();
-  return { ...event, timestamp };
-};
-
 export default function EventForm(p: P) {
-  const [event, setEvent] = useState<DE>(p.event),
-    [d, setD] = useState(makeDateString(event)),
-    [t, setT] = useState(makeTimeString(event));
+  const [event, setEvent] = useState<DE>(p.event);
 
   const onChangePrice = (i: number, price: EventPrice) => {
     if (event.prices) {
@@ -69,18 +62,10 @@ export default function EventForm(p: P) {
           value={event.label}
           onChange={e => setEvent({ ...event, label: e.currentTarget.value })}
         />
-        <Input
-          top="Дата"
-          type="date"
-          value={d}
-          onChange={e => setD(e.currentTarget.value)}
-        />
-        <Input
-          top="Время"
-          type="time"
-          value={t}
-          onChange={e => setT(e.currentTarget.value)}
-        />
+        <Input top='Начало вечеринки'
+               type='datetime-local'
+               value={getISODate(event.timestamp)}
+               onChange={e => setEvent({...event, timestamp: getLocalDate(e.currentTarget.value).getTime()})}/>
         <Input
           top="Цена одиночного пасса"
           type="number"
@@ -209,7 +194,7 @@ export default function EventForm(p: P) {
         )}
         <Button
           size="xl"
-          onClick={() => p.onSubmit(changeDateEvent(event, d, t))}
+          onClick={() => p.onSubmit(event)}
         >
           Сохранить
         </Button>
