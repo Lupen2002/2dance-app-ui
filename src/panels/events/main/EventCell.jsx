@@ -9,10 +9,6 @@ import Icon24MoreHorizontal from "@vkontakte/icons/dist/24/more_horizontal";
 import AdminPopoutEvent from "./AdminPopoutEvent";
 import { getQueryParams } from "hookrouter";
 
-import Corazon150 from "../../../assets/imgs/Corazon150.png";
-import shineparty from "../../../assets/imgs/shineparty.png";
-import CorazonK from "../../../assets/imgs/CorazonK.png";
-
 type P = {
   event: DanceEvent,
   setPopout: (?React$Node) => void
@@ -30,16 +26,9 @@ export default function EventCell(p: P) {
     [p]
   );
 
-  const src =
-    p.event._id === "B80J9EPc6tJMHhV4" || p.event._id === "LvlQwAQH2pOoYsSq"
-      ? shineparty
-      : p.event._id === "p8sVQy46ARYbyeje"
-      ? CorazonK
-      : Corazon150;
-
   return (
     <Cell
-      before={<Avatar size={72} src={src} />}
+      before={<Avatar size={72} src={p.event.avatar} />}
       description={<EventCellDescription event={p.event} />}
       bottomContent={<EventCellBottomContent event={p.event} />}
       size="l"

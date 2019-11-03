@@ -59,7 +59,8 @@ declare type DanceEvent = {|
   doublePrice: number,
   rePostControl?: boolean,
   rePostDiscount?: number,
-  postUrl?: string
+  postUrl?: string,
+  avatar?: string
 |};
 
 declare type VKUser = {

@@ -8,15 +8,16 @@ import LeftPanelHeaderButtons                       from "../../../components/co
 import { getQueryParams, navigate, setQueryParams } from "hookrouter";
 import useUserToken                                 from "../../../hooks/useUserToken";
 import PanelSpinner                                 from "@vkontakte/vkui/dist/components/PanelSpinner/PanelSpinner";
-import useVkUser                                    from "../../../hooks/useVkUser";
+import useUserById                                  from "../../../hooks/useUserById";
 
 type P = {
   id: EventsViewId
 };
 
 export const EventsSecondUser = (p: P) => {
-  const user = useVkUser(),
-    token = useUserToken(true);
+  const {vk_user_id} = getQueryParams(),
+        token = useUserToken(true),
+        [user:?User] = useUserById(parseInt(vk_user_id), token);
   const [friends, setFriends] = useState(null);
 
   const go = (sec: number) => () => {
@@ -36,7 +37,7 @@ export const EventsSecondUser = (p: P) => {
           params: { fields: "sex,photo_100", v: "5.101", access_token: token }
         })
         .then(({ data }) => {
-          setFriends(data.response.items.filter(u => u.sex !== user.sex));
+          setFriends(data.response.items.filter(u => u.sex !== user.vkUser.sex));
         });
     }
   }, [token, user]);

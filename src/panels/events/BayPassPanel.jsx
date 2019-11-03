@@ -6,14 +6,10 @@ import { getQueryParams, navigate, setQueryParams } from "hookrouter";
 import LeftPanelHeaderButtons from "../../components/controlls/LeftPanelHeaderButtons";
 import Avatar from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import Button from "@vkontakte/vkui/dist/components/Button/Button";
-import vkConnect from "@vkontakte/vkui-connect-promise";
-import { getEvents, postTickets } from "../../api";
+import { getEvents } from "../../api";
 import { back } from "../../utils/default/url";
 
-import Corazon150 from "../../assets/imgs/Corazon150.png";
 import EventPrice from "../../components/events/price/EventPrice";
-import shineparty from "../../assets/imgs/shineparty.png";
-import CorazonK from "../../assets/imgs/CorazonK.png";
 
 type P = {
   id: EventsViewId
@@ -43,14 +39,6 @@ export const BayPassPanel = (p: P) => {
     }
   };
 
-  const src =
-    event &&
-    (event._id === "B80J9EPc6tJMHhV4" || event._id === "LvlQwAQH2pOoYsSq")
-      ? shineparty
-      : event && event._id === "p8sVQy46ARYbyeje"
-      ? CorazonK
-      : Corazon150;
-
   return (
     <Panel id={p.id}>
       <PanelHeader left={<LeftPanelHeaderButtons type="back" back={back} />}>
@@ -60,7 +48,7 @@ export const BayPassPanel = (p: P) => {
         <>
           <Group>
             <Cell
-              before={<Avatar size={72} src={src} />}
+              before={<Avatar size={72} src={event.avatar} />}
               description={new Date(event.timestamp).toLocaleString()}
               size="l"
             >

@@ -1,30 +1,31 @@
 // @flow
 
-import { useEffect }                from "react";
-import vkConnect                    from "@vkontakte/vkui-connect-promise";
-import useUserToken                 from "./useUserToken";
-import useStartParams               from "./useStartParams";
-import { useDispatch, useSelector } from "react-redux";
-import { appActions }               from "../store/actions";
-import { getGroupById }             from "../api/vk/groups";
+import { useEffect, useMemo, useState } from "react";
+import useUserToken from "./useUserToken";
+import { getGroupById } from "../api/vk/groups";
+import { getQueryParams } from "hookrouter";
 
-export default function useCurrentGroup() {
+export default function useCurrentGroup(): [VkGroup, any, boolean] {
   const token = useUserToken(true),
-    params = useStartParams(),
-    dispatch: AppDispatch = useDispatch();
-  const name = useSelector<AppState, ?string>(state => state.user.groupName);
+    [fetching, setFetching] = useState(false),
+    [group, setGroup] = useState<?VkGroup>(null);
+
+  const refresh = useMemo(
+    () => async () => {
+      setFetching(true);
+      const params = getQueryParams();
+      if (token) {
+        const g = await getGroupById(params.vk_group_id, token);
+        setGroup(g);
+      }
+      setFetching(false);
+    },
+    [token]
+  );
 
   useEffect(() => {
-    if (!name && token && params.vk_group_id) {
-      getGroupById(params.vk_group_id, token)
-        .then(res => {
-          if (res.data && res.data.response && res.data.response.length > 0) {
-            const group = res.data.response[0];
-            dispatch(appActions.user.setGroupName(group.name));
-          }
-        });
-    }
-  }, [name, token, params.vk_group_id, dispatch]);
+    refresh();
+  }, [refresh]);
 
-  return name
+  return [group, refresh, fetching];
 }
