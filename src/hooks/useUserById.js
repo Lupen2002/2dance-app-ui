@@ -24,8 +24,10 @@ export default function useUserById(id: number, token: ?string) {
         if (cache.length > 0) {
           setUser(cache[0]);
         } else {
-          const vkUser = (await vkConnect.send("VKWebAppCallAPIMethod", getUsers(id+'', token))).data;
-          setUser(await postUsers({vkId: id, vkUser, role: 'user'}));
+          const vkUsers = (await vkConnect.send("VKWebAppCallAPIMethod", getUsers(id+'', token))).data.response;
+          if (vkUsers && vkUsers.length > 0){
+            setUser(await postUsers({vkId: id, vkUser: vkUsers[0], role: 'user'}));
+          }
         }
       }
     },
