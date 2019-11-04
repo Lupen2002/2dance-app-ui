@@ -16,6 +16,8 @@ import { PersistGate } from "redux-persist/integration/react";
 
 connect.send("VKWebAppInit", {});
 
+console.log('nodeenv', process.env);
+
 const root = document.getElementById("root");
 
 const {store, persistor} = createStore();

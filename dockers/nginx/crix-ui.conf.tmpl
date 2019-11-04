@@ -1,6 +1,9 @@
 upstream backend {
-    # Адрес back-end'a
-    server 45.86.180.13:3000;
+    server ${HOSTNAME}:3000;
+}
+
+upstream images {
+  server ${HOSTNAME}:3010;
 }
 
 server {
@@ -34,12 +37,12 @@ server {
 
 
     location /api/ {
-        proxy_pass http://45.86.180.13:3000/;
+        proxy_pass http://backend/;
         expires off;
     }
 
     location /images/ {
-        proxy_pass http://45.86.180.13:3010/;
+        proxy_pass http://images/;
         expires off;
     }
 

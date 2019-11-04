@@ -40,7 +40,7 @@ export const PayEvents = (p: P) => {
     if (query && pass && query.vk_group_id && user && token && event) {
       try {
         const res = await vkConnect.send("VKWebAppOpenPayForm", {
-          app_id: 7062331,
+          app_id: parseInt(process.env.REACT_APP_ID),
           action: "pay-to-group",
           params: {
             amount: price,

@@ -34,7 +34,7 @@ export const MainSecondUser = (p: P) => {
   const payToGroup = (secondUserId: number) => async () => {
     try {
       const res = await vkConnect.send("VKWebAppOpenPayForm", {
-        app_id: 7062331,
+        app_id: parseInt(process.env.REACT_APP_ID),
         action: "pay-to-group",
         params: {
           amount: 1,

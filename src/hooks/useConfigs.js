@@ -12,7 +12,7 @@ type Result = [
 
 export default function useConfigs(): Result {
   const [config, setConfig] = useState(null),
-        [fetching, setFetching] = useState(false);
+    [fetching, setFetching] = useState(false);
 
   const refresh = useMemo(
     () => async () => {
@@ -27,10 +27,10 @@ export default function useConfigs(): Result {
       } else if (params && params.vk_group_id) {
         const found = postConfigs({
           vkGroupId: vk_group_id
-        }).find(c => c.vkGroupId === vk_group_id);
+        });
         setConfig(found);
       }
-      setFetching(false)
+      setFetching(false);
     },
     [setConfig, setFetching]
   );
@@ -46,11 +46,11 @@ export default function useConfigs(): Result {
   useEffect(() => {
     if (config && !config.payKinds) {
       const payKinds: PayKind[] = [
-        {name: 'vk-pay'},
-        {name: 'yandex-money'},
-        {name: 'alt-pay'},
+        { name: "vk-pay" },
+        { name: "yandex-money" },
+        { name: "alt-pay" }
       ];
-      update({...config, payKinds})
+      update({ ...config, payKinds });
     }
   }, [config, update]);
 

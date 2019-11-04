@@ -35,7 +35,7 @@ export async function getConfigs(id?: string): Promise<TwoDanceConfigs[]> {
   }
 }
 
-export async function postConfigs(config: $Rest<TwoDanceConfigs, { _id: string }>) {
+export async function postConfigs(config: $Rest<TwoDanceConfigs, { _id: string }>): Promise<TwoDanceConfigs> {
   return (await axios.post(baseUrl + "/configs", config)).data;
 }
 
