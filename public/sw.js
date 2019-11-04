@@ -4,7 +4,7 @@
 // file that will precache your site's local assets.
 // See https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
 
-const CACHE_NAME = "2dance-app-v1";
+const CACHE_NAME = "2dance-app-v2";
 
 self.addEventListener("install", () => self.skipWaiting());
 
