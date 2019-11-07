@@ -3,7 +3,7 @@
 import axios            from "axios";
 import { ticketCreate } from "../utils/yandex/metrics";
 
-const baseUrl = "https://social-dance.site/api";
+const baseUrl = "https://"+process.env.REACT_APP_HOSTNAME+"/api";
 
 export async function getTickets(id?: string): Promise<Ticket[]> {
   if (id) {
@@ -69,7 +69,7 @@ export async function delEvents(obj: DanceEvent) {
   return (await axios.delete(baseUrl + "/events/" + obj._id)).data;
 }
 
-export async function getUsers(id?: string): Promise<User[]> {
+export async function getUsers(id?: string): Promise<number[]> {
   if (id) {
     return (await axios.get(baseUrl + "/users/" + id)).data;
   } else {
