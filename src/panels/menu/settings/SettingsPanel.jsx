@@ -67,6 +67,9 @@ export const SettingsPanel = (p: P) => {
             <Cell expandable onClick={() => go('/menu/pay-kinds')}>
               Виды оплаты
             </Cell>
+            <Cell expandable onClick={() => go('/menu/users-roles')}>
+              Права пользователей
+            </Cell>
           </List>
         </Group>
       )}

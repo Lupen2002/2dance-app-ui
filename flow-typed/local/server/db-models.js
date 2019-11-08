@@ -30,7 +30,7 @@ declare type PayKind = {
 
 declare type UserRoleGroup = {
   vkUserId: number,
-  role: 'admin' | 'reception'
+  role: 'admin' | 'editor' | 'reception'
 }
 
 declare type TwoDanceConfigs = {|

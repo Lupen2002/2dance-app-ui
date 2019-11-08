@@ -4,6 +4,7 @@ declare type MainViewId = "main" | "ticket" | "second-user";
 declare type MenuViewId =
   | "menu"
   | "settings"
+  | "users-roles"
   | "pay-kinds"
   | "yandex-money-receiver"
   | "check-ticket"
