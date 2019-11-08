@@ -21,9 +21,8 @@ type P = {
 };
 
 export const PayEvents = (p: P) => {
-  const { event_id, pass, sec, ...query } = getQueryParams();
+  const { event_id, pass, sec, vk_user_id, ...query } = getQueryParams();
   const [event, setEvent] = useState<?DanceEvent>(),
-        {vk_user_id} = getQueryParams(),
         token = useUserToken(true),
         [user:?User] = useUserById(parseInt(vk_user_id), token);
   const price = usePrice(event, pass),
@@ -37,7 +36,7 @@ export const PayEvents = (p: P) => {
   }, [event_id]);
 
   const vkPay = async () => {
-    if (query && pass && query.vk_group_id && user && token && event) {
+    if (pass && query.vk_group_id && token && event) {
       try {
         const res = await vkConnect.send("VKWebAppOpenPayForm", {
           app_id: 7062331,
@@ -51,7 +50,7 @@ export const PayEvents = (p: P) => {
           const ticket: $Rest<Ticket, {| _id: string |}> = {
             ticketType: pass,
             vkGroupId: parseInt(query.vk_group_id),
-            vkUserId: user.vkUser.id,
+            vkUserId: parseInt(vk_user_id),
             eventId: event._id,
             transactionId: res.data.transaction_id,
             amount: res.data.amount,
@@ -71,7 +70,7 @@ export const PayEvents = (p: P) => {
               ticketType: pass,
               vkGroupId: parseInt(query.vk_group_id),
               vkUserId: parseInt(sec),
-              secondUserId: user.vkUser.id,
+              secondUserId: parseInt(vk_user_id),
               eventId: event._id,
               transactionId: res.data.transaction_id,
               amount: res.data.amount,
