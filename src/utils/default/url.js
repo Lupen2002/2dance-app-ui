@@ -19,5 +19,6 @@ export const go = (uri: string, params: any = {}, replace: boolean = false) => n
 
 export const appURL = (hash?: string) => {
   const params = getQueryParams();
-  return 'https://vk.com/app7062331_-'+params.vk_group_id + (hash ? '#'+hash : '')
+  const appId = process.env.REACT_APP_ID||'';
+  return 'https://vk.com/app'+appId+'_-'+params.vk_group_id + (hash ? '#'+hash : '')
 };

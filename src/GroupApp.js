@@ -2,8 +2,9 @@
 
 import React, { useMemo }          from "react";
 import { navigate, useRoutes }     from "hookrouter";
-import { RootEpic }                from "./epic";
+import { RootEpic }                from "./epic/group";
 import { go, queryStringToObject } from "./utils/default/url";
+import useUserToken                from "./hooks/useUserToken";
 
 type Params = { [string]: string };
 
@@ -15,15 +16,20 @@ const routes = {
   )
 };
 
-function App() {
+function GroupApp() {
+  const token = useUserToken();
   const hash = window.location.hash.substr(1);
   const params: Params = useMemo(() => queryStringToObject(hash), [hash]);
 
-  if (params && params.r) {
+  if (token && params && params.r) {
     const { r, ...query } = params;
     switch (r) {
       case 'check-params': {
         go('/check-params');
+        break;
+      }
+      case 'reg-on-reception': {
+        go('/events/reg-on-reception', params, false);
         break;
       }
       case "root": {
@@ -41,4 +47,4 @@ function App() {
   return useRoutes(routes);
 }
 
-export default App;
+export default GroupApp;

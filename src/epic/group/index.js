@@ -1,14 +1,14 @@
 // @flow
 
-import React, { useEffect } from "react";
-import { AppTabbar } from "./tabbar";
-import { MainView } from "../views/main/MainView";
-import { Epic } from "@vkontakte/vkui";
+import React, { useEffect }  from "react";
+import { AppTabbar }         from "./tabbar";
+import { MainView }          from "../../views/main/MainView";
+import { Epic }              from "@vkontakte/vkui";
 import { extractEpicViewId } from "./utils";
-import { MenuView } from "../views/menu/MenuView";
-import { EventsView } from "../views/events/EventsView";
-import { CheckView } from "../views/check/CheckView";
-import { hit } from "../utils/yandex/metrics";
+import { MenuView }          from "../../views/menu/MenuView";
+import { EventsView }        from "../../views/events/EventsView";
+import { CheckView }         from "../../views/check/CheckView";
+import { hit }               from "../../utils/yandex/metrics";
 
 type P = {
   epicId?: string,

@@ -19,7 +19,7 @@ export default function useUserToken(isRedirect?: boolean) {
     if (!isRedirect && !token) {
       vkConnect
         .send("VKWebAppGetAuthToken", {
-          app_id: 7062331,
+          app_id: parseInt(process.env.REACT_APP_ID),
           scope: "groups,stats"
         })
         .then(res => {

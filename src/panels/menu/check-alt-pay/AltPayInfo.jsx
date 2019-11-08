@@ -26,13 +26,15 @@ export default function AltPayInfo(p: P) {
   const onApprove = async () => {
     const altPay = { ...p.ticket.altPay, approve: true };
     await putTickets({ ...p.ticket, altPay });
-    await postNotify({
-      receiverUserId: p.ticket.vkUserId,
-      payload: {
-        ticketId: p.ticket._id,
-        type: "new-ticket"
-      }
-    });
+    if (!p.ticket.isClose) {
+      await postNotify({
+        receiverUserId: p.ticket.vkUserId,
+        payload: {
+          ticketId: p.ticket._id,
+          type: "new-ticket"
+        }
+      });
+    }
     p.onRefresh();
   };
 

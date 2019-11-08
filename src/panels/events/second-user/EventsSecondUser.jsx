@@ -11,7 +11,8 @@ import PanelSpinner                                 from "@vkontakte/vkui/dist/c
 import useUserById                                  from "../../../hooks/useUserById";
 
 type P = {
-  id: EventsViewId
+  id: EventsViewId,
+  activePanel: EventsViewId
 };
 
 export const EventsSecondUser = (p: P) => {
