@@ -18,20 +18,24 @@ import { go } from "../../../utils/default/url";
 
 type P = {
   id: EventsViewId,
-  setPopout: (?React$Node) => void
+  setPopout: (?React$Node) => void,
+  activePanel: EventsViewId
 };
 
 export const MainEventsPanel = (p: P) => {
-  const { vk_viewer_group_role, ...params } = getQueryParams();
+  const { vk_viewer_group_role } = getQueryParams();
 
   useEffect(() => {
-    setQueryParams({
-      ...getQueryParams(),
-      event_id: undefined,
-      pass: undefined,
-      sec: undefined
-    });
-  }, []);
+    if (p.activePanel === p.id) {
+      setQueryParams({
+        ...getQueryParams(),
+        event_id: undefined,
+        pass: undefined,
+        sec: undefined
+      });
+    }
+  }, [p]);
+
   useUserToken();
 
   const [events, refresh, fetching] = useEvents();

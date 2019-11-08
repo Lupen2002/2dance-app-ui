@@ -1,16 +1,16 @@
 // @flow
 
-import React, { useState } from "react";
-import { Group, View } from "@vkontakte/vkui";
+import React, { useState }                from "react";
+import { Group, View }                    from "@vkontakte/vkui";
 import { Cell, List, Panel, PanelHeader } from "@vkontakte/vkui";
-import useQrCodeScanner from "../../epic/tabbar/useQrCodeScanner";
-import { getQueryParams, navigate } from "hookrouter";
-import { extractMenuViewId } from "./utils";
-import LeftPanelHeaderButtons from "../../components/controlls/LeftPanelHeaderButtons";
-import FormLayout              from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
-import Input                   from "@vkontakte/vkui/dist/components/Input/Input";
-import Button                  from "@vkontakte/vkui/dist/components/Button/Button";
-import { YandexReceiverPanel } from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
+import useQrCodeScanner                   from "../../epic/group/tabbar/useQrCodeScanner";
+import { getQueryParams, navigate }       from "hookrouter";
+import { extractMenuViewId }              from "./utils";
+import LeftPanelHeaderButtons             from "../../components/controlls/LeftPanelHeaderButtons";
+import FormLayout                         from "@vkontakte/vkui/dist/components/FormLayout/FormLayout";
+import Input                              from "@vkontakte/vkui/dist/components/Input/Input";
+import Button                             from "@vkontakte/vkui/dist/components/Button/Button";
+import { YandexReceiverPanel }            from "../../panels/menu/yandex/YandeMoneyReceiverPanel";
 import { SettingsPanel }    from "../../panels/menu/settings/SettingsPanel";
 import { AddEventPanel }    from "../../panels/menu/add-event/AddEventPanel";
 import useStartParams       from "../../hooks/useStartParams";

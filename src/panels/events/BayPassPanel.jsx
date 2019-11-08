@@ -12,17 +12,20 @@ import { back } from "../../utils/default/url";
 import EventPrice from "../../components/events/price/EventPrice";
 
 type P = {
-  id: EventsViewId
+  id: EventsViewId,
+  activePanel: EventsViewId
 };
 
 export const BayPassPanel = (p: P) => {
   const eventId = getQueryParams().event_id;
   useEffect(() => {
-    setQueryParams({
-      ...getQueryParams(),
-      pass: undefined,
-      sec: undefined
-    });
+    if (p.activePanel === p.id) {
+      setQueryParams({
+        ...getQueryParams(),
+        pass: undefined,
+        sec: undefined
+      });
+    }
   }, []);
 
   const [event, setEvent] = useState();

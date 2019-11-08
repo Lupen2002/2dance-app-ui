@@ -1,12 +1,12 @@
 // @flow
 
-import React, {useEffect} from "react";
-import { Tabbar, TabbarItem } from "@vkontakte/vkui";
+import React, {useEffect}           from "react";
+import { Tabbar, TabbarItem }       from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
-import useQrCodeScanner from "./useQrCodeScanner";
-import { go } from "../../utils/default/url";
-import useTicketsToApprovePay from "../../hooks/useTicketsToApprovePay";
-import useUserToken from "../../hooks/useUserToken";
+import useQrCodeScanner             from "./useQrCodeScanner";
+import { go }                       from "../../../utils/default/url";
+import useTicketsToApprovePay       from "../../../hooks/useTicketsToApprovePay";
+import useUserToken                 from "../../../hooks/useUserToken";
 
 type P = {
   selected: EpicViewId

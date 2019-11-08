@@ -7,26 +7,29 @@ import "core-js/es6/set";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import connect from "@vkontakte/vk-connect";
 import { Provider } from "react-redux";
 import createStore from "./store";
 import { PersistGate } from "redux-persist/integration/react";
+import { getQueryParams } from "hookrouter";
+import GroupApp from "./GroupApp";
+import GlobalApp from "./GlobalApp";
 
 connect.send("VKWebAppInit", {});
 
-console.log('nodeenv', process.env);
+console.log("nodeenv", process.env);
 
 const root = document.getElementById("root");
 
-const {store, persistor} = createStore();
+const { store, persistor } = createStore();
+const p = getQueryParams();
 
 if (root) {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        {p.vk_group_id ? <GroupApp /> : <GlobalApp />}
       </PersistGate>
     </Provider>,
     root

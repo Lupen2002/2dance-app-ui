@@ -12,6 +12,7 @@ declare type MenuViewId =
   | "add-event";
 declare type EventsViewId =
   | "main"
+  | "reg-on-reception"
   | "bay-pass"
   | "second-user"
   | "pay"

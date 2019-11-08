@@ -17,7 +17,8 @@ import YandexMoneyButton from "./YandeMoneyButton";
 import useUserById       from "../../../hooks/useUserById";
 
 type P = {
-  id: EventsViewId
+  id: EventsViewId,
+  activePanel: EventsViewId
 };
 
 export const PayEvents = (p: P) => {
@@ -102,6 +103,7 @@ export const PayEvents = (p: P) => {
               before={<Avatar size={72} src={event.avatar} />}
               description={
                 <>
+                  {query.vk_viewer_group_role === 'admin' && <div>id: {event_id}</div>}
                   <div>{new Date(event.timestamp).toLocaleString()}</div>
                   <div>{price} ₽</div>
                 </>
