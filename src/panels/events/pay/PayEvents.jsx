@@ -6,7 +6,7 @@ import { PanelHeader } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons       from "../../../components/controlls/LeftPanelHeaderButtons";
 import { getQueryParams, navigate } from "hookrouter";
 import { getEvents, postTickets }   from "../../../api";
-import useUserToken                 from "../../../hooks/useUserToken";
+import useUserToken      from "../../../hooks/useUserToken";
 import Avatar            from "@vkontakte/vkui/dist/components/Avatar/Avatar";
 import { UserCell }      from "../../main/main/UserCell";
 import vkConnect         from "@vkontakte/vkui-connect-promise";
@@ -15,6 +15,7 @@ import useConfigs        from "../../../hooks/useConfigs";
 import usePrice          from "../../../hooks/usePrice";
 import YandexMoneyButton from "./YandeMoneyButton";
 import useUserById       from "../../../hooks/useUserById";
+import useCheckRole      from "../../../hooks/useCheckRole";
 
 type P = {
   id: EventsViewId,
@@ -22,7 +23,8 @@ type P = {
 };
 
 export const PayEvents = (p: P) => {
-  const { event_id, pass, sec, vk_user_id, ...query } = getQueryParams();
+  const { event_id, pass, sec, vk_user_id, ...query } = getQueryParams(),
+        isAdmin = useCheckRole('admin');
   const [event, setEvent] = useState<?DanceEvent>(),
         token = useUserToken(true),
         [user:?User] = useUserById(parseInt(vk_user_id), token);
@@ -103,7 +105,7 @@ export const PayEvents = (p: P) => {
               before={<Avatar size={72} src={event.avatar} />}
               description={
                 <>
-                  {query.vk_viewer_group_role === 'admin' && <div>id: {event_id}</div>}
+                  {isAdmin && <div>id: {event_id}</div>}
                   <div>{new Date(event.timestamp).toLocaleString()}</div>
                   <div>{price} ₽</div>
                 </>
