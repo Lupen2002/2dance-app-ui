@@ -71,7 +71,7 @@ export default function TicketInfo(p: P) {
           ) : (
             <Cell>
               <InfoRow title="Статус">
-                Ожидаеться подтверждения оплаты {p.ticket.transactionId}
+                Ожидается подтверждение оплаты {p.ticket.transactionId}
                 {p.ticket.ymOperationId}
               </InfoRow>
             </Cell>
