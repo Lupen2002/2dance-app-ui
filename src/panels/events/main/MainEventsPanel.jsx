@@ -13,8 +13,9 @@ import {
 import { useEvents } from "../../../hooks/useEvents";
 import useUserToken from "../../../hooks/useUserToken";
 import EventCell from "./EventCell";
-import { getQueryParams, navigate, setQueryParams } from "hookrouter";
+import { getQueryParams, setQueryParams } from "hookrouter";
 import { go } from "../../../utils/default/url";
+import useCheckRole from "../../../hooks/useCheckRole";
 
 type P = {
   id: EventsViewId,
@@ -23,7 +24,7 @@ type P = {
 };
 
 export const MainEventsPanel = (p: P) => {
-  const { vk_viewer_group_role } = getQueryParams();
+  const isAccessAdd = useCheckRole("admin", "editor");
 
   useEffect(() => {
     if (p.activePanel === p.id) {
@@ -47,9 +48,7 @@ export const MainEventsPanel = (p: P) => {
       <PullToRefresh onRefresh={refresh} isFetching={fetching}>
         {events && (
           <>
-            {(vk_viewer_group_role === "admin" ||
-              vk_viewer_group_role === "moder" ||
-              vk_viewer_group_role === "editor") && (
+            {isAccessAdd && (
               <Group>
                 <CellButton
                   align="center"

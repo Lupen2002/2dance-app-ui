@@ -1,12 +1,13 @@
 // @flow
 
-import React, {useEffect}           from "react";
-import { Tabbar, TabbarItem }       from "@vkontakte/vkui";
+import React, { useEffect } from "react";
+import { Tabbar, TabbarItem } from "@vkontakte/vkui";
 import { getQueryParams, navigate } from "hookrouter";
-import useQrCodeScanner             from "./useQrCodeScanner";
-import { go }                       from "../../../utils/default/url";
-import useTicketsToApprovePay       from "../../../hooks/useTicketsToApprovePay";
-import useUserToken                 from "../../../hooks/useUserToken";
+import useQrCodeScanner from "./useQrCodeScanner";
+import { go } from "../../../utils/default/url";
+import useTicketsToApprovePay from "../../../hooks/useTicketsToApprovePay";
+import useUserToken from "../../../hooks/useUserToken";
+import useCheckRole from "../../../hooks/useCheckRole";
 
 type P = {
   selected: EpicViewId
@@ -15,15 +16,16 @@ type P = {
 export const AppTabbar = (p: P) => {
   const openQrScanner = useQrCodeScanner(),
     params = getQueryParams(),
+    isViewSetting = useCheckRole("admin", "reception", "editor"),
     token = useUserToken(false);
   const [altPayTickets, refresh] = useTicketsToApprovePay(token);
 
   useEffect(() => {
-    if (getQueryParams().vk_viewer_group_role === 'admin') {
+    if (isViewSetting) {
       const timer = setInterval(refresh, 10000);
-      return () => clearInterval(timer)
+      return () => clearInterval(timer);
     }
-  }, []);
+  }, [isViewSetting, refresh]);
 
   const isExistQrCodeScanner =
     params &&
@@ -31,17 +33,7 @@ export const AppTabbar = (p: P) => {
     (params.vk_platform === "mobile_android" ||
       params.vk_platform === "mobile_iphone");
 
-  if (
-    params.vk_viewer_group_role &&
-    (params.vk_viewer_group_role === "admin" ||
-      params.vk_viewer_group_role === "moder" ||
-      params.vk_user_id === "136641446" ||
-      params.vk_user_id === "38848073" ||
-      params.vk_user_id === "4185637" ||
-      params.vk_user_id === "147444557" ||
-      params.vk_user_id === "10640580" ||
-      params.vk_viewer_group_role === "editor")
-  ) {
+  if (isViewSetting) {
     return (
       <Tabbar>
         <TabbarItem
@@ -63,16 +55,18 @@ export const AppTabbar = (p: P) => {
             <i className="fas fa-camera fa-2x" />
           </TabbarItem>
         )}
-        {params.vk_viewer_group_role === "admin" && (
-          <TabbarItem
-            selected={p.selected === "menu"}
-            onClick={() => go("/menu/settings")}
-            label={altPayTickets && altPayTickets.length > 0 ? altPayTickets.length+"" : undefined}
-            text="Настройки"
-          >
-            <i className="fas fa-bars fa-2x" />
-          </TabbarItem>
-        )}
+        <TabbarItem
+          selected={p.selected === "menu"}
+          onClick={() => go("/menu/settings")}
+          label={
+            altPayTickets && altPayTickets.length > 0
+              ? altPayTickets.length + ""
+              : undefined
+          }
+          text="Настройки"
+        >
+          <i className="fas fa-bars fa-2x" />
+        </TabbarItem>
       </Tabbar>
     );
   } else {
