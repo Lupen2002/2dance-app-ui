@@ -29,7 +29,7 @@ if (root) {
   ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {p.vk_group_id ? <GroupApp /> : <GlobalApp />}
+        <GroupApp />
       </PersistGate>
     </Provider>,
     root
