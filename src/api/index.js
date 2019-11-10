@@ -3,7 +3,7 @@
 import axios            from "axios";
 import { ticketCreate } from "../utils/yandex/metrics";
 
-const baseUrl = "https://"+process.env.REACT_APP_HOSTNAME+"/api";
+const baseUrl = "http://"+process.env.REACT_APP_HOSTNAME+"";
 
 export async function getTickets(id?: string): Promise<Ticket[]> {
   if (id) {
@@ -96,4 +96,17 @@ export async function delUsers(obj: User): Promise<User[]> {
 
 export async function postNotify(req: NotifyRequest) {
   return (await axios.post(baseUrl + "/notifies", req)).data;
+}
+
+export async function getGroups(id?: string): Promise<VkGroup[]> {
+  if (id) {
+    return (await axios.get(baseUrl + "/groups/" + id)).data;
+  } else {
+    return (await axios.get(baseUrl + "/groups")).data;
+  }
+}
+
+export async function putGroups(obj: VkGroup) {
+  await axios.put(baseUrl + "/groups/" + obj._id, obj);
+  return (await axios.get(baseUrl + "/groups/" + obj._id)).data;
 }

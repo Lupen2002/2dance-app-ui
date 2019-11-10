@@ -26,12 +26,12 @@ declare type Ticket = {|
 declare type PayKind = {
   name: string,
   on?: boolean
-}
+};
 
 declare type UserRoleGroup = {
   vkUserId: number,
-  role: 'admin' | 'editor' | 'reception'
-}
+  role: "admin" | "reception"
+};
 
 declare type TwoDanceConfigs = {|
   _id: string,
@@ -83,3 +83,37 @@ declare type User = {|
   },
   role: "root" | "admin" | "user"
 |};
+
+declare type VkGroupContact = {
+  user_id: number, // — идентификатор пользователя;
+  desc: string, // — должность;
+  phone: string, // — номер телефона;
+  email: string // — адрес e-mail.
+};
+
+declare type VkGroup = {
+  _id: string,
+  id: number,
+  name: string,
+  app: {
+    status: 'new' | 'ignored' | 'show'
+  },
+  type: "group" | "page" | "event",
+  photo_50: string,
+  photo_100: string,
+  photo_200: string,
+  activity?: string,
+  city: {
+    id: number,
+    title: string
+  },
+  contacts?: VkGroupContact[],
+  country?: {
+    id: number,
+    title: string
+  },
+  description?: string,
+  public_date_label?: string,
+  start_date?: number | string,
+  finish_date?: number | string
+};

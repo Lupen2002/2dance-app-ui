@@ -1,20 +1,19 @@
 // @flow
 
-import React                              from 'react'
-import { Epic, Panel, PanelHeader } from "@vkontakte/vkui";
+import React from "react";
+import { Epic } from "@vkontakte/vkui";
+import GlobalsMainView from "../../views/globals/main/GlobalsMainView";
 
 type P = {
-  id: string
-}
+  epicId: string,
+  panelId?: string
+};
 
 export default function GlobalEpic(p: P) {
-
+  console.log('!!! GlobalEpic');
   return (
-    <Epic activeStory={p.id}>
-      <Panel>
-        <PanelHeader>Все события</PanelHeader>
-
-      </Panel>
+    <Epic activeStory={p.epicId}>
+      <GlobalsMainView id="main" activePanel={p.panelId} />
     </Epic>
-  )
+  );
 }

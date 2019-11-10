@@ -5,7 +5,7 @@ import { useRoutes } from "hookrouter";
 import GlobalEpic    from "./epic/global";
 
 const routes = {
-  "/": () => <GlobalEpic />,
+  "/": () => <GlobalEpic epicId='main' />,
   "/:epicId": ({ epicId }) => <GlobalEpic epicId={epicId} />,
   "/:epicId/:panelId": ({ epicId, panelId }) => (
     <GlobalEpic epicId={epicId} panelId={panelId} />
