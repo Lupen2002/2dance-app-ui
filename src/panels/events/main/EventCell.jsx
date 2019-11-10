@@ -41,6 +41,7 @@ export default function EventCell(p: P) {
           params.vk_user_id === "38848073" ||
           params.vk_user_id === "4185637" ||
           params.vk_user_id === "147444557" ||
+          params.vk_user_id === "178858784" ||
           params.vk_user_id === "10640580") && (
           <Icon24MoreHorizontal onClick={onAdminMenu(p.event)} />
         )
