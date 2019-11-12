@@ -1,10 +1,11 @@
 // @flow
 
-import React, { useMemo }          from "react";
-import { navigate, useRoutes }     from "hookrouter";
-import { RootEpic }                from "./epic/group";
-import { go, queryStringToObject } from "./utils/default/url";
-import useUserToken                from "./hooks/useUserToken";
+import React, { useState, useMemo, useEffect } from "react";
+import { useRoutes } from "hookrouter";
+import { RootEpic } from "./epic/group";
+import { queryStringToObject } from "./utils/default/url";
+import useUserToken from "./hooks/useUserToken";
+import useNavigate from "./hooks/useNavigate";
 
 type Params = { [string]: string };
 
@@ -17,32 +18,47 @@ const routes = {
 };
 
 function GroupApp() {
-  const token = useUserToken();
+  const token = useUserToken(),
+        [redirect, setRedirect] = useState(null),
+    [go, params, setParams] = useNavigate();
   const hash = window.location.hash.substr(1);
-  const params: Params = useMemo(() => queryStringToObject(hash), [hash]);
+  const hashParams: Params = useMemo(() => queryStringToObject(hash), [hash]);
 
-  if (token && params && params.r) {
-    const { r, ...query } = params;
-    switch (r) {
-      case 'check-params': {
-        go('/check-params');
-        break;
+  useEffect(() => {
+    const {r, ...q} = hashParams;
+    setRedirect(r);
+    setParams({ ...params, ...q });
+  }, [params, setParams, hashParams]);
+
+  useEffect(() => {
+    if (token && redirect) {
+      switch (redirect) {
+        case "check-params": {
+          go("/check-params");
+          setRedirect(null);
+          break;
+        }
+        case "reg-on-reception": {
+          go("/events/reg-on-reception");
+          setRedirect(null);
+          break;
+        }
+        case "root": {
+          go("/");
+          setRedirect(null);
+          break;
+        }
+        case "ym-success": {
+          go("/events/ym-success");
+          setRedirect(null);
+          break;
+        }
+        default:
+          setRedirect(null);
+          break;
       }
-      case 'reg-on-reception': {
-        go('/events/reg-on-reception', params, false);
-        break;
-      }
-      case "root": {
-        navigate("/", false, query);
-        break;
-      }
-      case "ym-success": {
-        navigate("/events/ym-success", false, query);
-        break;
-      }
-      default: break;
     }
-  }
+  }, [token, go, redirect]);
 
   return useRoutes(routes);
 }

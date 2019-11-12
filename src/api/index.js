@@ -3,7 +3,7 @@
 import axios            from "axios";
 import { ticketCreate } from "../utils/yandex/metrics";
 
-const baseUrl = "http://"+process.env.REACT_APP_HOSTNAME+"";
+const baseUrl = "https://"+process.env.REACT_APP_HOSTNAME+"/api";
 
 export async function getTickets(id?: string): Promise<Ticket[]> {
   if (id) {
@@ -106,7 +106,15 @@ export async function getGroups(id?: string): Promise<VkGroup[]> {
   }
 }
 
+export async function postGroups(obj: $Rest<VkGroup, {|_id: string|}>) {
+  return (await axios.post(baseUrl + "/groups", obj)).data;
+}
+
 export async function putGroups(obj: VkGroup) {
   await axios.put(baseUrl + "/groups/" + obj._id, obj);
   return (await axios.get(baseUrl + "/groups/" + obj._id)).data;
+}
+
+export async function postIdGroups(obj: number[]) {
+  return (await axios.post(baseUrl + "/spider", obj));
 }

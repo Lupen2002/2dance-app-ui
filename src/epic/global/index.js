@@ -1,8 +1,11 @@
 // @flow
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Epic } from "@vkontakte/vkui";
-import GlobalsMainView from "../../views/globals/main/GlobalsMainView";
+import { getQueryParams } from "hookrouter";
+import { AppTabbar } from "./tabbar";
+import GlobalsEventsView from "../../views/globals/events/GlobalsEventsView";
+import GlobalsModerationView from "../../views/globals/moderation/GlobalsModerationView";
 
 type P = {
   epicId: string,
@@ -10,10 +13,12 @@ type P = {
 };
 
 export default function GlobalEpic(p: P) {
-  console.log('!!! GlobalEpic');
+  const isArs = useMemo(() => getQueryParams().vk_user_id === "10640580", []);
+
   return (
-    <Epic activeStory={p.epicId}>
-      <GlobalsMainView id="main" activePanel={p.panelId} />
+    <Epic activeStory={p.epicId} tabbar={isArs && <AppTabbar />}>
+      <GlobalsModerationView id="global-moderation" activePanel={p.panelId} />
+      <GlobalsEventsView id="global-events" activePanel={p.panelId} />
     </Epic>
   );
 }

@@ -22,9 +22,11 @@ type P = {
   activePanel: EventsViewId
 };
 
+const roles = ["admin"];
+
 export const PayEvents = (p: P) => {
   const { event_id, pass, sec, vk_user_id, ...query } = getQueryParams(),
-        isAdmin = useCheckRole('admin');
+        isAdmin = useCheckRole(roles);
   const [event, setEvent] = useState<?DanceEvent>(),
         token = useUserToken(true),
         [user:?User] = useUserById(parseInt(vk_user_id), token);

@@ -3,13 +3,13 @@
 import React, { useMemo }                   from "react";
 import { Panel, PanelHeader, PanelSpinner } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons               from "../../../components/controlls/LeftPanelHeaderButtons";
-import { getQueryParams }                   from "hookrouter";
-import { postEvents }                       from "../../../api";
-import { dateLocal2ISO }                    from "../../events/edit/utils";
-import EventForm                            from "../../events/edit/EventForm";
-import { getLocalDate }                     from "../../../utils/default/date";
-import { back, go }                         from "../../../utils/default/url";
-import useCurrentGroup                      from "../../../hooks/useCurrentGroup";
+import { postEvents }     from "../../../api";
+import { dateLocal2ISO }  from "../../events/edit/utils";
+import EventForm          from "../../events/edit/EventForm";
+import { getLocalDate }   from "../../../utils/default/date";
+import { back }       from "../../../utils/default/url";
+import useCurrentGroup    from "../../../hooks/useCurrentGroup";
+import useNavigate        from "../../../hooks/useNavigate";
 
 type ExcludeDanceEvent = {| _id: string |};
 type NDanceEvent = $Rest<DanceEvent, ExcludeDanceEvent>;
@@ -31,17 +31,18 @@ const defaultEvent = (id: number): NDanceEvent => ({
 });
 
 export const AddEventPanel = (p: P) => {
-  const { vk_group_id } = getQueryParams(),
-        [group] = useCurrentGroup();
+  const [group] = useCurrentGroup(),
+        [go, params, setParams] = useNavigate();
+
   const event = useMemo(() => {
     if (group) {
-      const event = defaultEvent(parseInt(vk_group_id));
+      const event = defaultEvent(parseInt(params.vk_group_id));
       return {...event, avatar: group.photo_200}
     }
-  }, [vk_group_id, group]);
+  }, [params.vk_group_id, group]);
 
   const post = (event: DanceEvent) => {
-    if (vk_group_id) {
+    if (params.vk_group_id) {
       postEvents(event).then(() => go("/events"));
     }
   };

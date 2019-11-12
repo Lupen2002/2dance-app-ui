@@ -1,10 +1,9 @@
 // @flow
 
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { ActionSheet, ActionSheetItem, IOS, platform } from "@vkontakte/vkui";
-import useStartParams from "../../../hooks/useStartParams";
-import { getQueryParams, navigate, setQueryParams } from "hookrouter";
 import useCheckRole from "../../../hooks/useCheckRole";
+import useNavigate from "../../../hooks/useNavigate";
 
 type P = {
   event: DanceEvent,
@@ -13,26 +12,48 @@ type P = {
 
 const osname = platform();
 
-export default function AdminPopoutEvent(p: P) {
-  const isAccessEdit = useCheckRole("admin", "editor");
+const roles = ["admin", "editor"];
 
-  const go2 = useMemo(
-    () => (to: EventsViewId, event: DanceEvent) => () => {
-      setQueryParams({ ...getQueryParams(), event_id: event._id });
-      navigate("/events/" + to, false, getQueryParams());
+export default function AdminPopoutEvent(p: P) {
+  const isAccessEdit = useCheckRole(roles),
+    [go, params, setParams] = useNavigate();
+
+  useEffect(() => {
+    setParams({ ...params, event_id: p.event._id });
+  }, [params, setParams, p]);
+
+  const goEdit = useMemo(
+    () => () => {
+      go("/events/edit");
     },
-    []
+    [go]
+  );
+
+  const goListGuest = useMemo(
+    () => () => {
+      go("/events/list-guests");
+    },
+    [go]
+  );
+
+  const onClose = useMemo(
+    () => () => {
+      const { event_id, ...q } = params;
+      setParams(q);
+      p.onClose()
+    },
+    [p, params, setParams]
   );
 
   return (
     <>
-      <ActionSheet onClose={p.onClose}>
+      <ActionSheet onClose={onClose}>
         {isAccessEdit && (
-          <ActionSheetItem autoclose onClick={go2("edit", p.event)}>
+          <ActionSheetItem autoclose onClick={goEdit}>
             Редактировать
           </ActionSheetItem>
         )}
-        <ActionSheetItem autoclose onClick={go2("list-guests", p.event)}>
+        <ActionSheetItem autoclose onClick={goListGuest}>
           Список гостей
         </ActionSheetItem>
         {osname === IOS && (

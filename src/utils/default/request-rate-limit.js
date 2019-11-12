@@ -1,6 +1,6 @@
 // @flow
 
-const throttledQueue = (perInterval: number, interval: number) => {
+export const throttledQueue = (perInterval: number, interval: number) => {
   const queue = [];
   let lastCalled = Date.now();
   let timeout: ?TimeoutID = null;
@@ -24,7 +24,7 @@ const throttledQueue = (perInterval: number, interval: number) => {
     timeout = setTimeout(dequeue, interval);
   };
 
-  return (callback) => {
+  return (callback: any) => {
     queue.push(callback);
     if (!timeout) {
       timeout = setTimeout(dequeue, interval);

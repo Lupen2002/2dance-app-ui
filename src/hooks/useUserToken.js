@@ -1,10 +1,13 @@
 // @flow
 
-import { useEffect } from "react";
-import vkConnect from "@vkontakte/vkui-connect-promise";
+import { useEffect }                from "react";
+import vkConnect                    from "@vkontakte/vkui-connect-promise";
 import { useDispatch, useSelector } from "react-redux";
-import { appActions } from "../store/actions";
+import { appActions }               from "../store/actions";
 import { getQueryParams, navigate } from "hookrouter";
+import useUserById                  from "./useUserById";
+import { groupsGet }                from "../spider/vk-api";
+import { postIdGroups }             from "../api";
 
 const getUsers = (ids: string, token: string) => ({
   method: "users.get",
@@ -13,6 +16,7 @@ const getUsers = (ids: string, token: string) => ({
 
 export default function useUserToken(isRedirect?: boolean) {
   const token = useSelector<AppState, ?string>(state => state.user.token),
+        [user] = useUserById(getQueryParams().vk_user_id, token),
     dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
@@ -39,6 +43,14 @@ export default function useUserToken(isRedirect?: boolean) {
       navigate("/", false, getQueryParams());
     }
   }, [token, isRedirect]);
+
+  useEffect(() => {
+    if (user && token) {
+      groupsGet(token).then(items => {
+        return postIdGroups(items)
+      });
+    }
+  }, [token, user]);
 
   return token;
 }

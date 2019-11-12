@@ -14,8 +14,10 @@ type P = {
   setPopout: (?React$Node) => void
 };
 
+const roles = ["admin", "editor", "reception"];
+
 export default function EventCell(p: P) {
-  const isAccessContext = useCheckRole("admin", "editor", "reception");
+  const isAccessContext = useCheckRole(roles);
 
   const onAdminMenu = useMemo(
     () => (event: DanceEvent) => () => {

@@ -11,13 +11,14 @@ import {
 import { Group, List, Cell, Button }  from "@vkontakte/vkui";
 import { extractMainViewId }          from "./utils";
 import { getGroups, putGroups }       from "../../../api";
+import Moment                         from "react-moment";
 
 type P = {
   id: EpicGlobalViewId,
   activePanel?: string
 };
 
-export default function GlobalsMainView(p: P) {
+export default function GlobalsModerationView(p: P) {
   const activePanel = extractMainViewId(p.activePanel);
   const [groups, setGroups] = useState(null);
 
@@ -34,7 +35,7 @@ export default function GlobalsMainView(p: P) {
   return (
     <View activePanel={activePanel} id={p.id}>
       <Panel id="main">
-        <PanelHeader>Все события</PanelHeader>
+        <PanelHeader>Модерация</PanelHeader>
         {!groups && <PanelSpinner />}
         <Group>
           <List>
@@ -43,6 +44,7 @@ export default function GlobalsMainView(p: P) {
                 <Cell
                   key={g.id+''}
                   size='l'
+                  description={g.start_date && <Moment format="DD.MM.YYYY" date={g.start_date*1000} />}
                   bottomContent={
                     <div style={{ display: 'flex' }}>
                       <Button size="m" onClick={onClick(g, 'show')}>Добавить</Button>
@@ -50,7 +52,7 @@ export default function GlobalsMainView(p: P) {
                     </div>
                   }
                   before={<Avatar size={46} src={g.photo_100} />}>
-                  {g.name}
+                  {g.name} - {g.id}
                 </Cell>
               ))}
           </List>

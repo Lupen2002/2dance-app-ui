@@ -30,7 +30,7 @@ declare type PayKind = {
 
 declare type UserRoleGroup = {
   vkUserId: number,
-  role: "admin" | "reception"
+  role: "admin" | "reception" | "editor"
 };
 
 declare type TwoDanceConfigs = {|
@@ -81,6 +81,7 @@ declare type User = {|
     keyboard: boolean,
     lang_id: number
   },
+  vk_token?: string,
   role: "root" | "admin" | "user"
 |};
 

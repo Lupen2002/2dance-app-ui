@@ -3,6 +3,7 @@
 import React         from 'react'
 import { useRoutes } from "hookrouter";
 import GlobalEpic    from "./epic/global";
+import useUserToken  from "./hooks/useUserToken";
 
 const routes = {
   "/": () => <GlobalEpic epicId='main' />,
@@ -13,7 +14,7 @@ const routes = {
 };
 
 export default function GlobalApp() {
-
+  useUserToken(true);
   return useRoutes(routes);
 
 }
