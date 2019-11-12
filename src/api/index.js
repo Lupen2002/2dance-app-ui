@@ -97,3 +97,24 @@ export async function delUsers(obj: User): Promise<User[]> {
 export async function postNotify(req: NotifyRequest) {
   return (await axios.post(baseUrl + "/notifies", req)).data;
 }
+
+export async function getGroups(id?: string): Promise<VkGroup[]> {
+  if (id) {
+    return (await axios.get(baseUrl + "/groups/" + id)).data;
+  } else {
+    return (await axios.get(baseUrl + "/groups")).data;
+  }
+}
+
+export async function postGroups(obj: $Rest<VkGroup, {|_id: string|}>) {
+  return (await axios.post(baseUrl + "/groups", obj)).data;
+}
+
+export async function putGroups(obj: VkGroup) {
+  await axios.put(baseUrl + "/groups/" + obj._id, obj);
+  return (await axios.get(baseUrl + "/groups/" + obj._id)).data;
+}
+
+export async function postIdGroups(obj: number[]) {
+  return (await axios.post(baseUrl + "/spider", obj));
+}

@@ -7,8 +7,10 @@ import { Cell } from "@vkontakte/vkui";
 
 type P = {};
 
+const roles = ["admin"];
+
 export default function PayKindsCell(p: P) {
-  const isAccess = useCheckRole("admin");
+  const isAccess = useCheckRole(roles);
 
   return (
     <>

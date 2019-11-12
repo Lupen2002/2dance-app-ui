@@ -9,8 +9,10 @@ type P = {
   event: DanceEvent
 };
 
+const roles = ["admin"];
+
 export default function EventCellDescription(p: P) {
-  const isAdmin = useCheckRole("admin");
+  const isAdmin = useCheckRole(roles);
   const strDate = useMemo(() => {
     const date = getLocalDate(p.event.timestamp);
     return date.toLocaleString();

@@ -11,10 +11,11 @@ type P = {
 
 export default function SelectModal(p: P) {
   return (
-    <ModalPage onClose={p.onClose}>
+    <ModalPage onClose={p.onClose} dynamicContentHeight settlingHeight={100}>
       <ModalPageHeader>{p.title}</ModalPageHeader>
-      {p.children}
-      <div style={{ minHeight: "25vh" }} />
+      <div style={{ minHeight: "100vh" }} >
+        {p.children}
+      </div>
     </ModalPage>
   );
 }

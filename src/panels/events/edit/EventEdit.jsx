@@ -1,30 +1,29 @@
 // @flow
 
 import React, { useMemo } from "react";
-import {
-  Panel,
-  PanelHeader,
-  PanelSpinner
-} from "@vkontakte/vkui";
+import { Panel, PanelHeader, PanelSpinner } from "@vkontakte/vkui";
 import LeftPanelHeaderButtons from "../../../components/controlls/LeftPanelHeaderButtons";
-import { getQueryParams, navigate } from "hookrouter";
 import { useEventById } from "../../../hooks/useEventById";
 import EventForm from "./EventForm";
 import { putEvents } from "../../../api";
+import useNavigate from "../../../hooks/useNavigate";
 
 type P = {
   id: EventsViewId
 };
 
 export default function EventEdit(p: P) {
-  const { event_id } = getQueryParams();
-  const [event] = useEventById(event_id);
+  const [go, params] = useNavigate();
+  const [event] = useEventById(params.event_id);
 
-  const onSubmit = useMemo(() => (newEvent: DanceEvent) => {
-    putEvents(newEvent).then(() => {
-      navigate("/events", false, getQueryParams());
-    });
-  }, []);
+  const onSubmit = useMemo(
+    () => (newEvent: DanceEvent) => {
+      putEvents(newEvent).then(() => {
+        go("/events");
+      });
+    },
+    [go]
+  );
 
   return (
     <Panel id={p.id}>
@@ -32,7 +31,7 @@ export default function EventEdit(p: P) {
         left={
           <LeftPanelHeaderButtons
             type="back"
-            back={() => navigate("/events", false, getQueryParams())}
+            back={() => go("/events")}
           />
         }
       >

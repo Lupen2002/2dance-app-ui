@@ -6,7 +6,7 @@ import { getQueryParams } from "hookrouter";
 
 type RoleType = "admin" | "editor" | "reception";
 
-export default function useCheckRole(...roles: RoleType[]) {
+export default function useCheckRole(roles: RoleType[]) {
   const [checked, setChecked] = useState(false),
     [configs: ?TwoDanceConfigs] = useConfigs();
 

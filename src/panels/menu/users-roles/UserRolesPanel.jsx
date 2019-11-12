@@ -74,7 +74,7 @@ export default function UsersRolesPanel(p: P) {
         });
       }
     }
-  }, [activeUserId, activeUserRole, update, refresh]);
+  }, [activeUserId, activeUserRole, update, refresh, config]);
 
   return (
     <Panel id={p.id}>

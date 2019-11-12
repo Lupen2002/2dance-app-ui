@@ -19,13 +19,8 @@ type P = {
 export const BayPassPanel = (p: P) => {
   const eventId = getQueryParams().event_id;
   useEffect(() => {
-    if (p.activePanel === p.id) {
-      setQueryParams({
-        ...getQueryParams(),
-        pass: undefined,
-        sec: undefined
-      });
-    }
+    const {pass, sec, ...q} = getQueryParams();
+    setQueryParams(q);
   }, []);
 
   const [event, setEvent] = useState();

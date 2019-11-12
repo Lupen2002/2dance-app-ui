@@ -10,8 +10,10 @@ import { Cell } from "@vkontakte/vkui";
 
 type P = {};
 
+const roles = ["admin", "reception"];
+
 export default function AllowMessageCell(p: P) {
-  const isAccess = useCheckRole("admin", "reception");
+  const isAccess = useCheckRole(roles);
   const params = getQueryParams();
   const token = useUserToken(true),
     [user, refresh] = useUserById(parseInt(params.vk_user_id), token),

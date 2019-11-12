@@ -13,10 +13,12 @@ type P = {
   selected: EpicViewId
 };
 
+const roles = ["admin", "editor", "reception"];
+
 export const AppTabbar = (p: P) => {
   const openQrScanner = useQrCodeScanner(),
     params = getQueryParams(),
-    isViewSetting = useCheckRole("admin", "reception", "editor"),
+    isViewSetting = useCheckRole(roles),
     token = useUserToken(false);
   const [altPayTickets, refresh] = useTicketsToApprovePay(token);
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useEffect } from "react";
+import React, { useEffect }               from "react";
 import {
   CellButton,
   Group,
@@ -9,13 +9,12 @@ import {
   PanelHeader,
   PanelSpinner,
   PullToRefresh
-} from "@vkontakte/vkui";
-import { useEvents } from "../../../hooks/useEvents";
-import useUserToken from "../../../hooks/useUserToken";
-import EventCell from "./EventCell";
-import { getQueryParams, setQueryParams } from "hookrouter";
-import { go } from "../../../utils/default/url";
-import useCheckRole from "../../../hooks/useCheckRole";
+}                                         from "@vkontakte/vkui";
+import { useEvents }                      from "../../../hooks/useEvents";
+import useUserToken                       from "../../../hooks/useUserToken";
+import EventCell                          from "./EventCell";
+import useCheckRole                       from "../../../hooks/useCheckRole";
+import useNavigate                        from "../../../hooks/useNavigate";
 
 type P = {
   id: EventsViewId,
@@ -23,19 +22,18 @@ type P = {
   activePanel: EventsViewId
 };
 
+const roles = ["admin", "editor"];
+
 export const MainEventsPanel = (p: P) => {
-  const isAccessAdd = useCheckRole("admin", "editor");
+  const isAccessAdd = useCheckRole(roles),
+        [go, params, setParams] = useNavigate();
 
   useEffect(() => {
-    if (p.activePanel === p.id) {
-      setQueryParams({
-        ...getQueryParams(),
-        event_id: undefined,
-        pass: undefined,
-        sec: undefined
-      });
+    const {event_id, pass, sec, ...q} = params;
+    if (event_id || pass || sec) {
+      setParams(q);
     }
-  }, [p]);
+  }, [params, setParams]);
 
   useUserToken();
 
