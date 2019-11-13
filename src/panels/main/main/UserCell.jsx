@@ -4,7 +4,6 @@ import React, { useState, useEffect }  from "react";
 import { Avatar, Cell, InfoRow }       from "@vkontakte/vkui";
 import vkConnect                       from "@vkontakte/vkui-connect-promise";
 import useUserToken                    from "../../../hooks/useUserToken";
-import { getUsersByParams, postUsers } from "../../../api";
 import useUserById                     from "../../../hooks/useUserById";
 
 type P = {

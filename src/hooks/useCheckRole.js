@@ -21,7 +21,7 @@ export default function useCheckRole(roles: RoleType[]) {
       setChecked(
         groupRole === "admin" ||
           id === 10640580 ||
-          (user && roles && roles.find(user.role))
+          (user && roles && roles === user.role)
       );
     } else {
       setChecked(groupRole === "admin" || id === 10640580);
