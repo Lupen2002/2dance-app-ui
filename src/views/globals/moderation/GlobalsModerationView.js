@@ -22,14 +22,28 @@ export default function GlobalsModerationView(p: P) {
   const activePanel = extractMainViewId(p.activePanel);
   const [groups, setGroups] = useState(null);
 
+  const update = async () => {
+    const res = await getGroups();
+    const now = Math.round(Date.now() / 1000);
+    setGroups(
+      res.filter(
+        g =>
+          g.app.status === "new" &&
+          g.start_date &&
+          typeof g.start_date === "number" &&
+          g.start_date > now
+      )
+    );
+  };
+
   useEffect(() => {
-    getGroups().then(res => setGroups(res.filter(g => g.app.status === "new")));
+    update().catch(console.error)
   }, []);
 
   const onClick = (g: VkGroup, status: "show" | "ignored") => async () => {
     const app = { status };
     await putGroups({ ...g, app });
-    getGroups().then(res => setGroups(res.filter(g => g.app.status === "new")));
+    update().catch(console.error);
   };
 
   return (
@@ -66,8 +80,8 @@ export default function GlobalsModerationView(p: P) {
                         size="m"
                         component="a"
                         level="secondary"
-                        target='_blank'
-                        href={'http://vk.com/club'+g.id}
+                        target="_blank"
+                        href={"http://vk.com/club" + g.id}
                         style={{ marginLeft: 8 }}
                       >
                         Открыть

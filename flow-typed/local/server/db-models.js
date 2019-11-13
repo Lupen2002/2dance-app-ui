@@ -1,6 +1,7 @@
 // @flow
 
 declare type TicketType = "single-pass" | "double-pass" | "group-pass";
+declare type RoleType = "admin" | "editor" | "reception";
 
 declare type Ticket = {|
   _id: string,
