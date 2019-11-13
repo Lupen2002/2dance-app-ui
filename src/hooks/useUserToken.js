@@ -16,7 +16,7 @@ const getUsers = (ids: string, token: string) => ({
 
 export default function useUserToken(isRedirect?: boolean) {
   const token = useSelector<AppState, ?string>(state => state.user.token),
-        [user] = useUserById(getQueryParams().vk_user_id, token),
+        [user] = useUserById(parseInt(getQueryParams().vk_user_id), token),
     dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
