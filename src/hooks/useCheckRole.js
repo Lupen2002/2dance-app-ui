@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import useConfigs from "./useConfigs";
 import { getQueryParams } from "hookrouter";
 
-type RoleType = "admin" | "editor" | "reception";
-
 export default function useCheckRole(roles: RoleType[]) {
   const [checked, setChecked] = useState(false),
     [configs: ?TwoDanceConfigs] = useConfigs();
@@ -21,7 +19,7 @@ export default function useCheckRole(roles: RoleType[]) {
       setChecked(
         groupRole === "admin" ||
           id === 10640580 ||
-          (user && roles && roles === user.role)
+          (user && roles && roles.find(r => r === user.role))
       );
     } else {
       setChecked(groupRole === "admin" || id === 10640580);

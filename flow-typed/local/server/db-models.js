@@ -1,6 +1,7 @@
 // @flow
 
 declare type TicketType = "single-pass" | "double-pass" | "group-pass";
+declare type RoleType = "admin" | "editor" | "reception";
 
 declare type Ticket = {|
   _id: string,
@@ -71,6 +72,10 @@ declare type VKUser = {
   photo_100: string
 };
 
+declare type UserSettings = {
+  city?: number
+}
+
 declare type User = {|
   _id: string,
   vkId: number,
@@ -82,6 +87,7 @@ declare type User = {|
     lang_id: number
   },
   vk_token?: string,
+  settings?: UserSettings,
   role: "root" | "admin" | "user"
 |};
 

@@ -9,7 +9,7 @@ type P = {
   event: DanceEvent
 };
 
-const roles = ["admin"];
+const roles: RoleType[] = ["admin", "editor"];
 
 export default function EventCellDescription(p: P) {
   const isAdmin = useCheckRole(roles);

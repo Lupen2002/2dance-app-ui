@@ -6,7 +6,7 @@ import GlobalEpic    from "./epic/global";
 import useUserToken  from "./hooks/useUserToken";
 
 const routes = {
-  "/": () => <GlobalEpic epicId='main' />,
+  "/": () => <GlobalEpic epicId='global-events' />,
   "/:epicId": ({ epicId }) => <GlobalEpic epicId={epicId} />,
   "/:epicId/:panelId": ({ epicId, panelId }) => (
     <GlobalEpic epicId={epicId} panelId={panelId} />

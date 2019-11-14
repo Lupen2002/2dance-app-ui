@@ -9,7 +9,7 @@ import useUserToken from "../../../hooks/useUserToken";
 
 type P = {};
 
-const roles = ["admin", "reception"];
+const roles = ["admin", "reception", "editor"];
 
 export default function CheckAltPayCell(p: P) {
   const isAccess = useCheckRole(roles);

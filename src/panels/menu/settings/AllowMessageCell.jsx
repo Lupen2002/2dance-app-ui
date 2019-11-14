@@ -10,7 +10,7 @@ import { Cell } from "@vkontakte/vkui";
 
 type P = {};
 
-const roles = ["admin", "reception"];
+const roles: RoleType[] = ["admin", "reception", "editor"];
 
 export default function AllowMessageCell(p: P) {
   const isAccess = useCheckRole(roles);
