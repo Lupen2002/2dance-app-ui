@@ -72,6 +72,10 @@ declare type VKUser = {
   photo_100: string
 };
 
+declare type UserSettings = {
+  city?: number
+}
+
 declare type User = {|
   _id: string,
   vkId: number,
@@ -83,6 +87,7 @@ declare type User = {|
     lang_id: number
   },
   vk_token?: string,
+  settings?: UserSettings,
   role: "root" | "admin" | "user"
 |};
 

@@ -17,7 +17,7 @@ export default function GlobalEpic(p: P) {
 
   return (
     <Epic activeStory={p.epicId} tabbar={isArs && <AppTabbar />}>
-      <GlobalsModerationView id="global-moderation" activePanel={p.panelId} />
+      <GlobalsModerationView id="global-settings" activePanel={p.panelId} />
       <GlobalsEventsView id="global-events" activePanel={p.panelId} />
     </Epic>
   );
