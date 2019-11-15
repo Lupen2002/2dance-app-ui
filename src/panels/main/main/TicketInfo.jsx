@@ -24,6 +24,7 @@ export default function TicketInfo(p: P) {
           <Cell>
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
+          <UserCell userId={p.ticket.vkUserId}/>
           {p.ticket.transactionId ||
           p.ticket.ymOperationId ||
           (p.ticket.altPay && p.ticket.altPay.approve) ? (
@@ -57,6 +58,7 @@ export default function TicketInfo(p: P) {
           <Cell>
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
+          <UserCell userId={p.ticket.vkUserId}/>
           {p.ticket.secondUserId && <UserCell userId={p.ticket.secondUserId} />}
           {p.ticket.transactionId ||
           p.ticket.ymOperationId ||

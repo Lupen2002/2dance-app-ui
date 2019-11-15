@@ -6,6 +6,7 @@ const validId: EventsViewId[] = [
   "bay-pass",
   "second-user",
   "pay",
+  "add-guest",
   "ym-success",
   "edit",
   "alt-pay",

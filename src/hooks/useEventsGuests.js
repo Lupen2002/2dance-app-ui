@@ -8,7 +8,7 @@ import useAllTickets from "./useAllTickets";
 import { getUsersByParams, postUsers } from "../api";
 
 type GuestInfo = {
-  user: VKUser,
+  user: GuestUserInfo,
   isVisit: boolean
 };
 
@@ -23,16 +23,22 @@ const getUsers = (ids: string, token: string) => ({
 });
 
 const getUsersByTickets = async (tickets: RichTicket[], token: string) => {
-  let users: VKUser[] = [];
+  let users: GuestUserInfo[] = [];
   for (let t of tickets) {
-    const cacheUsers = await getUsersByParams({ vkId: t.vkUserId });
-    if (cacheUsers.length > 0) {
-      users = [...users, cacheUsers[0].vkUser];
+    if (t.vkUserId) {
+      const cacheUsers = await getUsersByParams({vkId: t.vkUserId});
+      if (cacheUsers.length > 0) {
+        users = [...users, cacheUsers[0].vkUser];
+      }
+    } else if (t.offlineUser){
+      users = [...users, t.offlineUser]
     }
   }
-  const existUsers = users.map(u => u.id);
-  if (users.length < tickets.length) {
-    const userIds = tickets.map(t => t.vkUserId).join(",");
+  const existUsers = users.filter(u => !!u.id).map(u => u.id);
+  const withVkUserTickets = tickets.filter(t => !!t.vkUserId);
+
+  if (users.length < withVkUserTickets.length) {
+    const userIds = withVkUserTickets.map(t => t.vkUserId).join(",");
     const { data } = await vkConnect.send(
       "VKWebAppCallAPIMethod",
       getUsers(userIds, token)
@@ -41,7 +47,7 @@ const getUsersByTickets = async (tickets: RichTicket[], token: string) => {
     for (let u of users) {
       const existUser = existUsers.find(eu => eu === u.id);
       if (!existUser) {
-        const res = await postUsers({ vkUser: u, vkId: u.id, role: "user" });
+        await postUsers({ vkUser: u, vkId: u.id, role: "user" });
       }
     }
   }
@@ -56,8 +62,11 @@ export default function useEventsGuests(event: DanceEvent) {
 
   useEffect(() => {
     if (token && tickets) {
+      console.log('!!! useEventsGuests::getUsersByTickets::tickets', tickets);
+
       getUsersByTickets(tickets, token)
         .then(users => {
+          console.log('!!! useEventsGuests::getUsersByTickets::users', users);
           const guests: GuestInfo[] = users.map(u => {
             const ticket: ?RichTicket = tickets.find(t => t.vkUserId === u.id);
             return {
@@ -65,6 +74,7 @@ export default function useEventsGuests(event: DanceEvent) {
               isVisit: ticket ? ticket.isClose : false
             };
           });
+          console.log('!!! useEventsGuests::getUsersByTickets::guests', guests);
           setGuests(guests);
         })
         .catch(console.error);

@@ -12,6 +12,7 @@ import EventEdit            from "../../panels/events/edit/EventEdit";
 import ListGuestPanel       from "../../panels/events/list-guests/ListGuestsPanel";
 import AltPayPanel          from "../../panels/events/alt-pay/AltPayPanel";
 import RegOnReceptionPanel  from "../../panels/events/reg-on-reception/RegOnReceptionPanel";
+import AddGuestPanel        from "../../panels/events/add-guest/AddGuestPanel";
 
 type P = {
   id: EpicViewId,
@@ -33,6 +34,7 @@ export const EventsView = (p: P) => {
       <ListGuestPanel id="list-guests" activePanel={panelId}/>
       <AltPayPanel id="alt-pay" activePanel={panelId}/>
       <RegOnReceptionPanel id='reg-on-reception' activePanel={panelId}/>
+      <AddGuestPanel id='add-guest'/>
     </View>
   );
 };

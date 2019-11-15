@@ -5,7 +5,8 @@ declare type RoleType = "admin" | "editor" | "reception";
 
 declare type Ticket = {|
   _id: string,
-  vkUserId: number,
+  vkUserId?: number,
+  offlineUser?: GuestUserInfo,
   vkGroupId: number,
   eventId: string,
   ticketType: TicketType,
@@ -64,6 +65,14 @@ declare type DanceEvent = {|
   avatar?: string
 |};
 
+declare type GuestUserInfo = {
+  id?: number,
+  first_name: string,
+  last_name: string,
+  sex: number,
+  photo_100?: string
+};
+
 declare type VKUser = {
   id: number,
   first_name: string,
@@ -74,7 +83,7 @@ declare type VKUser = {
 
 declare type UserSettings = {
   city?: number
-}
+};
 
 declare type User = {|
   _id: string,
@@ -103,7 +112,7 @@ declare type VkGroup = {
   id: number,
   name: string,
   app: {
-    status: 'new' | 'ignored' | 'show'
+    status: "new" | "ignored" | "show"
   },
   type: "group" | "page" | "event",
   photo_50: string,

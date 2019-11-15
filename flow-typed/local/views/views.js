@@ -16,6 +16,7 @@ declare type EventsViewId =
   | "bay-pass"
   | "second-user"
   | "pay"
+  | "add-guest"
   | "ym-success"
   | "list-guests"
   | "alt-pay"

@@ -26,7 +26,7 @@ export default function EventCellBottomContent(p: P) {
   );
   return (
     <div>
-      <Button size="m" onClick={go("bay-pass", p.event)}>
+      <Button disabled={p.event.singlePrice < 0} size="m" onClick={go("bay-pass", p.event)}>
         Записаться
       </Button>
     </div>

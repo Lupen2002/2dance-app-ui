@@ -2,8 +2,8 @@
 
 import { useEventById } from "../../../hooks/useEventById";
 import useUserById from "../../../hooks/useUserById";
-import React from "react";
-import {} from "@vkontakte/vkui";
+import React, {useState} from "react";
+import { Select } from "@vkontakte/vkui";
 import { Group, Cell } from "@vkontakte/vkui";
 import { List } from "@vkontakte/vkui";
 import { Avatar } from "@vkontakte/vkui";
@@ -23,8 +23,8 @@ export default function AltPayInfo(p: P) {
   const [event] = useEventById(p.ticket.eventId),
     [user] = useUserById(p.ticket.vkUserId, p.token);
 
-  const onApprove = async () => {
-    const altPay = { ...p.ticket.altPay, approve: true };
+  const onApprove = (comment: string) => async () => {
+    const altPay = { ...p.ticket.altPay, comment, approve: true };
     await putTickets({ ...p.ticket, altPay });
     if (!p.ticket.isClose) {
       await postNotify({
@@ -59,11 +59,17 @@ export default function AltPayInfo(p: P) {
             <InfoRow title="Тип пасса">{p.ticket.ticketType}</InfoRow>
           </Cell>
           <UserCell userId={p.ticket.vkUserId} />
-          <Cell description={p.ticket.altPay && p.ticket.altPay.comment}>
-            Комментарий:
-          </Cell>
-          <CellButton align="center" onClick={onApprove}>
-            Подтвердить
+          <CellButton align="center" onClick={onApprove('оплата наличными')}>
+            Подтвердить оплату наличными
+          </CellButton>
+          <CellButton align="center" onClick={onApprove('оплата на сбербанк')}>
+            Подтвердить оплату на сбербанк
+          </CellButton>
+          <CellButton align="center" onClick={onApprove('оплата на тинькофф')}>
+            Подтвердить оплату на тинькофф
+          </CellButton>
+          <CellButton align="center" onClick={onApprove('оплата на яндекс кошелек')}>
+            Подтвердить оплату на яндекс кошелек
           </CellButton>
           <CellButton align="center" onClick={onDecline} level="danger">
             Отклонить
