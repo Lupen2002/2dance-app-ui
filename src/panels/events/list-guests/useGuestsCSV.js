@@ -3,7 +3,7 @@
 import {useState, useEffect} from 'react'
 
 type GuestInfo = {
-  user: VKUser,
+  user: GuestUserInfo,
   isVisit: boolean
 };
 const headers = "имя, фамилия, пол, ссылка на страницу\n";
@@ -14,7 +14,7 @@ export default function useGuestsCSV(guests: ?GuestInfo[]) {
   useEffect(() => {
     if (guests) {
       const data = headers + guests
-        .map( ({user, isVisit}) => (user.first_name+','+user.last_name+','+user.sex+',https://vk.com/id'+user.id))
+        .map( ({user, isVisit}) => (user.first_name+','+user.last_name+','+user.sex+(user.id ? ',https://vk.com/id'+user.id:'!offline')))
         .join("\n");
       setCSV(data)
     }
