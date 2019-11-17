@@ -10,11 +10,14 @@ const routes = {
   "/:epicId": ({ epicId }) => <GlobalEpic epicId={epicId} />,
   "/:epicId/:panelId": ({ epicId, panelId }) => (
     <GlobalEpic epicId={epicId} panelId={panelId} />
+  ),
+  "/:epicId/:panelId/:param": ({ epicId, panelId, param }) => (
+    <GlobalEpic epicId={epicId} panelId={panelId} param={param} />
   )
 };
 
 export default function GlobalApp() {
-  useUserToken(true);
+  useUserToken(false);
   return useRoutes(routes);
 
 }

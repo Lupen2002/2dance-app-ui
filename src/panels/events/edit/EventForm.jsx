@@ -1,13 +1,14 @@
 // @flow
 
-import React, { useState }                      from "react";
+import React, { useState } from "react";
 import { Checkbox, Button, FormLayout, Avatar } from "@vkontakte/vkui";
-import { Input, CellButton, FormLayoutGroup }   from "@vkontakte/vkui";
-import { Separator, Header, File as FileBtn }   from "@vkontakte/vkui";
-import Icon24Camera                             from "@vkontakte/icons/dist/24/camera";
-import { makeDateString, makeTimeString }       from "./utils";
-import { getISODate, getLocalDate }             from "../../../utils/default/date";
-import { uploadImage }                          from "../../../api/image-hosting";
+import { Input, CellButton, FormLayoutGroup } from "@vkontakte/vkui";
+import { Separator, Header, File as FileBtn } from "@vkontakte/vkui";
+import Icon24Camera from "@vkontakte/icons/dist/24/camera";
+import { makeDateString, makeTimeString } from "./utils";
+import { getISODate, getLocalDate } from "../../../utils/default/date";
+import { uploadImage } from "../../../api/image-hosting";
+import useNavigate from "../../../hooks/useNavigate";
 
 type ExcludeDanceEvent = {| _id: string |};
 type NDanceEvent = $Rest<DanceEvent, ExcludeDanceEvent>;
@@ -29,7 +30,8 @@ const defaultPrice = (): EventPrice => ({
 });
 
 export default function EventForm(p: P) {
-  const [event, setEvent] = useState<DE>(p.event),
+  const [go, params] = useNavigate(),
+    [event, setEvent] = useState<DE>(p.event),
     [avaSrc, setAvaSrc] = useState<?string>(p.event.avatar),
     [avatarFile, setAvatarFile] = useState<?File>(null);
 
@@ -67,10 +69,10 @@ export default function EventForm(p: P) {
   const uploadAvatarAndSubmit = async () => {
     if (avatarFile) {
       const urls = await uploadImage(avatarFile);
-      const avatar = 'https://social-dance.site/images/'+urls[0];
-      p.onSubmit({...event, avatar})
-    } else if(event.avatar) {
-      p.onSubmit(event)
+      const avatar = "https://social-dance.site/images/" + urls[0];
+      p.onSubmit({ ...event, avatar });
+    } else if (event.avatar) {
+      p.onSubmit(event);
     }
   };
 
@@ -92,7 +94,22 @@ export default function EventForm(p: P) {
             </FileBtn>
           </div>
         </FormLayoutGroup>
-
+        {p.event._id && (
+          <Input
+            top="Ссылка для ресепшен"
+            type="text"
+            disabled
+            value={
+              "https://vk.com/app" +
+              process.env.REACT_APP_ID +
+              "_-" +
+              params.vk_group_id +
+              "#r=reg-on-reception&event_id=" +
+              p.event._id
+            }
+            onChange={e => setEvent({ ...event, label: e.currentTarget.value })}
+          />
+        )}
         <Input
           top="Название"
           type="text"

@@ -17,3 +17,9 @@ export function ticketCreate() {
     window.ym(55883914, 'reachGoal', 'create-ticket')
   }
 }
+
+export function globalOpenGroup() {
+  if (window.ym) {
+    window.ym(55883914, 'reachGoal', 'global-open-group')
+  }
+}

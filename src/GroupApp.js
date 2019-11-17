@@ -20,7 +20,7 @@ const routes = {
 function GroupApp() {
   const token = useUserToken(),
         [redirect, setRedirect] = useState(null),
-    [go, params, setParams] = useNavigate();
+    [go, params, add, setParams] = useNavigate();
   const hash = window.location.hash.substr(1);
   const hashParams: Params = useMemo(() => queryStringToObject(hash), [hash]);
 

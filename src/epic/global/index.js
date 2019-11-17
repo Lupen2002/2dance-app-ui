@@ -9,16 +9,16 @@ import GlobalsModerationView from "../../views/globals/moderation/GlobalsModerat
 
 type P = {
   epicId: string,
-  panelId?: string
+  panelId?: string,
+  param?: string
 };
 
 export default function GlobalEpic(p: P) {
-  const isArs = useMemo(() => getQueryParams().vk_user_id === "10640580", []);
 
   return (
-    <Epic activeStory={p.epicId} tabbar={isArs && <AppTabbar />}>
+    <Epic activeStory={p.epicId} tabbar={<AppTabbar />}>
       <GlobalsModerationView id="global-settings" activePanel={p.panelId} />
-      <GlobalsEventsView id="global-events" activePanel={p.panelId} />
+      <GlobalsEventsView id="global-events" activePanel={p.panelId} param={p.param} />
     </Epic>
   );
 }
