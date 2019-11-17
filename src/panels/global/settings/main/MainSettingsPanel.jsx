@@ -1,43 +1,40 @@
 // @flow
 
-import React from "react";
-import { Group, Panel, PanelHeader } from "@vkontakte/vkui";
-import { List, Cell } from "@vkontakte/vkui";
-import useUserById from "../../../../hooks/useUserById";
+import React, { useMemo, useState } from "react";
+import { Cell, Counter, Group, Panel, PanelHeader } from "@vkontakte/vkui";
+import { List, ModalRoot, ModalPage } from "@vkontakte/vkui";
 import useNavigate from "../../../../hooks/useNavigate";
-import useUserToken from "../../../../hooks/useUserToken";
-import CityCell from "./CityCell";
+import AdminSettings from "./admin/AdminSettings";
+import useGroupCities from "./hooks/useGroupCities";
 
 type P = {
-  id: string
+  id: string,
+  setModal: React$Node => void
 };
 
-const roles = ["root"];
-
 export default function MainSettingsPanel(p: P) {
-  const [go, params] = useNavigate(),
-    token = useUserToken(true);
-  const [user] = useUserById(parseInt(params.vk_user_id), token);
+  const [go] = useNavigate();
+  const [cities] = useGroupCities();
 
   return (
     <Panel id={p.id}>
       <PanelHeader>Настройки</PanelHeader>
-      {user && roles.find(r => r === user.role) && (
-        <Group title="Администратор">
+      <AdminSettings />
+      {cities && (
+        <Group title="Города">
           <List>
-            <Cell expandable onClick={() => go("/global-settings/moderation")}>
-              Модерация
-            </Cell>
+            {cities.map(c => (
+              <Cell
+                key={'city-'+c.id}
+                onClick={() => go("/global-events/main/" + c.id)}
+                indicator={<Counter>{c.count}</Counter>}
+              >
+                {c.title}
+              </Cell>
+            ))}
           </List>
         </Group>
       )}
-      <Group title="Основные">
-        {token && user && (
-          <List>
-            <CityCell token={token} user={user}/>
-          </List>
-        )}
-      </Group>
     </Panel>
   );
 }

@@ -1,7 +1,6 @@
 // @flow
 
 import React            from "react";
-import useNavigate      from "../../../hooks/useNavigate";
 import useUserById      from "../../../hooks/useUserById";
 import { Cell, Avatar } from "@vkontakte/vkui";
 import useUserToken     from "../../../hooks/useUserToken";

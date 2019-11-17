@@ -5,7 +5,7 @@ import useNavigate from "../../../hooks/useNavigate";
 
 export default function useQrCodeScanner() {
   const [ready, setReady] = useState(false),
-        [go, params, setParams] = useNavigate();
+        [go, params, add, setParams] = useNavigate();
 
   useEffect(() => {
     const {ticket_id, ...q} = params;

@@ -16,11 +16,11 @@ const roles = ["admin", "editor"];
 
 export default function AdminPopoutEvent(p: P) {
   const isAccessEdit = useCheckRole(roles),
-    [go, params, setParams] = useNavigate();
+    [go, params, addParam, setParams] = useNavigate();
 
   useEffect(() => {
-    setParams({ ...params, event_id: p.event._id });
-  }, [params, setParams, p]);
+    addParam('event_id', p.event._id);
+  }, [params, addParam, p]);
 
   const goEdit = useMemo(
     () => () => {

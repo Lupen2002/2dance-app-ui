@@ -26,7 +26,7 @@ const roles = ["admin", "editor"];
 
 export const MainEventsPanel = (p: P) => {
   const isAccessAdd = useCheckRole(roles),
-        [go, params, setParams] = useNavigate();
+        [go, params, add, setParams] = useNavigate();
 
   useEffect(() => {
     const {event_id, pass, sec, ...q} = params;

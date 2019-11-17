@@ -1,13 +1,17 @@
 // @flow
-
+import {useMemo} from 'react';
 import { navigate, useQueryParams } from "hookrouter";
 
 export default function useNavigate() {
   const [params, setParams] = useQueryParams();
 
-  const go = (uri: string) => {
+  const go = useMemo(() => (uri: string) => {
     navigate(uri, false, params);
-  };
+  }, [params]);
 
-  return [go, params, setParams]
+  const addParams = useMemo( () => (key: string, value: any) => {
+    setParams({...params, [key]: value})
+  }, [params, setParams]);
+
+  return [go, params, addParams, setParams]
 }

@@ -32,7 +32,7 @@ const defaultEvent = (id: number): NDanceEvent => ({
 
 export const AddEventPanel = (p: P) => {
   const [group] = useCurrentGroup(),
-        [go, params, setParams] = useNavigate();
+        [go, params] = useNavigate();
 
   const event = useMemo(() => {
     if (group) {

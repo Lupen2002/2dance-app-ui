@@ -82,7 +82,11 @@ declare type VKUser = {
 };
 
 declare type UserSettings = {
-  city?: number
+  globalApp: {
+    filters: {
+      city?: VKCityType
+    }
+  }
 };
 
 declare type User = {|
@@ -119,15 +123,9 @@ declare type VkGroup = {
   photo_100: string,
   photo_200: string,
   activity?: string,
-  city: {
-    id: number,
-    title: string
-  },
+  city: VKCityType,
   contacts?: VkGroupContact[],
-  country?: {
-    id: number,
-    title: string
-  },
+  country?: VKCountryType,
   description?: string,
   public_date_label?: string,
   start_date?: number | string,
