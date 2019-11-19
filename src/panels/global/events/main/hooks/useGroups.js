@@ -1,19 +1,45 @@
 // @flow
 
 import { useEffect, useState, useMemo } from "react";
-import { getGroups } from "../../../../../api";
+import { getGroups }                    from "../../../../../api";
+import { LocalstorageCache }            from "../../../../../utils/cache/localstorage-cache";
+
+const cache = new LocalstorageCache('groups');
 
 export default function useGroups(cityId: number | void) {
-  const [groups, setGroups] = useState<VkGroup[] | null>(null),
+  const [srcGroups, setScrGroups] = useState<VkGroup[] | null>(null),
+        [groups, setGroups] = useState<VkGroup[] | null>(null),
     [fetching, setFetching] = useState(false);
 
   const refresh = useMemo(
     () => async () => {
-      setFetching(true);
+      const groupsCache = cache.get();
+      if (groupsCache) {
+        setScrGroups(groupsCache);
+      } else {
+        setFetching(true);
+      }
       try {
-        const now = Math.round(Date.now() / 1000);
         const res = await getGroups();
-        const filtered = res.filter(
+        setScrGroups(res);
+        cache.put(res)
+      } catch (e) {
+        console.error(e);
+      }
+      setFetching(false);
+    },
+    []
+  );
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  useEffect(() => {
+    try {
+      if (srcGroups) {
+        const now = Math.round(Date.now() / 1000 - 3 * 60 * 60);
+        const filtered = srcGroups.filter(
           (g: VkGroup) =>
             g.app.status === "show" &&
             g.start_date &&
@@ -21,18 +47,13 @@ export default function useGroups(cityId: number | void) {
             g.start_date > now &&
             (!cityId || (g.city && g.city.id === cityId))
         );
-        setGroups(filtered.sort((a, b) => a.start_date - b.start_date));
-      } catch (e) {
-        console.error(e);
+        filtered.sort((a, b) => a.start_date - b.start_date);
+        setGroups(filtered);
       }
-      setFetching(false);
-    },
-    [cityId]
-  );
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [cityId, srcGroups]);
 
   return [groups, fetching, refresh];
 }

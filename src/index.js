@@ -1,6 +1,7 @@
 // @flow
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@vkontakte/vkui/dist/vkui.css";
+import 'moment/locale/ru';
 
 import React from "react";
 import ReactDOM from "react-dom";
