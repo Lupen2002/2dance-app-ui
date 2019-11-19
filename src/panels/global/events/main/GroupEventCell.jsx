@@ -25,6 +25,7 @@ export default function GroupEventCell(p: P) {
       <Cell
         key={p.group.id + ""}
         size="l"
+        onClick={p.accent === p.group.id ? p.onClose : onOpen}
         description={
           <div>
             <div>Город: {p.group.city && (p.group.city.title || "-")}</div>
@@ -52,9 +53,9 @@ export default function GroupEventCell(p: P) {
           </div>
           <div style={{ color: "#bbb" }}>
             {p.accent === p.group.id ? (
-              <i className="fas fa-chevron-up" onClick={p.onClose} />
+              <i className="fas fa-chevron-up" />
             ) : (
-              <i className="fas fa-chevron-down" onClick={onOpen} />
+              <i className="fas fa-chevron-down" />
             )}
           </div>
         </div>
