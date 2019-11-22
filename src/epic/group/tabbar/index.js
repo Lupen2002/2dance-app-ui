@@ -19,7 +19,7 @@ export const AppTabbar = (p: P) => {
   const openQrScanner = useQrCodeScanner(),
     params = getQueryParams(),
     isViewSetting = useCheckRole(roles),
-    token = useUserToken(false);
+    token = useUserToken();
   const [altPayTickets, refresh] = useTicketsToApprovePay(token);
 
   useEffect(() => {

@@ -34,7 +34,7 @@ const checkRePost = async (uId: number, wallUrl: string, token: string) => {
 
 export default function useDiscount(event: ?DanceEvent) {
   const userId = parseInt(getQueryParams().vk_user_id);
-  const token = useUserToken(true);
+  const token = useUserToken();
   const [discount, setDiscount] = useState(false);
 
   useEffect(() => {

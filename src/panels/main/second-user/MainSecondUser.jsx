@@ -16,7 +16,7 @@ type P = {
 
 export const MainSecondUser = (p: P) => {
   const query = getQueryParams(),
-    token = useUserToken(true);
+    token = useUserToken();
 
   const [friends, setFriends] = useState(null);
 

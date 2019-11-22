@@ -1,9 +1,11 @@
 // @flow
 
-import React         from 'react'
-import { useRoutes } from "hookrouter";
-import GlobalEpic    from "./epic/global";
-import useUserToken  from "./hooks/useUserToken";
+import React           from 'react'
+import { useRoutes }   from "hookrouter";
+import GlobalEpic      from "./epic/global";
+import useUserToken    from "./hooks/useUserToken";
+import useNavigate     from "./hooks/useNavigate";
+import ConfirmEpic     from "./epic/confirm/ConfirmEpic";
 
 const routes = {
   "/": () => <GlobalEpic epicId='global-events' />,
@@ -17,7 +19,13 @@ const routes = {
 };
 
 export default function GlobalApp() {
-  useUserToken(false);
-  return useRoutes(routes);
+  const [go, params] = useNavigate();
+  const token = useUserToken(params.vk_access_token_settings && /groups/.test(params.vk_access_token_settings));
+  const routers = useRoutes(routes);
+
+  if ((params.vk_access_token_settings && /groups/.test(params.vk_access_token_settings)) && token) {
+    return routers;
+  }
+  return <ConfirmEpic />
 
 }

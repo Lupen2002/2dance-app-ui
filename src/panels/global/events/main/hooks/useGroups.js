@@ -22,7 +22,7 @@ export default function useGroups(cityId: number | void) {
       try {
         const res = await getGroups();
         setScrGroups(res);
-        cache.put(res)
+        cache.put(res);
       } catch (e) {
         console.error(e);
       }

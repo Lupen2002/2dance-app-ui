@@ -6,3 +6,7 @@ declare type DatabaseGetCitiesResponse = {
     items: VKCityType[]
   }
 }
+
+declare type DatabaseGetCitiesByIdResponse = {
+  response: VKCityType[]
+}

@@ -42,9 +42,7 @@ export const AddEventPanel = (p: P) => {
   }, [params.vk_group_id, group]);
 
   const post = (event: DanceEvent) => {
-    if (params.vk_group_id) {
-      postEvents(event).then(() => go("/events"));
-    }
+    postEvents(event).then(() => go("/events"));
   };
 
   return (

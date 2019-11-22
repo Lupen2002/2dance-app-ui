@@ -1,12 +1,16 @@
 // @flow
 import * as _ from "lodash";
 import React, { useMemo, useState } from "react";
-import { PullToRefresh } from "@vkontakte/vkui";
+import { InfoRow, PullToRefresh } from "@vkontakte/vkui";
 import { Group, List, Panel } from "@vkontakte/vkui";
-import { PanelHeader, PanelSpinner } from "@vkontakte/vkui";
+import { PanelHeader, PanelSpinner, Cell } from "@vkontakte/vkui";
 import useGroups from "./hooks/useGroups";
 import GroupEventCell from "./GroupEventCell";
 import Moment from "react-moment";
+import useNavigate from "../../../../hooks/useNavigate";
+import useUserById from "../../../../hooks/useUserById";
+import useUserToken from "../../../../hooks/useUserToken";
+import useCityById from "../../../../hooks/useCityById";
 
 type P = {
   id: string,
@@ -14,9 +18,17 @@ type P = {
 };
 
 export default function MainEventsPanel(p: P) {
-  const cityId: number | void = useMemo(() => p.cityId && parseInt(p.cityId), [
-    p.cityId
-  ]);
+  const token = useUserToken(),
+    [go, params] = useNavigate(),
+    [user: ?User] = useUserById(parseInt(params.vk_user_id), token);
+
+  const cityId: number | void = useMemo(() => {
+      return p.cityId
+        ? parseInt(p.cityId)
+        : user && user.vkUser.city && user.vkUser.city.id;
+    }, [p.cityId, user]),
+    [city] = useCityById(cityId);
+
   const [groups, fetching, refresh] = useGroups(cityId);
   const [accent, setAccent] = useState(null);
 
@@ -39,16 +51,25 @@ export default function MainEventsPanel(p: P) {
     }
   }, [groups]);
 
-  console.log("!!! groupOnDay", groupOnDay);
-
   return (
     <Panel id="main">
       <PanelHeader>Все события</PanelHeader>
-      {!groups && <PanelSpinner />}
+      {!(groups && city)  && <PanelSpinner />}
       <PullToRefresh onRefresh={refresh} isFetching={fetching}>
-        {groupOnDay &&
+        {city && (
+          <Group>
+            <Cell onClick={() => go("/global-events/city-select")}>
+              <InfoRow title="Текущий город">{city.title}</InfoRow>
+            </Cell>
+          </Group>
+        )}
+        {groups && city && groupOnDay &&
           groupOnDay.map(([gs, date]) => (
-            <Group title={<Moment locale="ru" format="dd | DD MMMM YYYY" date={date} />}>
+            <Group
+              title={
+                <Moment locale="ru" format="dd | DD MMMM YYYY" date={date} />
+              }
+            >
               <List>
                 {gs &&
                   gs.map((g: VkGroup) => (

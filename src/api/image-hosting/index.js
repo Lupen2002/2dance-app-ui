@@ -1,7 +1,7 @@
 // @flow
 import axios from "axios";
 
-const baseUrl = "https://"+process.env.REACT_APP_HOSTNAME+"/api";
+const baseUrl = "https://"+process.env.REACT_APP_HOSTNAME+"/images/";
 
 export async function uploadImage(file: File): Promise<string[]> {
   const data = new FormData();

@@ -12,7 +12,7 @@ const roles = ["root"];
 
 export default function AdminSettings(p: P) {
   const [go, params] = useNavigate(),
-    token = useUserToken(true);
+    token = useUserToken();
   const [user] = useUserById(parseInt(params.vk_user_id), token);
 
   return (

@@ -67,11 +67,14 @@ export default function EventForm(p: P) {
   };
 
   const uploadAvatarAndSubmit = async () => {
+    console.log('!!! uploadAvatarAndSubmit - 1 ', event, avatarFile);
     if (avatarFile) {
       const urls = await uploadImage(avatarFile);
       const avatar = "https://social-dance.site/images/" + urls[0];
+      console.log('!!! uploadAvatarAndSubmit - 2', urls);
       p.onSubmit({ ...event, avatar });
-    } else if (event.avatar) {
+    } else {
+      console.log('!!! uploadAvatarAndSubmit - 3');
       p.onSubmit(event);
     }
   };

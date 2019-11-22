@@ -57,7 +57,7 @@ const getUsersByTickets = async (tickets: RichTicket[], token: string) => {
 
 export default function useEventsGuests(event: DanceEvent) {
   const tickets = useAllTickets([event]),
-    token = useUserToken(true),
+    token = useUserToken(),
     [guests, setGuests] = useState<?(GuestInfo[])>(null);
 
   useEffect(() => {
