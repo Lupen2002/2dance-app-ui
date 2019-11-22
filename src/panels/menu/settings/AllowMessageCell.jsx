@@ -15,7 +15,7 @@ const roles: RoleType[] = ["admin", "reception", "editor"];
 export default function AllowMessageCell(p: P) {
   const isAccess = useCheckRole(roles);
   const params = getQueryParams();
-  const token = useUserToken(true),
+  const token = useUserToken(),
     [user, refresh] = useUserById(parseInt(params.vk_user_id), token),
     [requestAllow] = useAllowSendMessages(token);
 

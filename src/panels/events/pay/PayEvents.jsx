@@ -28,7 +28,7 @@ export const PayEvents = (p: P) => {
   const { event_id, pass, sec, vk_user_id, ...query } = getQueryParams(),
         isAdmin = useCheckRole(roles);
   const [event, setEvent] = useState<?DanceEvent>(),
-        token = useUserToken(true),
+        token = useUserToken(),
         [user:?User] = useUserById(parseInt(vk_user_id), token);
   const price = usePrice(event, pass),
         [configs] = useConfigs();

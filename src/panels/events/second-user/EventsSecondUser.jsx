@@ -17,7 +17,7 @@ type P = {
 
 export const EventsSecondUser = (p: P) => {
   const {vk_user_id} = getQueryParams(),
-        token = useUserToken(true),
+        token = useUserToken(),
         [user:?User] = useUserById(parseInt(vk_user_id), token);
   const [friends, setFriends] = useState(null);
 

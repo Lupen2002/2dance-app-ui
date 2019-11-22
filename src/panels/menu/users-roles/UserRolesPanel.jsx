@@ -23,7 +23,7 @@ type P = {
 
 export default function UsersRolesPanel(p: P) {
   const [config: ?TwoDanceConfigs, update, refresh] = useConfigs(),
-    token = useUserToken(true),
+    token = useUserToken(),
     [activeModal, setActiveModal] = useState(null),
     [activeUserId, setActiveUserId] = useState<?number>(null),
     [activeUserRole, setActiveUserRole] = useState<?(

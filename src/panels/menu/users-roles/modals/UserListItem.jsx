@@ -11,7 +11,7 @@ type P = {
 }
 
 export default function UserListItem(p: P) {
-  const token = useUserToken(true);
+  const token = useUserToken();
   const [user] = useUserById(p.id, token);
 
   const avatar = user ? <Avatar size={48} src={user.vkUser.photo_100}/> : <i className='fas fa-spinner fa-spin'/>;

@@ -1,47 +1,42 @@
 // @flow
 
-import React, { useMemo, useState } from "react";
-import {
-  Group,
-  List,
-  Panel,
-  PanelHeader,
-  PanelSpinner,
-  PullToRefresh
-}                                   from "@vkontakte/vkui";
-import GroupEventCell               from "../main/GroupEventCell";
-import useGroups                    from "../main/hooks/useGroups";
+import React from "react";
+import { Cell, Counter, Group, List } from "@vkontakte/vkui";
+import { Panel, PanelHeader, PanelSpinner } from "@vkontakte/vkui";
+import { PullToRefresh } from "@vkontakte/vkui";
+import useNavigate from "../../../../hooks/useNavigate";
+import useGroupCities from "../../settings/main/hooks/useGroupCities";
 
 type P = {
-  id: string,
-  cityId: string
+  id: string
 };
 
 export default function ByCityPanel(p: P) {
-  const cityId = useMemo(() => parseInt(p.cityId), [p.cityId]);
-  const [groups, fetching, refresh] = useGroups(cityId);
-  const [accent, setAccent] = useState(null);
+  const [go] = useNavigate();
+  const [cities, fetching, refresh] = useGroupCities();
 
   return (
     <>
       <Panel id={p.id}>
         <PanelHeader>События</PanelHeader>
-        {!groups && <PanelSpinner />}
-        <PullToRefresh onRefresh={refresh} isFetching={fetching}>
-          <Group>
-            <List>
-              {groups &&
-                groups.map((g: VkGroup) => (
-                  <GroupEventCell
-                    accent={accent}
-                    onClose={() => setAccent(null)}
-                    onOpen={() => setAccent(g.id)}
-                    group={g}
-                  />
+        {!cities && <PanelSpinner />}
+        {cities && (
+          <PullToRefresh isFetching={fetching} onRefresh={refresh}>
+            <Group title="Города">
+              <List>
+                {cities.map(c => (
+                  <Cell
+                    key={"city-" + c.id}
+                    onClick={() => go("/global-events/main/" + c.id)}
+                    indicator={<Counter>{c.count}</Counter>}
+                  >
+                    {c.title}
+                  </Cell>
                 ))}
-            </List>
-          </Group>
-        </PullToRefresh>
+              </List>
+            </Group>
+          </PullToRefresh>
+        )}
       </Panel>
     </>
   );

@@ -5,8 +5,8 @@ import useUserToken from "./useUserToken";
 import { getGroupById } from "../api/vk/groups";
 import { getQueryParams } from "hookrouter";
 
-export default function useCurrentGroup(): [VkGroup, any, boolean] {
-  const token = useUserToken(true),
+export default function useCurrentGroup(): [?VkGroup, any, boolean] {
+  const token = useUserToken(),
     [fetching, setFetching] = useState(false),
     [group, setGroup] = useState<?VkGroup>(null);
 

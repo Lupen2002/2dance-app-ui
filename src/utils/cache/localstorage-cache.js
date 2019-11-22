@@ -1,5 +1,10 @@
 // @flow
 
+import { IOS, platform } from "@vkontakte/vkui";
+
+const osname = platform();
+const mem = {};
+
 export class LocalstorageCache<T> {
   key: string;
 
@@ -9,7 +14,8 @@ export class LocalstorageCache<T> {
 
   get(): ?T {
     let val: ?T = null;
-    const objSrc: ?string = localStorage.getItem(this.key);
+    const objSrc: ?string =
+      osname === IOS ? mem[this.key] : window.localStorage.getItem(this.key);
     if (objSrc) {
       val = JSON.parse(objSrc);
     }
@@ -18,16 +24,24 @@ export class LocalstorageCache<T> {
 
   del(): ?T {
     const oldval = this.get();
-    localStorage.removeItem(this.key);
+    if (osname === IOS) {
+      mem[this.key] = null;
+    } else {
+      window.localStorage.removeItem(this.key);
+    }
     return oldval;
   }
 
-  put(val: T): ?T {
-    let oldval = this.del();
+  put(val: T): void {
     if (val) {
       const src: ?string = JSON.stringify(val);
-      src && localStorage.setItem(this.key, src);
+      if (src) {
+        if (osname === IOS) {
+          mem[this.key] = src;
+        } else {
+          window.localStorage.setItem(this.key, src);
+        }
+      }
     }
-    return oldval;
   }
 }

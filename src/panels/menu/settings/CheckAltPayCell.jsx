@@ -13,7 +13,7 @@ const roles = ["admin", "reception", "editor"];
 
 export default function CheckAltPayCell(p: P) {
   const isAccess = useCheckRole(roles);
-  const token = useUserToken(true),
+  const token = useUserToken(),
     [altPayTickets] = useTicketsToApprovePay(token);
 
   return (

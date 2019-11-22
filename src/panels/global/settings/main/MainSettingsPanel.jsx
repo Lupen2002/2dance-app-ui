@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState }   from "react";
 import {
   Cell,
   Counter,
@@ -9,11 +9,12 @@ import {
   PanelHeader,
   PanelSpinner,
   PullToRefresh
-} from "@vkontakte/vkui";
+}                                     from "@vkontakte/vkui";
 import { List, ModalRoot, ModalPage } from "@vkontakte/vkui";
-import useNavigate from "../../../../hooks/useNavigate";
-import AdminSettings from "./admin/AdminSettings";
-import useGroupCities from "./hooks/useGroupCities";
+import useNavigate                    from "../../../../hooks/useNavigate";
+import AdminSettings                  from "./admin/AdminSettings";
+import useGroupCities                 from "./hooks/useGroupCities";
+import useGroups                      from "../../events/main/hooks/useGroups";
 
 type P = {
   id: string,

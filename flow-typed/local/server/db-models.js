@@ -78,7 +78,8 @@ declare type VKUser = {
   first_name: string,
   last_name: string,
   sex: number,
-  photo_100: string
+  photo_100: string,
+  city: VKCityType
 };
 
 declare type UserSettings = {

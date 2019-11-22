@@ -11,7 +11,7 @@ type P = {
 };
 
 export const UserCell = (p: P) => {
-  const token = useUserToken(true),
+  const token = useUserToken(),
         [user] = useUserById(p.userId, token);
 
   return (

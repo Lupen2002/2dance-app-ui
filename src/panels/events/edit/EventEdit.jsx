@@ -18,6 +18,7 @@ export default function EventEdit(p: P) {
 
   const onSubmit = useMemo(
     () => (newEvent: DanceEvent) => {
+      console.log('!!! EventEdit', newEvent);
       putEvents(newEvent).then(() => {
         go("/events");
       });
